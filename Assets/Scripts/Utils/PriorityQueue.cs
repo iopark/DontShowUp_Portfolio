@@ -42,6 +42,11 @@ public class PriorityQueue<TElement> where TElement : IComparable<TElement>
         return true;
     }
 
+    public bool Contains(TElement element)
+    {
+        return cells.Contains(element);
+    }
+
     public TElement Dequeue()
     {
         if (cells.Count == 0)

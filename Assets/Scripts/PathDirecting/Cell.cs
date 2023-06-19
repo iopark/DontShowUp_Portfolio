@@ -8,16 +8,25 @@ public class Cell : IComparable<Cell>
     public int gridX; 
     public int gridY;
     public Vector3 worldPos;
-    public bool walkable; 
+    public bool walkable;
 
-    int fCost;
-    int hCost; 
-    public int gCost
+    public Cell parent; 
+    public int gCost;
+    public int hCost; 
+    public int fCost
     {
-        get { return fCost + hCost; }
+        get { return gCost + hCost; }
+        set { fCost =  value; }
     }
 
-    public Cell ()
+    public Cell (int _gridX, int _gridY, Vector3 pos, bool walkable)
+    {
+        this.gridX = _gridX;
+        this.gridY = _gridY;
+        this.worldPos = pos;
+        this.walkable = walkable;
+    }
+
     public int CompareTo(Cell nodeToCompare)
     {
         //총합의 fCost 가더 작은
