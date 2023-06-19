@@ -15,6 +15,10 @@ public class PathManager : MonoBehaviour
         get { return isProcessing; }
     }
 
+    private void Awake()
+    {
+        pathDefiner = gameObject.AddComponent<PathDefiner>();
+    }
     public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
     {
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);

@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (!debug && tracingStatus)
         {

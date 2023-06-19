@@ -69,7 +69,24 @@ public class PriorityQueue<TElement> where TElement : IComparable<TElement>
         PopHeap();
         return true;
     }
-
+    public void UpdateHeap(TElement element)
+    {
+        int currentIndex = cells.IndexOf(element);
+        
+        while (true)
+        {
+            int parentIndex = GetParentIndex(currentIndex);
+            TElement parent = cells[parentIndex];
+            if (cells[currentIndex].CompareTo(parent) < 0)
+            {
+                cells[currentIndex] = parent; //swap parent to the newCell's index 
+                currentIndex = parentIndex;
+            }
+            else
+                break;
+        }
+        cells[currentIndex] = element;
+    }
     private void PushHeap(TElement newCell)
     {
         cells.Add(newCell);
@@ -122,6 +139,7 @@ public class PriorityQueue<TElement> where TElement : IComparable<TElement>
             }
             else if (leftChildIndex < cells.Count)
             {
+                //There could be a case where there's only leftchildindex remaining
                 if (cells[leftChildIndex].CompareTo(lastNode) < 0)
                 {
                     cells[index] = cells[leftChildIndex];

@@ -15,12 +15,9 @@ public class PathDefiner: MonoBehaviour
     private int xSize; 
     private int ySize;
     public Cell[,] gridMap; 
-    public GridMapGenerator gridMapGenerator;
-    private void Awake()
+    private void Start()
     {
-        gridMap = GameManager.MapManager.gridMap;
-        int xSize = gridMapGenerator.GridSizeX;
-        int ySize = gridMapGenerator.GridSizeY; 
+        
         //TODO: Define the bool map based on the x and y value 
     }
 
@@ -38,6 +35,8 @@ public class PathDefiner: MonoBehaviour
 
     IEnumerator FindPath(Vector3 startPoint, Vector3 endPoint)
     {
+        int xSize = GameManager.MapManager.GridSizeX;
+        int ySize = GameManager.MapManager.GridSizeY;
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
@@ -80,6 +79,10 @@ public class PathDefiner: MonoBehaviour
 
                         if (!openSet.Contains(neighbour))
                             openSet.Enqueue(neighbour);
+                        else
+                        {
+                            openSet.UpdateHeap(neighbour);
+                        }
                     }
                 }
             }
@@ -138,25 +141,6 @@ public class PathDefiner: MonoBehaviour
             directionOld = directionNew;
         }
         return waypoints.ToArray();
-    }
-    public void GetNeighbours(Cell targetCell, List<Cell> neighboursList, int maxSizeX, int maxSizeY)
-    {
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0)
-                    continue;
-
-                int neighbourGridX = targetCell.gridX + x;
-                int neighbourGridY = targetCell.gridY + y;
-
-                if (neighbourGridX >= 0 && neighbourGridX < maxSizeX && neighbourGridY >= 0 && neighbourGridY < maxSizeY)
-                {
-                    neighboursList.Add(gridMap[neighbourGridX, neighbourGridY]);
-                }
-            }
-        }
     }
 }
 

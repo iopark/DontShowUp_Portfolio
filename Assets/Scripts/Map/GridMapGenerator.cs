@@ -12,8 +12,8 @@ public class GridMapGenerator : MonoBehaviour
     private Cell[,] debugMap; 
 
     float nodeDiameter;
-    int gridSizeX; 
-    int gridSizeY;
+    public int gridSizeX;
+    public int gridSizeY;
 
     public int GridSizeX
     {
@@ -26,12 +26,25 @@ public class GridMapGenerator : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.MapManager.wall = wall; 
-        GameManager.MapManager.nodeRadius = nodeRadius;
-        GameManager.MapManager.nodeDiameter = nodeRadius * 2; 
+        nodeDiameter = nodeRadius * 2; 
+        gridSizeX = Mathf.RoundToInt(gridMapSize.x / nodeDiameter);
+        gridSizeY = Mathf.RoundToInt(gridMapSize.y / nodeDiameter);
+        CopyToManager(); 
+        CreateGrid(); 
     }
-    public void CreateGrid()
+
+    private void CopyToManager()
     {
+        GameManager.MapManager.wall = wall;
+        GameManager.MapManager.nodeRadius = nodeRadius;
+        GameManager.MapManager.nodeDiameter = nodeRadius * 2;
+        GameManager.MapManager.GridSizeX = gridSizeX;
+        GameManager.MapManager.GridSizeY = gridSizeY;
+        GameManager.MapManager.gridMapSize = gridMapSize;
+    }
+    private void CreateGrid()
+    {
+        debugMap = new Cell[gridSizeX, gridSizeY]; 
         GameManager.MapManager.gridMap = new Cell[gridSizeX, gridSizeY];
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridMapSize.x / 2 - Vector3.forward * gridMapSize.y / 2;
 

@@ -4,9 +4,8 @@ using UnityEngine;
 
 public interface IListenable
 {
-    public void Listen(Transform trans);
+    public void Listen(Vector3 soundPoint);
 
-    public Cell ReturnHeardPosition();
-
+    public Cell ReturnHeardPoint(); 
     public void GetPath(Vector3[] soundPath, bool successs); 
 }

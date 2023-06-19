@@ -77,5 +77,9 @@ public class GameManager : MonoBehaviour
         GameObject pathObj = new GameObject() { name = "Path Manager" };
         pathObj.transform.SetParent(transform);
         pathManager = pathObj.AddComponent<PathManager>();
+
+        GameObject mapObj = new GameObject() { name = "Map Manager" };
+        mapObj.transform.SetParent(transform);
+        mapManager = mapObj.AddComponent<MapManager>();
     }
 }

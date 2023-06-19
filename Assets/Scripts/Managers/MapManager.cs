@@ -19,16 +19,16 @@ public class MapManager : MonoBehaviour
     public int GridSizeX
     {
         get { return gridSizeX; }
+        set { gridSizeX = value; }
     }
     public int GridSizeY
     {
         get { return gridSizeY; }
+        set { gridSizeY = value; }
     }
-
-    private void Awake()
+    private void Start()
     {
         gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
-        gridMapGenerator.CreateGrid();
     }
 
     public Cell CellFromWorldPoint(Vector3 worldPosition)

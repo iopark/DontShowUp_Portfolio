@@ -11,15 +11,12 @@ public class SoundSensory : MonoBehaviour, IListenable
         enemy = GetComponent<Enemy>();
     }
 
-    public void Listen(Transform trans)
+    public void Listen(Vector3 soundPoint)
     {
-        throw new System.NotImplementedException();
+        GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath);
     }
 
-    public Cell ReturnHeardPosition()
-    {
-        return GameManager.MapManager.CellFromWorldPoint(transform.position);
-    }
+        
 
     public void GetPath(Vector3[] soundPath, bool successs)
     {
@@ -27,6 +24,11 @@ public class SoundSensory : MonoBehaviour, IListenable
         {
             enemy.ReactToSound(soundPath);
         }
+    }
+
+    public Cell ReturnHeardPoint()
+    {
+        return GameManager.MapManager.CellFromWorldPoint(transform.position);
     }
 
     //TODO: Should Return appropriate value to calculate the according path for the hearer to trace to. 
