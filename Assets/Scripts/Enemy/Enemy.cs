@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected EnemyData data;
     [SerializeField] protected SightSensory sight;
     [SerializeField] protected SoundSensory auditory;
+    [SerializeField] public CharacterController characterController;
+    [SerializeField] public Animator anim; 
 
     [Header("Debug Purposes")]
     public bool debug;
@@ -76,7 +78,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         if (!debug && tracingStatus)
         {
