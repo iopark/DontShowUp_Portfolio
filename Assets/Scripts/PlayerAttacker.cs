@@ -30,7 +30,7 @@ public class PlayerAttacker : MonoBehaviour
         if (!attack)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, attackSoundIntensity);
+            Gizmos.DrawWireSphere(transform.position, attackSoundIntensity);
         }
     }
 }

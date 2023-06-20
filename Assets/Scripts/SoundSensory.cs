@@ -16,8 +16,6 @@ public class SoundSensory : MonoBehaviour, IListenable
         GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath);
     }
 
-        
-
     public void GetPath(Vector3[] soundPath, bool successs)
     {
         if (successs)
