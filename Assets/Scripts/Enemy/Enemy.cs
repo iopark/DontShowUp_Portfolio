@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
     }
 
     //Can be upgraded for the AdvancedZombie, able to take in weighted value of the graph to search for the other paths to attack the player (if possible)
+    //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
     public virtual void ReactToSound(Vector3[] newPath)
     {
             StopAllCoroutines(); 

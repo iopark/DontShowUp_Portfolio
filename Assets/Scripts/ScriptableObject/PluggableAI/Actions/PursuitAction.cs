@@ -13,14 +13,14 @@ public class PursuitAction : Action
 
     private void Pursuit(StateController controller)
     {
-        Vector3 target = controller.characterFov.FindTarget();
+        Vector3 target = controller.Sight.FindTarget();
         if (target != Vector3.zero)
         {
             Vector3 lookDir = (target - controller.transform.position).normalized;
             lookDir.y = controller.transform.position.y;
             controller.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
             controller.characterController.Move(lookDir * speed * Time.deltaTime);
-            controller.characterFov.anim.SetBool("Walk Forward", true);
+            controller.anim.SetBool("Walk Forward", true);
         }
     }
 

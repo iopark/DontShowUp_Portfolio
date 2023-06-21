@@ -11,15 +11,30 @@ public class StateController : NormalZombie
     public SightSensory Sight { get { return sight; } }
     public SoundSensory Auditory { get { return auditory; } }
 
-    public int patrolIndex;
+    private int patrolIndex;
+    public int PatrolIndex 
+    { 
+        get { return patrolIndex; }
+        set { 
+            if (value > patrolIndex)
+                searchCompleteStatus = true;
+            patrolIndex = value; 
+        } 
+    }
     public int patrolCount;
+
     public State currentState;
     public State remainState;
     public State previousState;
-    public EnemyStat enemyStat;
+    private Vector3 currentLookDir; 
+    public Vector3 CurrentLookDir
+    {
+        get { return currentLookDir; }
+        set { currentLookDir = value; }
+    }
 
     public bool patrolStatus;
-    public bool searchStatus;
+    public bool searchCompleteStatus;
 
     [SerializeField] public CharacterController characterController;
 
@@ -27,7 +42,7 @@ public class StateController : NormalZombie
     {
         patrolIndex = 0;
         patrolCount = 0;
-        searchStatus = false;
+        searchCompleteStatus = false;
         patrolStatus = false;
         //characterFov = GetComponent<FieldOfView>();
         characterController = GetComponent<CharacterController>();

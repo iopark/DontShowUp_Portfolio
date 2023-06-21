@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SightSensory : MonoBehaviour
@@ -102,5 +103,16 @@ public class SightSensory : MonoBehaviour
         //player 기준으로 생성하기에, where player front is z axis, 
     }
 
+    public Vector3[] SightEdgesInDir(int interval)
+    {
+        Vector3[] dirs = new Vector3[interval];
+        float incrementSize = angle/interval;
+        for (int i = 0; i < interval; i++)
+        {
+            float dirAngle = transform.eulerAngles.y - (angle * 0.5f + i * incrementSize);
+            dirs.Append(AngleToDir(dirAngle));
+        }
+        return dirs;
+    }
     //TODO: Shoot raycast at the 
 }

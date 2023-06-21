@@ -10,7 +10,8 @@ public class EnemyStat : ScriptableObject
     public float rotationSpeed; 
     public int damage;
     public int thisLevel; 
-    public int maxLevel; 
+    public int maxLevel;
+    public int attackRange;
 
     //Pertaining to Sight
     public float sightAngle;

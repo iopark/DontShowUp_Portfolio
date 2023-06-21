@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NormalZombie : Enemy
 {
+    private EnemyStat currentStat;
+    public EnemyStat CurrentStat { get { return currentStat; } }    
     private void Awake()
     {
         data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
@@ -11,8 +13,8 @@ public class NormalZombie : Enemy
     }
     protected override void ImportEnemyData()
     {
-        EnemyStat currentData = data.AccessLevelData(CurrentLevel);
-        currentData.SyncPhysicalData(this);
-        currentData.SyncSightData(sight); 
+        currentStat = data.AccessLevelData(CurrentLevel);
+        currentStat.SyncPhysicalData(this);
+        currentStat.SyncSightData(sight); 
     }
 }

@@ -15,13 +15,13 @@ public class SearchAction : Action
 
     protected virtual void Search(StateController controller)
     {
-        if (!controller.searchStatus)
-        {
-            controller.searchStatus = true;
-            Vector3 searchPoint = (Vector3)UnityEngine.Random.insideUnitCircle;
-            controller.returnPoints.Add(searchPoint);
-        }
-        Approach(controller, controller.returnPoints[controller.returnPoints.Count - 1]);
+        //if (!controller.searchStatus)
+        //{
+        //    controller.searchStatus = true;
+        //    Vector3 searchPoint = (Vector3)UnityEngine.Random.insideUnitCircle;
+        //    controller.returnPoints.Add(searchPoint);
+        //}
+        //Approach(controller, controller.returnPoints[controller.returnPoints.Count - 1]);
     }
 
     private void Approach(StateController controller, Vector3 searchLoc)
@@ -30,15 +30,5 @@ public class SearchAction : Action
         lookDir.y = 0;
         controller.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         controller.characterController.Move(lookDir * searchSpeed * Time.deltaTime);
-        controller.characterFov.anim.SetBool("Walk Forward", true);
-    }
-    IEnumerator Searching()
-    //{
-
-    //}
-
-    private void ReInitialize()
-    {
-
     }
 }
