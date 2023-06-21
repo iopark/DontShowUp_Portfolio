@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Actions/Patrol")]
+[CreateAssetMenu(fileName = "Action_Patrol_", menuName = "PluggableAI/Actions/Patrol")]
 public class PatrolAction : Action
 {
-    [SerializeField] private float patrolSpeed;
+    [SerializeField] private Act defaultMove;
+    [SerializeField] private Act defaultRotate;
+    [SerializeField] private float patrolOffset;
     public override void Act(StateController controller)
     {
         Patrol(controller);
@@ -14,13 +16,22 @@ public class PatrolAction : Action
 
     private void Patrol(StateController controller)
     {
-        if (!controller.patrolStatus)
+        Vector3 searchPoint = controller.patrolPoints[controller.PatrolIndex].worldPosition;
+        controller.CurrentLookDir = (searchPoint - controller.transform.position).normalized;
+        if (Vector3.Dot(controller.CurrentLookDir, controller.transform.forward) - 0.1 < 1)
         {
-            controller.patrolStatus = true;
-            Vector3 destination = controller.returnPoints[controller.patrolIndex];
-            controller.transform.LookAt(destination);
-            controller.characterController.Move(destination * patrolSpeed * Time.deltaTime);
+            defaultRotate.Perform(controller);
+            return;
         }
 
+        defaultMove.Perform(controller);
+        if (ReachedDestination(controller.transform.position, searchPoint))
+            controller.PatrolIndex++;
+    }
+    private bool ReachedDestination(Vector3 origin, Vector3 destination)
+    {
+        Vector3 delta = destination - origin;
+        //Vector3.Dot(delta, delta); 
+        return Vector3.Dot(delta, delta) < patrolOffset;
     }
 }

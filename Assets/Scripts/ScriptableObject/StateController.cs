@@ -11,6 +11,7 @@ public class StateController : NormalZombie
     public SightSensory Sight { get { return sight; } }
     public SoundSensory Auditory { get { return auditory; } }
 
+    #region Required Variables to Control States 
     private int patrolIndex;
     public int PatrolIndex 
     { 
@@ -32,14 +33,44 @@ public class StateController : NormalZombie
         get { return currentLookDir; }
         set { currentLookDir = value; }
     }
+    private Vector3 targetDir;
+    public Vector3 TargetDir
+    {
+        get { return targetDir; }
+        set { targetDir = value; }
+    }
 
+    private Vector3 fixToDir; 
+    public Vector3 FixToDir
+    {
+        get { return fixToDir; }
+        set { fixToDir = value; }
+    }
+
+    private float currentSpeed; 
+    public float CurrentSpeed
+    {
+        get { return currentSpeed; }
+        set { currentSpeed = value; }
+    }
+
+    //Search and Patrol Segments 
+    public List<PatrolPoint> patrolPoints; 
     public bool patrolStatus;
     public bool searchCompleteStatus;
-
-    [SerializeField] public CharacterController characterController;
-
-    private void Awake()
+    private float elapsedTime; 
+    public float ElapsedTime
     {
+        get { return elapsedTime; }
+        set { elapsedTime = value; }
+    }
+    #endregion
+    protected override void Awake()
+    {
+        base.Awake(); 
+        patrolPoints = new List<PatrolPoint>();
+        elapsedTime = 0;
+        currentSpeed = MoveSpeed; 
         patrolIndex = 0;
         patrolCount = 0;
         searchCompleteStatus = false;
@@ -52,30 +83,43 @@ public class StateController : NormalZombie
     {
         currentState.UpdateState(this);
     }
-
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdateState(this);
+    }
     public void TransitionToState(State nextState)
     {
         if (nextState != remainState)
         {
             previousState = currentState;
             currentState = nextState;
+            AnimationUpdate(currentState.EnterStateAnim().Item1, currentState.EnterStateAnim().Item2); 
         }
         return;
     }
 
-    public override void ReactToSound(Vector3[] newPath)
+    private void AnimationUpdate(int animType, string animKeyword)
     {
-        base.ReactToSound(newPath);
+        //TODO: Each state should be able to update the Statemachine's Animation as well 
+        //Where default is the Animation type trigger
+        switch(animType)
+        {
+            case 1: 
+                if (animKeyword == "Walk")
+                    anim.SetFloat("Speed", CurrentSpeed); break;
+            default: anim.SetTrigger(animKeyword); break;
+        }
     }
-
-    protected override void ImportEnemyData()
-    {
-        base.ImportEnemyData();
-    }
-
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+    }
 
+    public bool CheckElapsedTime(float time)
+    {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime >= time)
+            return true; 
+        return false;
     }
 }

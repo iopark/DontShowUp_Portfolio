@@ -11,14 +11,15 @@ public class SoundSensory : MonoBehaviour, IListenable
         enemy = GetComponent<Enemy>();
     }
 
-    public void Listen(Vector3 soundPoint)
+    public bool Heard(Vector3 soundPoint)
     {
         GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath);
+        return true;
     }
 
-    public void GetPath(Vector3[] soundPath, bool successs)
+    public void GetPath(Vector3[] soundPath, bool success)
     {
-        if (successs)
+        if (success)
         {
             enemy.ReactToSound(soundPath);
         }

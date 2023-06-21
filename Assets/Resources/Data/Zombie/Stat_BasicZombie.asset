@@ -13,17 +13,21 @@ MonoBehaviour:
   m_Name: Stat_BasicZombie
   m_EditorClassIdentifier: 
   name: Basic Zombie
-  moveSpeed: 10
-  rotationSpeed: 0
+  health: 100
+  moveSpeed: 3
+  alertMoveSpeed: 12
+  rotationSpeed: 5
   damage: 25
-  thisLevel: 0
+  thisLevel: 1
   maxLevel: 1
+  attackRange: 0
   sightAngle: 120
   sightDepth: 10
+  stateSize: 0
   patrolSize: 5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 128
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8

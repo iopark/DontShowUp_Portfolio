@@ -1296,11 +1296,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5593610215290640847}
-  - component: {fileID: 5110370025568813934}
   - component: {fileID: 1963659658742252469}
+  - component: {fileID: 4121959300166204255}
   - component: {fileID: 5110370025568813936}
   - component: {fileID: 5110370025568813939}
-  - component: {fileID: 5110370025568813938}
   - component: {fileID: 5110370025568813937}
   m_Layer: 0
   m_Name: BasicZombie
@@ -1327,25 +1326,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5110370025568813934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5110370025568813941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 763b724b6019be542b8a5acafd84416a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 8efc95ff7524fd34185f610d802eed45, type: 2}
-  sight: {fileID: 5110370025568813936}
-  auditory: {fileID: 5110370025568813939}
-  debug: 0
-  tracingStatus: 0
-  tracePath: []
-  trackingIndex: 0
 --- !u!95 &1963659658742252469
 Animator:
   serializedVersion: 5
@@ -1367,6 +1347,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4121959300166204255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110370025568813941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1addbdc0fd10af246a7418966c455a8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 8efc95ff7524fd34185f610d802eed45, type: 2}
+  sight: {fileID: 5110370025568813936}
+  auditory: {fileID: 5110370025568813939}
+  characterController: {fileID: 5110370025568813937}
+  anim: {fileID: 1963659658742252469}
+  debug: 0
+  tracingStatus: 0
+  tracePath: []
+  trackingIndex: 0
+  RotateSpeedDelta: 0
+  patrolCount: 0
+  currentState: {fileID: 11400000, guid: adff528cd2a53834ba9a1f72dcc6a0fa, type: 2}
+  remainState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  previousState: {fileID: 0}
+  patrolStatus: 0
+  searchCompleteStatus: 0
 --- !u!114 &5110370025568813936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,16 +1388,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  range: 0
-  angle: 0
+  range: 10
+  angle: 120
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
-  body: {fileID: 0}
-  anim: {fileID: 0}
+    m_Bits: 128
+  body: {fileID: 5110370025568813937}
+  anim: {fileID: 1963659658742252469}
 --- !u!114 &5110370025568813939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,25 +1410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cfae013bb6646843a47094e982c9b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5110370025568813938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5110370025568813941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f954458b7dda54b90a061017ff3c43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transform: {fileID: 0}
-  anim: {fileID: 0}
-  fov: {fileID: 0}
-  aud: {fileID: 0}
-  currentAnimTrigger: 
-  currentState: {fileID: 0}
-  StateList: []
 --- !u!143 &5110370025568813937
 CharacterController:
   m_ObjectHideFlags: 0

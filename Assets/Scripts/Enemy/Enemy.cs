@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IHittable
 {
     //Data in which should be clicked and dragged || shared through ResourceManager. 
     [SerializeField] protected EnemyData data;
@@ -21,7 +21,17 @@ public class Enemy : MonoBehaviour
     public Vector3[] tracePath;
     public int trackingIndex;
 
+    #region Refactor variables 
     //TODO: Others to Refactor 
+    private int health = 100;
+    public int Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+        }
+    }
     private int damage;
     private int currentLevel = 0; 
     private int maxLevel; 
@@ -30,17 +40,28 @@ public class Enemy : MonoBehaviour
     public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
 
     private float moveSpeed;
-    private float rotationSpeed; 
+
     public float MoveSpeed
     {
         get { return moveSpeed; }
         set { moveSpeed = value; }
     }
+    private float alertMoveSpeed;
+
+    public float AlertMoveSpeed
+    {
+        get { return alertMoveSpeed; }
+        set { alertMoveSpeed = value; }
+    }
+    private float rotationSpeed;
     public float RotationSpeed
     {
         get { return rotationSpeed;}
         set { rotationSpeed = value; }
     }
+
+    public float RotateSpeedDelta; 
+    #endregion
 
     protected virtual void ImportEnemyData()
     {
@@ -52,8 +73,9 @@ public class Enemy : MonoBehaviour
     //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
     public virtual void ReactToSound(Vector3[] newPath)
     {
-            StopAllCoroutines(); 
-            StartCoroutine(FollowSound(newPath));
+        tracingStatus = true; 
+        StopAllCoroutines(); 
+        StartCoroutine(FollowSound(newPath));
     }
 
     IEnumerator FollowSound(Vector3[] traceablePath)
@@ -68,14 +90,14 @@ public class Enemy : MonoBehaviour
                 trackingIndex++;
                 if (trackingIndex >= traceablePath.Length)
                 {
+                    tracingStatus = false; 
                     yield break;
                 }
                 currentWaypoint = traceablePath[trackingIndex];
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, moveSpeed * Time.deltaTime);
+            characterController.Move(currentWaypoint * moveSpeed * Time.deltaTime);
             yield return null;
-
         }
     }
 
@@ -98,6 +120,11 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void TakeHit(int damage)
+    {
+        throw new System.NotImplementedException();
     }
 }
 

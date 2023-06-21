@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BasicZombie
   m_EditorClassIdentifier: 
   enemyStages:
-  - enemy: {fileID: 5110370025568813934, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
+  - enemy: {fileID: 4121959300166204255, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
     enemyStat: {fileID: 11400000, guid: ab382c4370998104e9feaac1fc54c7b9, type: 2}

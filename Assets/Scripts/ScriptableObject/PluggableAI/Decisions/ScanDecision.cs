@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-[CreateAssetMenu(fileName = "LookDecision", menuName = "PluggableAI/Decisions/Look")]
-public class LookDecision : Decision
+[CreateAssetMenu(fileName = "Decision_Scan_", menuName = "PluggableAI/Decisions/Scan")]
+public class ScanDecision : Decision
 {
     //특정한 객체에 대한 행동에 대해서 스크립터블로 적용을 한다면, 
     //해당 행동에 대해서 스크립터블 오브젝트에서또한 행동에 따른 능력범위를 산정해줄수도 있지 않을까 

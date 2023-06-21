@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName ="State_", menuName = "PluggableAI/State")]
@@ -10,9 +11,14 @@ public class State : ScriptableObject
 {
     //Do we categorize the States? 
     // 
-    protected Action[] actions;
-    protected Action[] fixedActions; 
-    protected Transition[] transitions;
+    [SerializeField] private string AnimationKeyword;
+    [SerializeField] private int AnimType;
+
+    [SerializeField] protected Action[] actions;
+    [SerializeField] protected Action[] fixedActions;
+    [SerializeField] protected Transition[] fixedTransitions;
+    [SerializeField] protected Transition[] transitions;
+    [SerializeField] protected UnityEvent<Decision> uponExit = new UnityEvent<Decision>();
     //You could also do Decisions[], if requiring wider range or options to converge with other states. 
     public Color sceneGizmoColor = Color.grey;
     public virtual void UpdateState(StateController controller)
@@ -23,9 +29,10 @@ public class State : ScriptableObject
 
     public virtual void FixedUpdateState(StateController controller)
     {
-        if (fixedActions.Length == 0)
+        if (fixedActions.Length == 0 || fixedTransitions.Length == 0)
             return;
         DoFixedActions(controller);
+        CheckFixedTransition(controller);
     }
 
     protected virtual void DoFixedActions(StateController controller)
@@ -43,6 +50,24 @@ public class State : ScriptableObject
         }
     }
 
+    public (int, string) EnterStateAnim()
+    {
+        return (AnimType, AnimationKeyword); 
+    }
+    protected virtual void CheckFixedTransition(StateController controller)
+    {
+        for (int i = 0; i < transitions.Length; i++)
+        {
+            bool decision = transitions[i].decision.Decide(controller);
+
+            if (decision)
+            {
+                controller.TransitionToState(transitions[i].trueState);
+            }
+            else
+                controller.TransitionToState(transitions[i].falseState);
+        }
+    }
     protected virtual void CheckTransition(StateController controller)
     {
         for (int i = 0; i < transitions.Length; i++)

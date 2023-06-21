@@ -5,8 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Stat_", menuName = "Registry/EnemyInformation")]
 public class EnemyStat : ScriptableObject
 {
-    public string name; 
+    public string name;
+    public int health;
     public float moveSpeed;
+    public float alertMoveSpeed; 
     public float rotationSpeed; 
     public int damage;
     public int thisLevel; 
@@ -33,9 +35,15 @@ public class EnemyStat : ScriptableObject
 
     public void SyncPhysicalData(Enemy enemy)
     {
+        enemy.Health = health;
         enemy.Damage = damage;
         enemy.MaxLevel = maxLevel;
         enemy.MoveSpeed = moveSpeed;
+        enemy.AlertMoveSpeed = alertMoveSpeed;
         enemy.RotationSpeed = rotationSpeed;
+    }
+
+    public void SyncStateMachineData(StateController controller)
+    {
     }
 }

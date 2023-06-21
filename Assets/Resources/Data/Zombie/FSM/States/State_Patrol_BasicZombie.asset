@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
+  m_Name: State_Patrol_BasicZombie
+  m_EditorClassIdentifier: 
+  AnimationKeyword: Walk
+  AnimType: 1
+  actions:
+  - {fileID: 11400000, guid: 41bd3f4358173e74a8c235032c692da2, type: 2}
+  fixedActions: []
+  fixedTransitions:
+  - decision: {fileID: 11400000, guid: 661aacfac6e95354b8573f0028894353, type: 2}
+    trueState: {fileID: 11400000, guid: 66304aa9a9b96ef46b4c0924494c9b2b, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: f760192d62e6bc447aefd4c201cbf42f, type: 2}
+    trueState: {fileID: 11400000, guid: 52cf571d9e52a774ea7e71073e9e63f8, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  uponExit:
+    m_PersistentCalls:
+      m_Calls: []
+  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
+  m_Name: State_Search_BasicZombie
+  m_EditorClassIdentifier: 
+  AnimationKeyword: Walk
+  AnimType: 1
+  actions:
+  - {fileID: 11400000, guid: ff2b62d80a9f5dd42a604dc41e2f539b, type: 2}
+  fixedActions:
+  - {fileID: 11400000, guid: 6800a269d057d274ead3389b7741c734, type: 2}
+  fixedTransitions:
+  - decision: {fileID: 11400000, guid: 661aacfac6e95354b8573f0028894353, type: 2}
+    trueState: {fileID: 11400000, guid: 66304aa9a9b96ef46b4c0924494c9b2b, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: e91eaf4106976174faa904ad537a2024, type: 2}
+    trueState: {fileID: 11400000, guid: 87ce41f6e2418d34c8c6bbdd4d6beee1, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 7045c6d07d78bd44a826638d8641d814, type: 2}
+    trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  uponExit:
+    m_PersistentCalls:
+      m_Calls: []
+  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

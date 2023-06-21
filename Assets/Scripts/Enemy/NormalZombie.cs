@@ -6,7 +6,7 @@ public class NormalZombie : Enemy
 {
     private EnemyStat currentStat;
     public EnemyStat CurrentStat { get { return currentStat; } }    
-    private void Awake()
+    protected virtual void Awake()
     {
         data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
         ImportEnemyData();

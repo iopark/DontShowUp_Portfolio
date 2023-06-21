@@ -106,12 +106,19 @@ public class SightSensory : MonoBehaviour
     public Vector3[] SightEdgesInDir(int interval)
     {
         Vector3[] dirs = new Vector3[interval];
-        float incrementSize = angle/interval;
-        for (int i = 0; i < interval; i++)
-        {
-            float dirAngle = transform.eulerAngles.y - (angle * 0.5f + i * incrementSize);
-            dirs.Append(AngleToDir(dirAngle));
-        }
+        //float incrementSize = angle/interval;
+        //for (int i = 0; i < interval; i++)
+        //{
+        //    float dirAngle = transform.eulerAngles.y - (angle * 0.5f) + i * incrementSize;
+
+        //    dirs.Append(AngleToDir(dirAngle));
+        //}
+        Vector3 rightDir = AngleToDir(transform.eulerAngles.y + angle * 0.5f);
+        dirs[0] = rightDir; 
+        // where .eulerAngle.y returns rotation angle from the y-axis in a Space.World 
+        //Vector3 leftDir = AngleToDir(transform.eulerAngles.y - angle * 0.5f);
+        dirs[1] = (AngleToDir(transform.eulerAngles.y - angle * 0.5f));
+        
         return dirs;
     }
     //TODO: Shoot raycast at the 

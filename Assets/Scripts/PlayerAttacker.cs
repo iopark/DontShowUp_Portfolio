@@ -5,10 +5,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerAttacker : MonoBehaviour
+public class PlayerAttacker : MonoBehaviour, IHittable
 {
     [SerializeField] float attackSoundIntensity; 
     SoundMaker soundMaker;
+
+    #region Temporary variables for the debugging purposes 
+    private int health = 100; 
+    public int Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+        }
+    }
+    #endregion
+
     public bool attack; 
 
     private void Awake()
@@ -32,5 +45,10 @@ public class PlayerAttacker : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackSoundIntensity);
         }
+    }
+
+    public void TakeHit(int damage)
+    {
+        health -= damage;
     }
 }

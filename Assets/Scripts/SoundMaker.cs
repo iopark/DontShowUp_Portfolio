@@ -16,7 +16,7 @@ public class SoundMaker : MonoBehaviour
         foreach (Collider collider in colliders)
         {
             IListenable listener = collider.GetComponent<IListenable>();
-            listener?.Listen(transform.position);
+            listener?.Heard(transform.position);
             
             //Return the sight which should print out tracable path for the listener. 
         }
