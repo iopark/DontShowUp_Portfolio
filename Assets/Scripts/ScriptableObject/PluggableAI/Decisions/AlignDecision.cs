@@ -11,6 +11,6 @@ public class AlignDecision : Decision
 
     private void Align(StateController controller)
     {
-        controller.Sight.
+        controller.Sight.SightEdgesInDir(2); 
     }
 }
