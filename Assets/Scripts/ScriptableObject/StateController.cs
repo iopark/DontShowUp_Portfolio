@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class StateController : NormalZombie
 {
-    //Utilizing Basic Zombie State Patterns, NormalZombie¸¦ »ó¼Ó¹ÞÀºÃ¼·Î ÁøÇàÇÑ´Ù. 
+    //Utilizing Basic Zombie State Patterns, NormalZombieï¿½ï¿½ ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
     public SightSensory Sight { get { return sight; } }
     public SoundSensory Auditory { get { return auditory; } }
 
@@ -130,5 +130,18 @@ public class StateController : NormalZombie
         }
 
         return false;
+    }
+
+    IEnumerator Attack(float attackInterval) 
+    { 
+        float timer = Time.deltaTime; 
+        while (true) 
+        { 
+            if (timer>= attackInterval) { 
+                //something to return to let delegate pattern identify whether this is passed. 
+            }
+                yield break; 
+        }
+
     }
 }

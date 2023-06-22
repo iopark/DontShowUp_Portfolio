@@ -13,24 +13,31 @@ public class Attack : Act
     public override void Perform(StateController controller)
     {
         controller.anim.SetTrigger(animTrigger);
-        Strike(controller); 
+        //Enemy needs to attack on a interval, 
+        // case 1. Enemy should attack immediately upon target within the attack range 
+        // case 2. Enemy should attack only after certain interval 
+        // thus, create isAttacking bool variable in appropriate place, 
+        // and if !isAttacking, execute attack coroutine
+        // Attack Coroutine 
+            Strike(controller); 
     }
 
     public void Strike(StateController controller)
     {
+        controller.CurrentSpeed = 0f; 
         Collider[] colliders = Physics.OverlapSphere(controller.transform.position, attackRange, targetMask);
         if (colliders.Length == 0)
             return;
         foreach (Collider collider in colliders)
         {
-            //2. ÇÃ·¹ÀÌ¾î ±âÁØ ¾Õ¿¡ ÀÖ´ÂÁö¿¡ ´ëÇØ¼­ È®ÀÎÀÛ¾÷ ÇÊ¿ä 
+            //2. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ È®ï¿½ï¿½ï¿½Û¾ï¿½ ï¿½Ê¿ï¿½ 
             Vector3 dirTarget = (collider.transform.position - controller.transform.position).normalized;
 
-            //3. ÇÃ·¹ÀÌ¾î ÁöÁ¤ °¢µµ¿Í ºñ±³ 
+            //3. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
             if (Vector3.Dot(controller.transform.forward, dirTarget) < Mathf.Cos(attackAngle * 0.5f * Mathf.Deg2Rad))
                 return;
-            // ¹ÝÀ¸·Î ³ª´©´Â ÀÌÀ¯: Dot product¸¦ forward°ª°ú, Target ±îÁöÀÇ Vector °ª¿¡ ´ëÇØ¼­ °ËÃâÇÏ´Âµ¥, 
-            // ÀÌ´Â Cos(angle) °ú µ¿ÀÏÇÏ´Ù. ÀÌ´Â a.normal * b.normal ÀÎ ÀÌÀ¯¿Í µ¿ÀÏÇÏ´Ù. 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: Dot productï¿½ï¿½ forwardï¿½ï¿½ï¿½ï¿½, Target ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Vector ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½, 
+            // ï¿½Ì´ï¿½ Cos(angle) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ì´ï¿½ a.normal * b.normal ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. 
             // 
             IHittable target = collider.GetComponent<IHittable>();
             target?.TakeHit(attackDamage);
