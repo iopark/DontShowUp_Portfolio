@@ -6,8 +6,8 @@ public static class EnemyMovementHelper
 {
     public static void ReversePatrolPoints(this StateController controller)
     {
-        controller.patrolPoints.Reverse();
-        foreach (PatrolPoint p in controller.patrolPoints)
+        controller.EnemyMover.PatrolPoints.Reverse();
+        foreach (PatrolPoint p in controller.EnemyMover.PatrolPoints)
         {
             p.Reverse();
         }

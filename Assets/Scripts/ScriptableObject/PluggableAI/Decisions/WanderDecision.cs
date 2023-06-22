@@ -14,7 +14,7 @@ public class WanderDecision : Decision
     }
     private bool WanderEnd(StateController controller)
     {
-        if (Physics.Raycast(controller.transform.position, controller.transform.forward, wallDetectionRange, wallLayer))
+        if (Physics.Raycast(controller.transform.position, controller.ForwardVector, wallDetectionRange, wallLayer))
         {
             return true;
         }

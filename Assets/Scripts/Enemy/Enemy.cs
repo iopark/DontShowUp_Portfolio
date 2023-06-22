@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
     public EnemyStat CurrentStat { get { return currentStat; } set { currentStat = value; } }
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         CurrentStat = data.AccessLevelData();
         GetCoreStat(); 

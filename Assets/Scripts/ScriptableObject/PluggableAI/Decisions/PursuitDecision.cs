@@ -15,11 +15,6 @@ public class PursuitDecision : Decision
 
     private bool Pursuiting(StateController controller)
     {
-        Vector3 target = controller.Sight.FindTarget();
-        if (target == Vector3.zero)
-        {
-            return false;
-        }
-        return true;
+        return controller.Sight.PlayerInSight != Vector3.zero;
     }
 }

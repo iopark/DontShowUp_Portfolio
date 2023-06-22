@@ -8,6 +8,7 @@ public class SightSensory : MonoBehaviour
 {
     #region GetSet Sight Sensory Properties 
     Enemy Enemy { get; set; }
+    EnemyMover EnemyMover { get; set; }
     [SerializeField] bool debug;
     [SerializeField] float range;
     [SerializeField, Range(0, 360f)] float angle;
@@ -16,25 +17,39 @@ public class SightSensory : MonoBehaviour
 
     public LayerMask TargetMask { get { return targetMask; } set { targetMask = value; } }
     public LayerMask ObstacleMask { get { return obstacleMask; } set { obstacleMask = value; } }
+
+    private Vector3 playerInSight; 
+    public Vector3 PlayerInSight { get { return playerInSight; } set { playerInSight = value; } }
     public float Range { get { return range; }
         set { range = value; } }
 
     public float Angle { get { return angle; }
         set { angle = value; } }
 
-    private Vector3 lookDir;
-    private Vector3 traceTarget;
+    private Vector3 LookDir { set { EnemyMover.LookDir = value; } }
     #endregion
     private void Awake()
     {
         Enemy = GetComponent<Enemy>();
+        EnemyMover = GetComponent<EnemyMover>();
     }
     private void Start()
     {
         Enemy.CurrentStat.SyncSightData(this);
     }
     //TODO: Target must be continuing to search for the target, how can I implement this together with the FindTarget 
+    
+    public void SetDirToTargetForChase(Vector3 dir)
+    {
+        Vector3 lookDirection = dir - transform.position; 
+        lookDirection.y = transform.position.y;
+        LookDir = lookDirection.normalized; 
+    }
 
+    public void SetDirToLook(Vector3 direction)
+    {
+        LookDir = direction;
+    }
     public Vector3 FindTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
@@ -55,8 +70,8 @@ public class SightSensory : MonoBehaviour
             if (collider.gameObject.tag == "Player")
             {
                 //Activate Certain State based on this behaviour. 
-                traceTarget = collider.transform.position;
-                return traceTarget;
+                playerInSight = collider.transform.position;
+                return playerInSight;
             }
             //while (distToTarget <= range)
             //    Trace(traceTarget.position);

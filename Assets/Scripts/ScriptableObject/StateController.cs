@@ -15,6 +15,11 @@ public class StateController : MonoBehaviour
         get { return EnemyMover.MoveSpeed; }
         set { EnemyMover.MoveSpeed = value; }
     }
+
+    public Vector3 ForwardVector
+    {
+        get { return Enemy.transform.forward; }
+    }
     #endregion
     #region Required Variables for State Controller 
     private int patrolIndex;
@@ -58,23 +63,8 @@ public class StateController : MonoBehaviour
 
 
     //Search and Patrol Segments 
-    public List<PatrolPoint> patrolPoints;
     public bool patrolStatus;
     public bool searchCompleteStatus;
-    private float elapsedTime;
-    public float ElapsedTime
-    {
-        get { return elapsedTime; }
-        set { elapsedTime = value; }
-    }
-
-    private float actionTimer;
-    public float ActionTimer
-    {
-        get { return actionTimer; }
-        set { actionTimer = value; }
-    }
-
     #endregion
     #region GetSet Unitbodies, must be declared on the Awake 
     public Enemy Enemy { get; private set; }
@@ -97,8 +87,6 @@ public class StateController : MonoBehaviour
         Auditory = GetComponent<SoundSensory>();
 
         //DefaultAttack = Instantiate(defaultAttack);
-        patrolPoints = new List<PatrolPoint>();
-        elapsedTime = 0;
         patrolIndex = 0;
         patrolCount = 0;
         searchCompleteStatus = false;
@@ -151,26 +139,5 @@ public class StateController : MonoBehaviour
     {
         Gizmos.color = currentState.sceneGizmoColor;
         Gizmos.DrawSphere(transform.position, 1f);
-    }
-
-    public bool CheckElapsedTime(float time)
-    {
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime >= time)
-        {
-            elapsedTime = 0;
-            return true;
-        }
-
-        return false;
-    }
-
-    public void ActionReceiver(float timeInterval, Action<StateController> requestedAct)
-    {
-        actionTimer += Time.deltaTime;
-        if (actionTimer >= timeInterval)
-        {
-
-        }
     }
 }

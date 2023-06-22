@@ -13,13 +13,14 @@ public class PursuitAction : Action
 
     private void Pursuit(StateController controller)
     {
+        // if scanner has found the target, try to seek it out. 
         Vector3 target = controller.Sight.FindTarget();
         if (target != Vector3.zero)
         {
             Vector3 lookDir = (target - controller.transform.position).normalized;
             lookDir.y = controller.transform.position.y;
             controller.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
-            controller.characterController.Move(lookDir * speed * Time.deltaTime);
+            controller.EnemyMover.Mover(lookDir * speed * Time.deltaTime);
             controller.anim.SetBool("Walk Forward", true);
         }
     }

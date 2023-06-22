@@ -14,9 +14,10 @@ public class AlignOrientationAction : Action
 
     private void Align(StateController controller)
     {
-        if (controller.FixToDir != Vector3.zero)
+        if (controller.EnemyMover.LookDir != controller.ForwardVector && controller.EnemyMover.LookDir != Vector3.zero)
         {
-            Turn(controller);
+            controller.EnemyMover.Rotator();
+            return;
         }// if FixToDir is not Zero, its probably adjusting itself. 
 
         //if FixToDir is zero, intializeFixToDir. 
@@ -35,15 +36,10 @@ public class AlignOrientationAction : Action
         {
             if (Vector3.Dot(targetDir, controller.transform.forward) > 0)
             {
-                controller.FixToDir = targetDir;
+                controller.Sight.SetDirToLook(targetDir);
             }
             else
-                controller.FixToDir = -targetDir;
+                controller.Sight.SetDirToLook(-targetDir);
         }
-    }
-    private void Turn(StateController controller)
-    {
-        Quaternion rotation = Quaternion.LookRotation(controller.FixToDir);
-        controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, rotation, 0.1f);
     }
 }

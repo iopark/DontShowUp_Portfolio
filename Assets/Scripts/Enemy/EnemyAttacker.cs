@@ -12,6 +12,8 @@ public class EnemyAttacker : MonoBehaviour
     }
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;
+    Vector3 attackDir; 
+    public Vector3 AttackDir { get { return attackDir; } set{ attackDir = value; } }
     #endregion
     private void Awake()
     {

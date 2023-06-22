@@ -16,6 +16,13 @@ public class ScanDecision : Decision
     private bool Scan(StateController controller)
     {
         Vector3 findingTarget = controller.Sight.FindTarget();
-        return findingTarget != Vector3.zero;
+        if (findingTarget != Vector3.zero)
+        {
+            controller.Sight.PlayerInSight = findingTarget;
+            controller.Sight.SetDirToTargetForChase(findingTarget);
+            return true; 
+        }
+        controller.Sight.PlayerInSight = Vector3.zero; 
+        return false; 
     }
 }
