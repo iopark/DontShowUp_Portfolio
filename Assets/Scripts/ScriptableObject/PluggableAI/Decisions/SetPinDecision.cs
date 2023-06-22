@@ -21,6 +21,8 @@ public class SetPinDecision : Decision
             return false;
         }
         controller.ReversePatrolPoints();
+        //TODO: This can/should be refactored as inidividual prerequisite act
+        controller.CurrentLookDir = controller.patrolPoints[0].Direction;
         return true; 
     }
 }

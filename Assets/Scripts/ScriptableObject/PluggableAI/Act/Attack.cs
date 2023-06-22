@@ -10,7 +10,6 @@ public class Attack : Act
     [SerializeField] private float attackInterval;
     [SerializeField] private int attackDamage;
     [SerializeField] private LayerMask targetMask;
-    [SerializeField] private string animTrigger; 
     public override void Perform(StateController controller)
     {
         controller.anim.SetTrigger(animTrigger);

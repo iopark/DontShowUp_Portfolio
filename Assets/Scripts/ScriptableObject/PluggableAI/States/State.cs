@@ -14,11 +14,18 @@ public class State : ScriptableObject
     [SerializeField] private string AnimationKeyword;
     [SerializeField] private int AnimType;
 
+    [Header("UponEnter")]
+    [SerializeField] protected Act[] preRequisiteActs;
+    [SerializeField] protected Action[] preRequisiteActions; 
+
     [SerializeField] protected Action[] actions;
+    [SerializeField] protected Transition[] transitions;
+
+    [Header("Fixed")]
     [SerializeField] protected Action[] fixedActions;
     [SerializeField] protected Transition[] fixedTransitions;
-    [SerializeField] protected Transition[] transitions;
-    [SerializeField] protected UnityEvent<Decision> uponExit = new UnityEvent<Decision>();
+
+    [SerializeField] protected Act[] exitActs;
     //You could also do Decisions[], if requiring wider range or options to converge with other states. 
     public Color sceneGizmoColor = Color.grey;
     public virtual void UpdateState(StateController controller)
@@ -54,6 +61,31 @@ public class State : ScriptableObject
     {
         return (AnimType, AnimationKeyword); 
     }
+
+    public void EnterState(StateController controller)
+    {
+        if (preRequisiteActions.Length == 0)
+            return;
+        for (int i = 0;i < preRequisiteActions.Length; i++)
+        {
+            preRequisiteActions[i].Act(controller);
+        }
+        if (preRequisiteActs.Length == 0)
+            return;
+        for (int i = 0; i < preRequisiteActs.Length; i++)
+        {
+            preRequisiteActs[i].Perform(controller);
+        }
+    }
+
+    public void ExitState(StateController controller)
+    {
+        for (int i = 0; i < exitActs.Length; i++)
+        {
+            exitActs[i].Perform(controller);
+        }
+    }
+
     protected virtual void CheckFixedTransition(StateController controller)
     {
         for (int i = 0; i < transitions.Length; i++)

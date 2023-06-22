@@ -5,7 +5,6 @@ using UnityEngine;
 public class Move : Act
 {
     //Can be Configurable based on the speed; 
-    [SerializeField] private string animTrigger; 
     public override void Perform(StateController controller)
     {
         OnMove(controller); 
@@ -13,6 +12,7 @@ public class Move : Act
 
     private void OnMove(StateController controller)
     {
+        controller.CurrentSpeed = controller.CurrentStat.moveSpeed; 
         controller.characterController.Move(controller.CurrentLookDir * controller.CurrentSpeed * Time.deltaTime); 
     }
 }

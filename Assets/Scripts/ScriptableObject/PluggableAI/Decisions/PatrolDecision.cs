@@ -19,9 +19,10 @@ public class PatrolDecision : Decision
     //hlep me 
     private bool PointPatrol(StateController controller)
     {
+        // if 플레이어가 패트롤의 꼭지점에 도달하였을때에
         if (controller.PatrolIndex == controller.CurrentStat.patrolSize - 1)
         {
-            controller.ReversePatrolPoints();
+            controller.ReversePatrolPoints(); // 패트롤 포인트를 반대로 돌려서 진행한다. 
             controller.patrolCount++;
         }
         if (controller.patrolCount >= MaxPatrolCount)

@@ -44,7 +44,11 @@ public class Enemy : MonoBehaviour, IHittable
     public float MoveSpeed
     {
         get { return moveSpeed; }
-        set { moveSpeed = value; }
+        set 
+        {
+            anim.SetFloat("Speed", value);
+            moveSpeed = value; 
+        }
     }
     private float alertMoveSpeed;
 

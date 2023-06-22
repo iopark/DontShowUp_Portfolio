@@ -17,8 +17,8 @@ public class PatrolAction : Action
     private void Patrol(StateController controller)
     {
         Vector3 searchPoint = controller.patrolPoints[controller.PatrolIndex].worldPosition;
-        controller.CurrentLookDir = (searchPoint - controller.transform.position).normalized;
-        if (Vector3.Dot(controller.CurrentLookDir, controller.transform.forward) - 0.1 < 1)
+        controller.CurrentLookDir = controller.patrolPoints[controller.PatrolIndex].Direction;
+        if (Vector3.Dot(controller.CurrentLookDir, controller.transform.forward) < 0.99)
         {
             defaultRotate.Perform(controller);
             return;
@@ -26,7 +26,7 @@ public class PatrolAction : Action
 
         defaultMove.Perform(controller);
         if (ReachedDestination(controller.transform.position, searchPoint))
-            controller.PatrolIndex++;
+            controller.PatrolIndex = (controller.PatrolIndex + 1 % controller.patrolPoints.Count); 
     }
     private bool ReachedDestination(Vector3 origin, Vector3 destination)
     {

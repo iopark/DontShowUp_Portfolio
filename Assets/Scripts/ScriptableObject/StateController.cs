@@ -93,11 +93,16 @@ public class StateController : NormalZombie
         {
             previousState = currentState;
             currentState = nextState;
+            EnterState(); 
             AnimationUpdate(currentState.EnterStateAnim().Item1, currentState.EnterStateAnim().Item2); 
         }
         return;
     }
 
+    private void EnterState()
+    {
+        currentState.EnterState(this);
+    }
     private void AnimationUpdate(int animType, string animKeyword)
     {
         //TODO: Each state should be able to update the Statemachine's Animation as well 
@@ -106,7 +111,7 @@ public class StateController : NormalZombie
         {
             case 1: 
                 if (animKeyword == "Walk")
-                    anim.SetFloat("Speed", CurrentSpeed); break;
+                    anim.SetFloat("Speed", CurrentStat.moveSpeed); break;
             default: anim.SetTrigger(animKeyword); break;
         }
     }
@@ -119,7 +124,11 @@ public class StateController : NormalZombie
     {
         elapsedTime += Time.deltaTime;
         if (elapsedTime >= time)
-            return true; 
+        {
+            elapsedTime = 0;
+            return true;
+        }
+
         return false;
     }
 }

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78409b07656ef1548a7154c8889ceea7, type: 3}
-  m_Name: Action_SetPin_BasicZombie
+  m_Script: {fileID: 11500000, guid: 2d56017c4f5641d4d84124aec27ae6a2, type: 3}
+  m_Name: Act_Wander_BasicZombie
   m_EditorClassIdentifier: 
-  setPinInterval: 3.5
-  defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
+  animTrigger: 
+  animType: 0
+  rangeMin: -1
+  rangeMax: 1
