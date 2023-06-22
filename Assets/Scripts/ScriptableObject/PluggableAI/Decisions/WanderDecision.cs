@@ -6,24 +6,18 @@ using UnityEngine;
 public class WanderDecision : Decision
 {
     //Wander State Ending Decision, should be concluded if a wall is found, leading to the Align State 
-    
-    [SerializeField] private LayerMask wallLayer; 
+    [SerializeField] private float wallDetectionRange;
+    [SerializeField] private LayerMask wallLayer;
     public override bool Decide(StateController controller)
     {
-        return WanderEnd(controller); 
+        return WanderEnd(controller);
     }
     private bool WanderEnd(StateController controller)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(controller.transform.position, dir, out hit, controller.CurrentStat.sightDepth, wallLayer))
+        if (Physics.Raycast(controller.transform.position, controller.transform.forward, wallDetectionRange, wallLayer))
         {
-            return true; 
+            return true;
         }
-        return false; 
+        return false;
     }
-
-    //public void ResetFixToDir()
-    //{
-    //    controller.FixToDir = Vector3.zero; 
-    //}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_Aligning_", menuName = "PluggableAI/Actions/BasisAlignment")]
 public class AlignOrientationAction : Action
 {
-    [SerializeField] private LayerMask wallLayer; 
+    [SerializeField] private LayerMask wallLayer;
 
     public override void Act(StateController controller)
     {
@@ -25,7 +25,7 @@ public class AlignOrientationAction : Action
         foreach (Vector3 dir in searchPoint)
         {
             RaycastHit hit;
-            if (Physics.Raycast(controller.transform.position, dir, out hit, controller.CurrentStat.sightDepth, wallLayer))
+            if (Physics.Raycast(controller.transform.position, dir, out hit, controller.Sight.Range, wallLayer))
             {
                 targetDir = Vector3.Cross(hit.collider.transform.up, hit.normal);
                 break;

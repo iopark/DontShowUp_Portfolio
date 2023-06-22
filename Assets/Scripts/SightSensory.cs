@@ -3,37 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Enemy))]
 public class SightSensory : MonoBehaviour
 {
-    float speed = 0.5f;
-    [SerializeField] bool debug; 
+    #region GetSet Sight Sensory Properties 
+    Enemy Enemy { get; set; }
+    [SerializeField] bool debug;
     [SerializeField] float range;
     [SerializeField, Range(0, 360f)] float angle;
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstacleMask;
-    private Vector3 lookDir; 
 
-    [SerializeField] private CharacterController body;
-    public Animator anim; 
-    private Vector3 traceTarget;
-
-    //GetSet 
     public LayerMask TargetMask { get { return targetMask; } set { targetMask = value; } }
     public LayerMask ObstacleMask { get { return obstacleMask; } set { obstacleMask = value; } }
-    public float Range { get { return range; } 
-    set { range = value; } }
+    public float Range { get { return range; }
+        set { range = value; } }
 
     public float Angle { get { return angle; }
         set { angle = value; } }
 
+    private Vector3 lookDir;
+    private Vector3 traceTarget;
+    #endregion
+    private void Awake()
+    {
+        Enemy = GetComponent<Enemy>();
+    }
     private void Start()
     {
-        body = GetComponentInParent<CharacterController>();
-        anim = GetComponentInParent<Animator>();
-    }
-    private void Update()
-    {
-        //FindTarget(); 
+        Enemy.CurrentStat.SyncSightData(this);
     }
     //TODO: Target must be continuing to search for the target, how can I implement this together with the FindTarget 
 
@@ -50,15 +48,15 @@ public class SightSensory : MonoBehaviour
                 continue;
 
             //4. 중간에 장애물이 없는지 
-            float distToTarget = Vector3.Distance(transform.position, collider.gameObject.transform.position); 
-            if (Physics.Raycast(transform.position, dirTarget, distToTarget, obstacleMask)) 
+            float distToTarget = Vector3.Distance(transform.position, collider.gameObject.transform.position);
+            if (Physics.Raycast(transform.position, dirTarget, distToTarget, obstacleMask))
                 continue;
 
             if (collider.gameObject.tag == "Player")
             {
                 //Activate Certain State based on this behaviour. 
                 traceTarget = collider.transform.position;
-                return traceTarget; 
+                return traceTarget;
             }
             //while (distToTarget <= range)
             //    Trace(traceTarget.position);
@@ -67,18 +65,18 @@ public class SightSensory : MonoBehaviour
             //anim.SetBool("Walk Forward", false); 
             //Debug.DrawRay(transform.position, dirTarget * distToTarget, Color.green); 
         }
-        return Vector3.zero; 
+        return Vector3.zero;
     }
 
-    private void Trace(Vector3 target)
-    {
-        //This can transfer into TraceState 
-        lookDir = (target - body.transform.position).normalized;
-        lookDir.y = body.transform.position.y;
-        body.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up); 
-        body.Move(lookDir * speed *Time.deltaTime);
-        anim.SetBool("Walk Forward", true); 
-    }
+    //private void Trace(Vector3 target)
+    //{
+    //    //This can transfer into TraceState 
+    //    lookDir = (target - body.transform.position).normalized;
+    //    lookDir.y = body.transform.position.y;
+    //    body.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up); 
+    //    body.Move(lookDir * speed *Time.deltaTime);
+    //    anim.SetBool("Walk Forward", true); 
+    //}
 
     private void OnDrawGizmos()
     {
@@ -114,12 +112,11 @@ public class SightSensory : MonoBehaviour
         //    dirs.Append(AngleToDir(dirAngle));
         //}
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + angle * 0.5f);
-        dirs[0] = rightDir; 
+        dirs[0] = rightDir;
         // where .eulerAngle.y returns rotation angle from the y-axis in a Space.World 
         //Vector3 leftDir = AngleToDir(transform.eulerAngles.y - angle * 0.5f);
         dirs[1] = (AngleToDir(transform.eulerAngles.y - angle * 0.5f));
-        
+
         return dirs;
     }
-    //TODO: Shoot raycast at the 
 }

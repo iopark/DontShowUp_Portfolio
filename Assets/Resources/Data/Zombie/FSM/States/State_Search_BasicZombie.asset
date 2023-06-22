@@ -22,9 +22,6 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: e91eaf4106976174faa904ad537a2024, type: 2}
     trueState: {fileID: 11400000, guid: 87ce41f6e2418d34c8c6bbdd4d6beee1, type: 2}
     falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
-  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
-    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
-    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
   - decision: {fileID: 11400000, guid: 7045c6d07d78bd44a826638d8641d814, type: 2}
     trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
     falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
@@ -34,7 +31,5 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: 661aacfac6e95354b8573f0028894353, type: 2}
     trueState: {fileID: 11400000, guid: 66304aa9a9b96ef46b4c0924494c9b2b, type: 2}
     falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
-  uponExit:
-    m_PersistentCalls:
-      m_Calls: []
+  exitActs: []
   sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationKeyword: 
   AnimType: 0
-  actions: []
-  fixedActions: []
+  preRequisiteActs: []
+  preRequisiteActions: []
+  actions:
+  - {fileID: 11400000, guid: 41bd3f4358173e74a8c235032c692da2, type: 2}
   transitions: []
-  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fixedActions: []
+  fixedTransitions:
+  - {decision: {fileID: 11400000, guid: a9711fa4b9dc58c429d29ca348bac7e7, type: 2}, trueState: {fileID: 0}, falseState: {fileID: 0}}
+  exitActs: []
+  sceneGizmoColor:
+    r: 0.5
+    g: 0.5
+    b: 0.5
+    a: 1

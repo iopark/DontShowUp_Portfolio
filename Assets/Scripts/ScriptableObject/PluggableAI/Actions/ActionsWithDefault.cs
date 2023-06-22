@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ActionsWithDefault : Action
 {
-    public Act defaultAct; 
+    public Act defaultAct;
     public override void Act(StateController controller)
     {
-        
+
     }
 }

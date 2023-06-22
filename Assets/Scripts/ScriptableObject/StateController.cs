@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,33 +6,40 @@ using UnityEngine;
 /// <summary>
 /// TemporaryState Controller Inheriting NormalZombie Class
 /// </summary>
-public class StateController : NormalZombie
+public class StateController : MonoBehaviour
 {
-    //Utilizing Basic Zombie State Patterns, NormalZombie�� ��ӹ���ü�� �����Ѵ�. 
-    public SightSensory Sight { get { return sight; } }
-    public SoundSensory Auditory { get { return auditory; } }
-
-    #region Required Variables to Control States 
+    #region For the Convenience of State Machine Interaction, GetSet Linked with different Unit Bodies 
+    private float currentSpeed;
+    public float CurrentSpeed
+    {
+        get { return EnemyMover.MoveSpeed; }
+        set { EnemyMover.MoveSpeed = value; }
+    }
+    #endregion
+    #region Required Variables for State Controller 
     private int patrolIndex;
-    public int PatrolIndex 
-    { 
+    public int PatrolIndex
+    {
         get { return patrolIndex; }
-        set { 
+        set
+        {
             if (value > patrolIndex)
                 searchCompleteStatus = true;
-            patrolIndex = value; 
-        } 
+            patrolIndex = value;
+        }
     }
     public int patrolCount;
 
-    public State currentState;
-    public State remainState;
-    public State previousState;
-    private Vector3 currentLookDir; 
+
+    private Vector3 currentLookDir;
     public Vector3 CurrentLookDir
     {
         get { return currentLookDir; }
-        set { currentLookDir = value; }
+        set 
+        { 
+            currentLookDir = value; 
+            EnemyMover.LookDir = value;
+        }
     }
     private Vector3 targetDir;
     public Vector3 TargetDir
@@ -40,45 +48,64 @@ public class StateController : NormalZombie
         set { targetDir = value; }
     }
 
-    private Vector3 fixToDir; 
+    private Vector3 fixToDir;
     public Vector3 FixToDir
     {
         get { return fixToDir; }
         set { fixToDir = value; }
     }
 
-    private float currentSpeed; 
-    public float CurrentSpeed
-    {
-        get { return currentSpeed; }
-        set { currentSpeed = value; }
-    }
+
 
     //Search and Patrol Segments 
-    public List<PatrolPoint> patrolPoints; 
+    public List<PatrolPoint> patrolPoints;
     public bool patrolStatus;
     public bool searchCompleteStatus;
-    private float elapsedTime; 
+    private float elapsedTime;
     public float ElapsedTime
     {
         get { return elapsedTime; }
         set { elapsedTime = value; }
     }
-    #endregion
-    protected override void Awake()
+
+    private float actionTimer;
+    public float ActionTimer
     {
-        base.Awake(); 
+        get { return actionTimer; }
+        set { actionTimer = value; }
+    }
+
+    #endregion
+    #region GetSet Unitbodies, must be declared on the Awake 
+    public Enemy Enemy { get; private set; }
+    public EnemyAttacker EnemyAttacker { get; private set; }
+    public EnemyMover EnemyMover { get; private set; }
+    public SightSensory Sight { get; private set; }
+    public SoundSensory Auditory { get; private set; }
+    #endregion
+
+    [Header("Unit State")]
+    public State currentState;
+    public State remainState;
+    public State previousState;
+    private void Awake()
+    {
+        Enemy = GetComponent<Enemy>();
+        EnemyAttacker = GetComponent<EnemyAttacker>();
+        EnemyMover = GetComponent<EnemyMover>();
+        Sight = GetComponent<SightSensory>();
+        Auditory = GetComponent<SoundSensory>();
+
+        //DefaultAttack = Instantiate(defaultAttack);
         patrolPoints = new List<PatrolPoint>();
         elapsedTime = 0;
-        currentSpeed = MoveSpeed; 
         patrolIndex = 0;
         patrolCount = 0;
         searchCompleteStatus = false;
         patrolStatus = false;
-        //characterFov = GetComponent<FieldOfView>();
-        characterController = GetComponent<CharacterController>();
-
     }
+
+
     private void Update()
     {
         currentState.UpdateState(this);
@@ -93,12 +120,17 @@ public class StateController : NormalZombie
         {
             previousState = currentState;
             currentState = nextState;
-            EnterState(); 
-            AnimationUpdate(currentState.EnterStateAnim().Item1, currentState.EnterStateAnim().Item2); 
+            name = currentState.name;
+            EnterState();
+            AnimationUpdate(currentState.EnterStateAnim().Item1, currentState.EnterStateAnim().Item2);
         }
         return;
     }
 
+    public void AnimEvent()
+    {
+
+    }
     private void EnterState()
     {
         currentState.EnterState(this);
@@ -107,17 +139,18 @@ public class StateController : NormalZombie
     {
         //TODO: Each state should be able to update the Statemachine's Animation as well 
         //Where default is the Animation type trigger
-        switch(animType)
+        switch (animType)
         {
-            case 1: 
+            case 1:
                 if (animKeyword == "Walk")
-                    anim.SetFloat("Speed", CurrentStat.moveSpeed); break;
-            default: anim.SetTrigger(animKeyword); break;
+                    Enemy.anim.SetFloat("Speed", Enemy.CurrentStat.moveSpeed); break;
+            default: Enemy.anim.SetTrigger(animKeyword); break;
         }
     }
-    protected override void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
-        base.OnDrawGizmos();
+        Gizmos.color = currentState.sceneGizmoColor;
+        Gizmos.DrawSphere(transform.position, 1f);
     }
 
     public bool CheckElapsedTime(float time)
@@ -132,16 +165,12 @@ public class StateController : NormalZombie
         return false;
     }
 
-    IEnumerator Attack(float attackInterval) 
-    { 
-        float timer = Time.deltaTime; 
-        while (true) 
-        { 
-            if (timer>= attackInterval) { 
-                //something to return to let delegate pattern identify whether this is passed. 
-            }
-                yield break; 
-        }
+    public void ActionReceiver(float timeInterval, Action<StateController> requestedAct)
+    {
+        actionTimer += Time.deltaTime;
+        if (actionTimer >= timeInterval)
+        {
 
+        }
     }
 }

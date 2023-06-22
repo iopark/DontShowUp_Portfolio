@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName ="State_", menuName = "PluggableAI/State")]
+[CreateAssetMenu(fileName = "State_", menuName = "PluggableAI/State")]
 public class State : ScriptableObject
 {
     //Do we categorize the States? 
@@ -16,7 +16,7 @@ public class State : ScriptableObject
 
     [Header("UponEnter")]
     [SerializeField] protected Act[] preRequisiteActs;
-    [SerializeField] protected Action[] preRequisiteActions; 
+    [SerializeField] protected Action[] preRequisiteActions;
 
     [SerializeField] protected Action[] actions;
     [SerializeField] protected Transition[] transitions;
@@ -46,7 +46,7 @@ public class State : ScriptableObject
     {
         for (int i = 0; i < actions.Length; i++)
         {
-            fixedActions[i].Act(controller); 
+            fixedActions[i].Act(controller);
         }
     }
     protected virtual void DoActions(StateController controller)
@@ -59,14 +59,14 @@ public class State : ScriptableObject
 
     public (int, string) EnterStateAnim()
     {
-        return (AnimType, AnimationKeyword); 
+        return (AnimType, AnimationKeyword);
     }
 
     public void EnterState(StateController controller)
     {
         if (preRequisiteActions.Length == 0)
             return;
-        for (int i = 0;i < preRequisiteActions.Length; i++)
+        for (int i = 0; i < preRequisiteActions.Length; i++)
         {
             preRequisiteActions[i].Act(controller);
         }
