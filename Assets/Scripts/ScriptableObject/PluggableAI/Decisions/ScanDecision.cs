@@ -19,7 +19,7 @@ public class ScanDecision : Decision
         if (findingTarget != Vector3.zero)
         {
             controller.Sight.PlayerInSight = findingTarget;
-            controller.Sight.SetDirToTargetForChase(findingTarget);
+            //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
             return true; 
         }
         else

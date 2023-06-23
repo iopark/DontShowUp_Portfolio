@@ -40,10 +40,6 @@ public class State : ScriptableObject
     {
         DoActions(controller); // Upon Changing into a certain state, a State contains 'set' of actions, which will iterate until doing every bit of the given actions 
         CheckTransition(controller);
-        if (fixedActions.Length == 0 && fixedTransitions.Length == 0)
-            return;
-        DoFixedActions(controller);
-        CheckFixedTransition(controller);
     }
 
     public virtual void FixedUpdateState(StateController controller)

@@ -52,7 +52,9 @@ public class SightSensory : MonoBehaviour
     }
     public Vector3 FindTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
+        if (colliders.Length == 0)
+            return Vector3.zero; 
         foreach (Collider collider in colliders)
         {
             //2. 플레이어 기준 앞에 있는지에 대해서 확인작업 필요 
@@ -69,19 +71,17 @@ public class SightSensory : MonoBehaviour
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
 
-            if (collider.gameObject.tag == "Player")
-            {
-                //Activate Certain State based on this behaviour. 
-                playerInSight = collider.transform.position;
-                return playerInSight;
-            }
+            playerInSight = collider.transform.position;
+            return playerInSight;
         }
         return Vector3.zero;
     }
 
     public bool AccessForAttack(float attackRange)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, targetMask);
+        if (colliders.Length == 0)
+            return false; 
         foreach (Collider collider in colliders)
         {
             Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
@@ -95,13 +95,11 @@ public class SightSensory : MonoBehaviour
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
-
-            if (collider.gameObject.tag == "Player")
-            {
-                playerInSight = collider.transform.position;
-                SetDirToTargetForChase(playerInSight);
-                return true;
-            }
+            Vector3 dir = (collider.transform.position - transform.position).normalized; 
+            Debug.DrawRay(transform.position, dir, Color.red); 
+            playerInSight = collider.transform.position;
+            SetDirToTargetForChase(playerInSight);
+            return true;
         }
         return false;
     }

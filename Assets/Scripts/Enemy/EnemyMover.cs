@@ -121,7 +121,7 @@ public class EnemyMover : MonoBehaviour
     public void Chase()
     {
         Rotator(0.5f); 
-        characterController.Move(ForwardVector * currentSpeed * Time.deltaTime); 
+        characterController.Move(LookDir * currentSpeed * Time.deltaTime); 
     }
 
     public virtual void ReactToSound(Vector3[] newPath)

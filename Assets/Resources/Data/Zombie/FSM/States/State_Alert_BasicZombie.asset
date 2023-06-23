@@ -26,4 +26,4 @@ MonoBehaviour:
   fixedActions: []
   fixedTransitions: []
   exitActs: []
-  sceneGizmoColor: {r: 0, g: 0.057691336, b: 1, a: 1}
+  sceneGizmoColor: {r: 1, g: 0.5276336, b: 0, a: 1}

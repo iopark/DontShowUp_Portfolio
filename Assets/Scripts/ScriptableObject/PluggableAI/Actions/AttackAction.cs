@@ -9,4 +9,10 @@ public class AttackAction : Action
     {
         controller.EnemyAttacker.DefaultAttack.Perform();
     }
+
+    private void PerformAttack(StateController controller)
+    {
+        //better to do so in the coroutine?
+        //controller.EnemyMover.CurrentSpeed = 0f; 
+    }
 }
