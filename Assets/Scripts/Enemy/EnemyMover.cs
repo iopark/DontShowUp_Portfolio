@@ -71,6 +71,10 @@ public class EnemyMover : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
     }
 
+    public void RotateWhileRunning()
+    {
+        //TODO: 
+    }
     public void Mover(Vector3 destPoint)
     {
         characterController.Move(moveSpeed * Time.deltaTime * destPoint);

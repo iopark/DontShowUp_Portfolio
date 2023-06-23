@@ -39,11 +39,11 @@ public class SightSensory : MonoBehaviour
     }
     //TODO: Target must be continuing to search for the target, how can I implement this together with the FindTarget 
     
-    public void SetDirToTargetForChase(Vector3 dir)
+    public void SetDirToTargetForChase(Vector3 targetPos)
     {
-        Vector3 lookDirection = dir - transform.position; 
-        lookDirection.y = transform.position.y;
-        LookDir = lookDirection.normalized; 
+        targetPos.y = transform.position.y;
+        Vector3 lookDirection = (targetPos - transform.position).normalized; 
+        LookDir = lookDirection; 
     }
 
     public void SetDirToLook(Vector3 direction)
@@ -63,8 +63,10 @@ public class SightSensory : MonoBehaviour
                 continue;
 
             //4. 중간에 장애물이 없는지 
-            float distToTarget = Vector3.Distance(transform.position, collider.gameObject.transform.position);
-            if (Physics.Raycast(transform.position, dirTarget, distToTarget, obstacleMask))
+
+            Vector3 distToTarget = dirTarget - transform.position; 
+            float distance = Vector3.SqrMagnitude(distToTarget);
+            if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
 
             if (collider.gameObject.tag == "Player")
@@ -73,14 +75,35 @@ public class SightSensory : MonoBehaviour
                 playerInSight = collider.transform.position;
                 return playerInSight;
             }
-            //while (distToTarget <= range)
-            //    Trace(traceTarget.position);
-
-            //traceTarget = null; 
-            //anim.SetBool("Walk Forward", false); 
-            //Debug.DrawRay(transform.position, dirTarget * distToTarget, Color.green); 
         }
         return Vector3.zero;
+    }
+
+    public bool AccessForAttack(float attackRange)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange);
+        foreach (Collider collider in colliders)
+        {
+            Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
+
+            //1. 플레이어 지정 각도와 비교 
+            if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
+                continue;
+
+            //2. 중간에 장애물이 없는지 
+            Vector3 distToTarget = dirTarget - transform.position;
+            float distance = Vector3.SqrMagnitude(distToTarget);
+            if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
+                continue;
+
+            if (collider.gameObject.tag == "Player")
+            {
+                playerInSight = collider.transform.position;
+                SetDirToTargetForChase(playerInSight);
+                return true;
+            }
+        }
+        return false;
     }
 
     //private void Trace(Vector3 target)

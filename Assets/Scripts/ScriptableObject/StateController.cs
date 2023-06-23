@@ -20,6 +20,12 @@ public class StateController : MonoBehaviour
     {
         get { return Enemy.transform.forward; }
     }
+
+    private Vector3 currentLookDir;
+    public Vector3 CurrentLookDir
+    {
+        get { return EnemyMover.LookDir; }
+    }
     #endregion
     #region Required Variables for State Controller 
     private int patrolIndex;
@@ -34,37 +40,12 @@ public class StateController : MonoBehaviour
         }
     }
     public int patrolCount;
-
-
-    private Vector3 currentLookDir;
-    public Vector3 CurrentLookDir
-    {
-        get { return currentLookDir; }
-        set 
-        { 
-            currentLookDir = value; 
-            EnemyMover.LookDir = value;
-        }
-    }
-    private Vector3 targetDir;
-    public Vector3 TargetDir
-    {
-        get { return targetDir; }
-        set { targetDir = value; }
-    }
-
-    private Vector3 fixToDir;
-    public Vector3 FixToDir
-    {
-        get { return fixToDir; }
-        set { fixToDir = value; }
-    }
-
-
-
     //Search and Patrol Segments 
     public bool patrolStatus;
     public bool searchCompleteStatus;
+    public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
+    ActionRequestSlip currentRequest; 
+    bool isCompletingAction; 
     #endregion
     #region GetSet Unitbodies, must be declared on the Awake 
     public Enemy Enemy { get; private set; }
@@ -135,6 +116,33 @@ public class StateController : MonoBehaviour
             default: Enemy.anim.SetTrigger(animKeyword); break;
         }
     }
+    #region attempting to perform request for future path in delegated ways
+    public void RequestAction(UnityEngine.Object bodyComponent, float interval, Action<bool> _callback)
+    {
+        ActionRequestSlip newRequest = new ActionRequestSlip(bodyComponent, interval, _callback);
+        actionRequests.Enqueue(newRequest);
+        TryCompleteNext(); 
+    }
+    void TryCompleteNext()
+    {
+        if (!isCompletingAction && actionRequests.Count > 0)
+        {
+            currentRequest = actionRequests.Dequeue();
+            isCompletingAction = true; 
+            Enemy.DoAction(currentRequest.bodyComponent, currentRequest.interval);
+        }
+    }
+
+    public void FinishedProcessingPath(bool success)
+    {
+        if (success) // path 를 찾았을때만 해당 Path 를 전달한다. 
+            currentRequest.callback(success);
+        //How do we Deliever this path to the Requestee? 
+
+        isCompletingAction = false;
+        TryCompleteNext();
+    }
+    #endregion
     protected void OnDrawGizmos()
     {
         Gizmos.color = currentState.sceneGizmoColor;

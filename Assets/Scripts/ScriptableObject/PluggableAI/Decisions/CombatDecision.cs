@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Decision_Attack_", menuName = "PluggableAI/Decisions/Attack")]
-public class AttackDecision : Decision
+[CreateAssetMenu(fileName = "Decision_ToCombat_", menuName = "PluggableAI/Decisions/ToCombat")]
+public class CombatDecision : Decision
 {
     [SerializeField] private float senseRange;
     [SerializeField] private float attackAngle;
@@ -16,13 +16,6 @@ public class AttackDecision : Decision
 
     private bool ContestForRange(StateController controller)
     {
-        //Accessing proper range for the Attack 
-        if (Physics.SphereCast(controller.transform.position, senseRange, controller.CurrentLookDir, out RaycastHit hit, senseRange))
-        {
-            controller.CurrentLookDir = (controller.transform.position - hit.point).normalized;
-            //controller.EnemyAttacker
-            return true;
-        }
-        return false;
+        return controller.Sight.AccessForAttack(attackRange);
     }
 }

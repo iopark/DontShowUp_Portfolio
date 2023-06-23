@@ -18,9 +18,7 @@ public class AlignOrientationAction : Action
         {
             controller.EnemyMover.Rotator();
             return;
-        }// if FixToDir is not Zero, its probably adjusting itself. 
-
-        //if FixToDir is zero, intializeFixToDir. 
+        } 
         Vector3 targetDir = Vector3.zero;
         Vector3[] searchPoint = controller.Sight.SightEdgesInDir(2);
         foreach (Vector3 dir in searchPoint)

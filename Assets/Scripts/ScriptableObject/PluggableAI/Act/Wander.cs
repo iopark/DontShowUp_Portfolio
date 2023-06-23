@@ -15,6 +15,6 @@ public class Wander : Act
     {
         float x = Random.Range(rangeMin, rangeMax);
         float y = Random.Range(rangeMin, rangeMax);
-        controller.CurrentLookDir = new Vector3(x, 0f, y).normalized;
+        controller.EnemyMover.LookDir = new Vector3(x, 0f, y).normalized;
     }
 }

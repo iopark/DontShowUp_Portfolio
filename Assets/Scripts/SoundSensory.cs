@@ -8,19 +8,17 @@ public class SoundSensory : MonoBehaviour, IListenable
     Enemy enemy;
     EnemyMover EnemyMover { get; set; }
     private bool haveHeard; 
-    public bool HaveHeard { get; set; }
+    public bool HaveHeard { get { return haveHeard; } set { haveHeard = value; } }
 
     private void Start()
     {
         EnemyMover = GetComponent<EnemyMover>();
-        haveHeard = false; 
         enemy = GetComponent<Enemy>();
     }
 
-    public bool Heard(Vector3 soundPoint)
+    public void Heard(Vector3 soundPoint)
     {
         GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath);
-        return true;
     }
 
     public void GetPath(Vector3[] soundPath, bool success)

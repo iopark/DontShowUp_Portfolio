@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Enemy : MonoBehaviour, IHittable, IStrikable
 {
@@ -10,6 +11,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
     [SerializeField] protected EnemyData data;
     [SerializeField] protected SightSensory sight;
     [SerializeField] protected SoundSensory auditory;
+    [SerializeField] public StateController controller;
     [SerializeField] public CharacterController characterController;
     [SerializeField] public Animator anim;
 
@@ -87,6 +89,17 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
         }
     }
 
+    public void DoAction<T>(T bodyComponent, float timeInterval)
+    {
+        if (bodyComponent is EnemyMover)
+        {
+            //Try Following 
+        }
+        else if (bodyComponent is EnemyAttacker)
+        {
+            //Try this instead 
+        }
+    }
     public void TakeHit(int damage)
     {
         throw new System.NotImplementedException();

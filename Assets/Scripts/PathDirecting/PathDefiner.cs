@@ -92,7 +92,6 @@ public class PathDefiner: MonoBehaviour
         {
             waypoints = RetracePath(startSpot, targetSpot);
         }
-        Debug.Log(pathSuccess); 
         GameManager.PathManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 

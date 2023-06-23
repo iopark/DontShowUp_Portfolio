@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,5 +29,18 @@ public struct PatrolPoint
     public void Reverse()
     {
         this.Direction = Direction * -1;
+    }
+}
+public struct ActionRequestSlip
+{
+    public UnityEngine.Object bodyComponent; 
+    public float interval;
+    public Action<bool> callback;
+
+    public ActionRequestSlip(UnityEngine.Object _bodyComponent, float interval, Action<bool> _callback)
+    {
+        this.bodyComponent = _bodyComponent;
+        this.interval = interval;
+        this.callback = _callback;
     }
 }

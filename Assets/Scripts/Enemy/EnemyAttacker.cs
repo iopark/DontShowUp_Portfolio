@@ -12,6 +12,7 @@ public class EnemyAttacker : MonoBehaviour
     }
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;
+    bool isAttacking; 
     Vector3 attackDir; 
     public Vector3 AttackDir { get { return attackDir; } set{ attackDir = value; } }
     #endregion
@@ -23,13 +24,26 @@ public class EnemyAttacker : MonoBehaviour
         DefaultAttack.Attacker = this;
     }
 
-    private void TryStrike()
+    public void StrikePlayer()
     {
+        //Called by the Animator Event 
         DefaultAttack.Strike();
+    }
+
+    public void TryStrike()
+    {
+        if (isAttacking)
+            return;
+        StartCoroutine(DoAttack());
     }
     IEnumerator DoAttack()
     {
-        Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
-        yield break; 
+        while (attackDir != Vector3.zero)
+        {
+            isAttacking = true; 
+            Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
+            yield return attackInterval; 
+        }
+        isAttacking = false; 
     }
 }
