@@ -47,6 +47,12 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
 
     protected virtual void Awake()
     {
+        data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
+        sight = GetComponent<SightSensory>();
+        auditory = GetComponent<SoundSensory>();
+        controller = GetComponent<StateController>();
+        characterController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
         CurrentStat = data.AccessLevelData();
         GetCoreStat(); 
     }
@@ -65,29 +71,45 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
     {
 
     }
-
-    //Can be upgraded for the AdvancedZombie, able to take in weighted value of the graph to search for the other paths to attack the player (if possible)
-    //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
-    protected virtual void OnDrawGizmos()
+    public void AnimationUpdate(AnimRequestSlip animRequest)
     {
-        if (!debug && tracingStatus)
+        //TODO: Each state should be able to update the Statemachine's Animation as well 
+        //Where default is the Animation type trigger
+        switch (animRequest.AnimType)
         {
-            for (int i = 0; i < tracePath.Length; i++)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(tracePath[i], Vector3.one);
-
-                if (i == trackingIndex)
-                {
-                    Gizmos.DrawLine(transform.position, tracePath[i]);
-                }
-                else
-                {
-                    Gizmos.DrawLine(tracePath[i - 1], tracePath[i]);
-                }
-            }
+            case AnimType.Trigger: 
+                anim.SetTrigger(animRequest.animName); 
+                break;
+            case AnimType.Float: 
+                anim.SetFloat(animRequest.animName, (float)animRequest.animFloat); 
+                break;
+            case AnimType.Bool: anim.SetBool(animRequest.animName, (bool)animRequest.animBool); 
+                break;
         }
     }
+    //Can be upgraded for the AdvancedZombie, able to take in weighted value of the graph to search for the other paths to attack the player (if possible)
+    //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
+    //protected virtual void OnDrawGizmos()
+    //{
+    //    if (!debug && tracingStatus)
+    //    {
+    //        for (int i = 0; i < tracePath.Length; i++)
+    //        {
+    //            Gizmos.color = Color.black;
+    //            Gizmos.DrawCube(tracePath[i], Vector3.one);
+
+    //            if (i == trackingIndex)
+    //            {
+    //                Gizmos.DrawLine(transform.position, tracePath[i]);
+    //            }
+    //            else
+    //            {
+    //                Gizmos.DrawLine(tracePath[i - 1], tracePath[i]);
+    //            }
+    //        }
+    //    }
+    //}
+
 
     public void DoAction<T>(T bodyComponent, float timeInterval)
     {

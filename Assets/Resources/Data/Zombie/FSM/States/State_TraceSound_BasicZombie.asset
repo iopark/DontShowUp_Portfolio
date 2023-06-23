@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_TraceSound_BasicZombie
   m_EditorClassIdentifier: 
-  AnimationKeyword: AlertState
-  AnimType: 0
+  noAnimUpdate: 1
+  animName: 
+  animType: 0
+  animBool: 0
+  animFloat: 0
+  setBoolAsNull: 0
+  setFloatAsNull: 0
+  preRequisiteActs: []
+  preRequisiteActions: []
   actions:
   - {fileID: 11400000, guid: ff2b62d80a9f5dd42a604dc41e2f539b, type: 2}
-  fixedActions: []
   transitions: []
-  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fixedActions: []
+  fixedTransitions: []
+  exitActs: []
+  sceneGizmoColor: {r: 0.97885394, g: 1, b: 0, a: 1}

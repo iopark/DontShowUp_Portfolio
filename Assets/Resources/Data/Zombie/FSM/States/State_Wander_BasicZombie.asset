@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_Wander_BasicZombie
   m_EditorClassIdentifier: 
-  AnimationKeyword: Walk
-  AnimType: 0
+  noAnimUpdate: 1
+  animName: 
+  animType: 0
+  animBool: 0
+  animFloat: 0
+  setBoolAsNull: 0
+  setFloatAsNull: 0
   preRequisiteActs: []
   preRequisiteActions: []
   actions:
@@ -31,4 +36,4 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
     falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
   exitActs: []
-  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  sceneGizmoColor: {r: 0.504717, g: 1, b: 0.84415835, a: 1}

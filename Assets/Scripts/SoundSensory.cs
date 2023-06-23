@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
 public class SoundSensory : MonoBehaviour, IListenable
 {
     Enemy enemy;
+    //EnemyMoverSound EnemyMover { get; set; }
     EnemyMover EnemyMover { get; set; }
     private bool haveHeard; 
     public bool HaveHeard { get { return haveHeard; } set { haveHeard = value; } }
 
     private void Start()
     {
+        //EnemyMover = GetComponent<EnemyMoverSound>();
         EnemyMover = GetComponent<EnemyMover>();
-        enemy = GetComponent<Enemy>();
     }
 
     public void Heard(Vector3 soundPoint)
@@ -25,8 +25,9 @@ public class SoundSensory : MonoBehaviour, IListenable
     {
         if (success)
         {
+            Debug.Log("Have Heard"); 
             haveHeard = true; 
-            //enemy.ReactToSound(soundPath);
+            EnemyMover.ReactToSound(soundPath);
             // Can be called by the State Controller? 
         }
     }

@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_Alert_BasicZombie
   m_EditorClassIdentifier: 
-  AnimationKeyword: AlertState
-  AnimType: 0
+  noAnimUpdate: 0
+  animName: 
+  animType: 0
+  animBool: 0
+  animFloat: 0
+  setBoolAsNull: 0
+  setFloatAsNull: 0
+  preRequisiteActs: []
+  preRequisiteActions: []
   actions: []
+  transitions: []
   fixedActions: []
   fixedTransitions: []
-  transitions: []
-  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  exitActs: []
+  sceneGizmoColor: {r: 0, g: 0.057691336, b: 1, a: 1}

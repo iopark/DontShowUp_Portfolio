@@ -19,7 +19,7 @@ public class EnemyAttacker : MonoBehaviour
     private void Awake()
     {
         Enemy = GetComponent<Enemy>();
-        DefaultAttack = GameManager.Resource.Instantiate(defaultAttack);
+        DefaultAttack = Instantiate(defaultAttack);
         attackInterval = new WaitForSeconds(DefaultAttack.AttackInterval);
         DefaultAttack.Attacker = this;
     }

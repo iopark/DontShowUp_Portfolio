@@ -41,7 +41,6 @@ public class ResourceManager : MonoBehaviour
     {
         return Instantiate<T>(original, Vector3.zero, Quaternion.identity, null, pooling);
     }
-
     /// <summary>
     /// 경량화와 더불어 활용하는 오브젝트 풀링 
     /// </summary>

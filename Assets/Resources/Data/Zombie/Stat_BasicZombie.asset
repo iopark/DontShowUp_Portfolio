@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Basic Zombie
   health: 100
-  moveSpeed: 3
-  alertMoveSpeed: 12
+  normalMoveSpeed: 3
+  alertMoveSpeed: 7
   rotationSpeed: 5
   damage: 25
   thisLevel: 1

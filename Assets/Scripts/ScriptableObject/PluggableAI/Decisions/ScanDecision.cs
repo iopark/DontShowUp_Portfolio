@@ -22,7 +22,10 @@ public class ScanDecision : Decision
             controller.Sight.SetDirToTargetForChase(findingTarget);
             return true; 
         }
-        controller.Sight.PlayerInSight = Vector3.zero; 
-        return false; 
+        else
+        {
+            controller.Sight.PlayerInSight = Vector3.zero;
+            return false;
+        }
     }
 }

@@ -14,9 +14,9 @@ public class AlignOrientationAction : Action
 
     private void Align(StateController controller)
     {
-        if (controller.EnemyMover.LookDir != controller.ForwardVector && controller.EnemyMover.LookDir != Vector3.zero)
+        if (controller.EnemyMover.AlignDir != Vector3.zero)
         {
-            controller.EnemyMover.Rotator();
+            controller.EnemyMover.Rotator(controller.EnemyMover.AlignDir);
             return;
         } 
         Vector3 targetDir = Vector3.zero;
@@ -34,10 +34,14 @@ public class AlignOrientationAction : Action
         {
             if (Vector3.Dot(targetDir, controller.transform.forward) > 0)
             {
-                controller.Sight.SetDirToLook(targetDir);
+                controller.EnemyMover.AlignDir = targetDir;
+                //controller.Sight.SetDirToLook(targetDir);
             }
             else
-                controller.Sight.SetDirToLook(-targetDir);
+            {
+                controller.EnemyMover.AlignDir = targetDir;
+                //controller.Sight.SetDirToLook(-targetDir);
+            }
         }
     }
 }

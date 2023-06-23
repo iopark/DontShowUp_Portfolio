@@ -12,8 +12,8 @@ public class StateController : MonoBehaviour
     private float currentSpeed;
     public float CurrentSpeed
     {
-        get { return EnemyMover.MoveSpeed; }
-        set { EnemyMover.MoveSpeed = value; }
+        get { return EnemyMover.CurrentSpeed; }
+        set { EnemyMover.CurrentSpeed = value; }
     }
 
     public Vector3 ForwardVector
@@ -26,26 +26,25 @@ public class StateController : MonoBehaviour
     {
         get { return EnemyMover.LookDir; }
     }
-    #endregion
-    #region Required Variables for State Controller 
-    private int patrolIndex;
+    public List<PatrolPoint> PatrolPoints
+    {
+        get { return EnemyMover.PatrolPoints;  }
+        set { EnemyMover.PatrolPoints = value; }
+    }
+
     public int PatrolIndex
     {
-        get { return patrolIndex; }
-        set
-        {
-            if (value > patrolIndex)
-                searchCompleteStatus = true;
-            patrolIndex = value;
-        }
+        get { return EnemyMover.PatrolIndex; }
+        set { EnemyMover.PatrolIndex = value; } 
     }
+    #endregion
+    #region Required Variables for State Controller 
+
     public int patrolCount;
     //Search and Patrol Segments 
     public bool patrolStatus;
     public bool searchCompleteStatus;
-    public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
-    ActionRequestSlip currentRequest; 
-    bool isCompletingAction; 
+
     #endregion
     #region GetSet Unitbodies, must be declared on the Awake 
     public Enemy Enemy { get; private set; }
@@ -68,7 +67,6 @@ public class StateController : MonoBehaviour
         Auditory = GetComponent<SoundSensory>();
 
         //DefaultAttack = Instantiate(defaultAttack);
-        patrolIndex = 0;
         patrolCount = 0;
         searchCompleteStatus = false;
         patrolStatus = false;
@@ -81,17 +79,18 @@ public class StateController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        currentState.FixedUpdateState(this);
+        //currentState.FixedUpdateState(this);
     }
     public void TransitionToState(State nextState)
     {
         if (nextState != remainState)
         {
+            currentState.ExitState(this);
             previousState = currentState;
             currentState = nextState;
             name = currentState.name;
-            EnterState();
-            AnimationUpdate(currentState.EnterStateAnim().Item1, currentState.EnterStateAnim().Item2);
+            AnimationUpdate(); 
+            currentState.EnterState(this);
         }
         return;
     }
@@ -100,23 +99,17 @@ public class StateController : MonoBehaviour
     {
 
     }
-    private void EnterState()
+    public void AnimationUpdate()
     {
-        currentState.EnterState(this);
-    }
-    private void AnimationUpdate(int animType, string animKeyword)
-    {
-        //TODO: Each state should be able to update the Statemachine's Animation as well 
-        //Where default is the Animation type trigger
-        switch (animType)
-        {
-            case 1:
-                if (animKeyword == "Walk")
-                    Enemy.anim.SetFloat("Speed", Enemy.CurrentStat.moveSpeed); break;
-            default: Enemy.anim.SetTrigger(animKeyword); break;
-        }
+        AnimRequestSlip? stateAnim = currentState.EnterStateAnim();
+        if (stateAnim == null)
+            return;
+        Enemy.AnimationUpdate((AnimRequestSlip)stateAnim); 
     }
     #region attempting to perform request for future path in delegated ways
+    public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
+    ActionRequestSlip currentRequest;
+    bool isCompletingAction;
     public void RequestAction(UnityEngine.Object bodyComponent, float interval, Action<bool> _callback)
     {
         ActionRequestSlip newRequest = new ActionRequestSlip(bodyComponent, interval, _callback);

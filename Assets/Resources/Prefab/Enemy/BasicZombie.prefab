@@ -1301,10 +1301,13 @@ GameObject:
   - component: {fileID: 5110370025568813936}
   - component: {fileID: 5110370025568813939}
   - component: {fileID: 5110370025568813937}
+  - component: {fileID: 7798791515859370384}
+  - component: {fileID: 2020543712}
+  - component: {fileID: 2020543711}
   m_Layer: 0
   m_Name: BasicZombie
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
@@ -1339,7 +1342,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 0c3144ab15daded45b89f5ee7de31611, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1359,22 +1362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1addbdc0fd10af246a7418966c455a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 8efc95ff7524fd34185f610d802eed45, type: 2}
-  sight: {fileID: 5110370025568813936}
-  auditory: {fileID: 5110370025568813939}
-  characterController: {fileID: 5110370025568813937}
-  anim: {fileID: 1963659658742252469}
-  debug: 0
-  tracingStatus: 0
-  tracePath: []
-  trackingIndex: 0
-  RotateSpeedDelta: 0
   patrolCount: 0
+  patrolStatus: 0
+  searchCompleteStatus: 0
   currentState: {fileID: 11400000, guid: adff528cd2a53834ba9a1f72dcc6a0fa, type: 2}
   remainState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
   previousState: {fileID: 0}
-  patrolStatus: 0
-  searchCompleteStatus: 0
 --- !u!114 &5110370025568813936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1396,8 +1389,6 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 128
-  body: {fileID: 5110370025568813937}
-  anim: {fileID: 1963659658742252469}
 --- !u!114 &5110370025568813939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1419,57 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.89, z: 0}
+--- !u!114 &7798791515859370384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110370025568813941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199c5a5f26fd2c24ab99ea29cbbc00b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 8efc95ff7524fd34185f610d802eed45, type: 2}
+  sight: {fileID: 0}
+  auditory: {fileID: 0}
+  controller: {fileID: 0}
+  characterController: {fileID: 0}
+  anim: {fileID: 0}
+  debug: 1
+  tracingStatus: 0
+  tracePath: []
+  trackingIndex: 0
+--- !u!114 &2020543712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110370025568813941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd26162de4e3b2479b98974aa6b5c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultAttack: {fileID: 11400000, guid: d547c67193894554e81ee47fdf22420d, type: 2}
+--- !u!114 &2020543711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110370025568813941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88b27817316b1341832bfdf2695e771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentDestination: {x: 0, y: 0, z: 0}
+  debug: 1
+  defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
+  patrolIndex: 0
 --- !u!1 &5203317677958970466
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2971799143f11947870ae4a92d8680e, type: 3}
-  m_Name: BasicZombie
+  m_Script: {fileID: 11500000, guid: cdd3fd11b8ba590498fdf9df9cfb7b37, type: 3}
+  m_Name: EnteringAct_AlertPhase_BasicZombie
   m_EditorClassIdentifier: 
-  enemyStages:
-  - enemy: {fileID: 7798791515859370384, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-    enemyStat: {fileID: 11400000, guid: ab382c4370998104e9feaac1fc54c7b9, type: 2}
+  animTrigger: Speed
+  animType: 1

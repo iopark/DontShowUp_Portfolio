@@ -7,7 +7,7 @@ public class EnemyStat : ScriptableObject
 {
     public string name;
     public int health;
-    public float moveSpeed;
+    public float normalMoveSpeed;
     public float alertMoveSpeed;
     public float rotationSpeed;
     public int damage;
@@ -48,7 +48,7 @@ public class EnemyStat : ScriptableObject
 
     public void SyncMovementData(EnemyMover enemyMover)
     {
-        enemyMover.MoveSpeed = moveSpeed;
+        enemyMover.NormalMoveSpeed = normalMoveSpeed;
         enemyMover.RotationSpeed = rotationSpeed;
         enemyMover.AlertMoveSpeed = alertMoveSpeed;
         enemyMover.RotationSpeed = rotationSpeed;

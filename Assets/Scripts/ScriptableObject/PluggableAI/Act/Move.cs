@@ -10,9 +10,13 @@ public class Move : Act
         OnMove(controller);
     }
 
-    private void OnMove(StateController controller)
+    /// <summary>
+    /// Advanced move should move
+    /// </summary>
+    /// <param name="controller"></param>
+    protected virtual void OnMove(StateController controller)
     {
-        controller.EnemyMover.Mover(controller.CurrentLookDir);
+        controller.EnemyMover.Mover();
     }
 
     protected virtual void Dash(StateController controller) { } 

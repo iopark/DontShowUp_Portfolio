@@ -12,8 +12,10 @@ public class AlignDecision : Decision
     }
     private bool Align(StateController controller)
     {
-        if (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) > 0.99f)
+        //Determine and return true when subject has aligned properly (parallel to the wall. )
+        if (Vector3.Dot(controller.CurrentLookDir, controller.EnemyMover.AlignDir) > 0.99f)
         {
+            controller.EnemyMover.AlignDir = Vector3.zero; 
             return true;
         }
         //this should return false and continue to do so, 

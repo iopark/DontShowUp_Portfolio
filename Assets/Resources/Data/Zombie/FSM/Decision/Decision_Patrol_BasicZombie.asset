@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6f76c3c28fd9641b6b9aa50567589b, type: 3}
   m_Name: Decision_Patrol_BasicZombie
   m_EditorClassIdentifier: 
-  MaxPatrolCount: 3
+  maxPatrolCount: 5
   patrolOffset: 0.3

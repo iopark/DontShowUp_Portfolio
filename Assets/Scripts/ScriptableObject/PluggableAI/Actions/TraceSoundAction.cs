@@ -7,6 +7,6 @@ public class TraceSoundAction : Action
     public override void Act(StateController controller)
     {
         if (controller.CurrentSpeed != controller.Enemy.CurrentStat.alertMoveSpeed)
-            controller.CurrentSpeed = controller.EnemyMover.AlertMoveSpeed;
+            controller.EnemyMover.ChangeMovementSpeed(controller.Enemy.CurrentStat.alertMoveSpeed);
     }
 }
