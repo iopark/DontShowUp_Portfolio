@@ -8,6 +8,7 @@ public class EnemyMover : MonoBehaviour
 {
     [Header("Debugging Purposes")]
     public Vector3 currentDestination;
+    TrailRenderer trail; 
     public bool debug; 
 
     CharacterController characterController;
@@ -85,6 +86,7 @@ public class EnemyMover : MonoBehaviour
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         DefaultMove = Instantiate(defaultMove);
+        trail = GetComponent<TrailRenderer>();
     }
 
     public void ChangeMovementSpeed(float speed)

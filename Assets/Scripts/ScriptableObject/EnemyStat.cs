@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Stat_", menuName = "Registry/EnemyInformation")]
 public class EnemyStat : ScriptableObject
 {
-    public string name;
+    public string _name;
     public int health;
     public float normalMoveSpeed;
     public float alertMoveSpeed;
@@ -27,7 +27,7 @@ public class EnemyStat : ScriptableObject
 
     public void SyncCoreData(Enemy enemy)
     {
-        enemy.name = $"{name} + {thisLevel}";
+        enemy.name = $"{_name} + {thisLevel}";
         enemy.Health = health;
         enemy.MaxLevel = maxLevel;
     }

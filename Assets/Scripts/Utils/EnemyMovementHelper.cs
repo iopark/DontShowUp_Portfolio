@@ -92,14 +92,14 @@ public struct AnimRequestSlip
         this.animFloat = null;
     }
     
-    public static AnimRequestSlip MakeSlip (AnimType animType, string animTrigger, bool animBool, float? animFloat)
+    public static AnimRequestSlip MakeSlip (AnimType animType, string animTrigger, bool? animBool, float? animFloat)
     {
         if (animBool == null && animFloat == null)
         {
             AnimRequestSlip newSlip = new AnimRequestSlip(animType, animTrigger);
             return newSlip; 
         }
-        else if (animBool == null)
+        else if (animFloat != null)
         {
             AnimRequestSlip newSlip = new AnimRequestSlip(animType, animTrigger, (float)animFloat);
             return newSlip;

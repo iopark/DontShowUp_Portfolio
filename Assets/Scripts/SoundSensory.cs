@@ -5,15 +5,15 @@ using UnityEngine;
 public class SoundSensory : MonoBehaviour, IListenable
 {
     Enemy enemy;
-    //EnemyMoverSound EnemyMover { get; set; }
-    EnemyMover EnemyMover { get; set; }
+    EnemyMoverSound EnemyMover { get; set; }
+    //EnemyMover EnemyMover { get; set; }
     private bool haveHeard; 
     public bool HaveHeard { get { return haveHeard; } set { haveHeard = value; } }
 
     private void Start()
     {
-        //EnemyMover = GetComponent<EnemyMoverSound>();
-        EnemyMover = GetComponent<EnemyMover>();
+        EnemyMover = GetComponent<EnemyMoverSound>();
+        //EnemyMover = GetComponent<EnemyMover>();
     }
 
     public void Heard(Vector3 soundPoint)
