@@ -12,7 +12,8 @@ public class EnemyMover : MonoBehaviour
     public bool debug; 
 
     CharacterController characterController;
-    SoundSensory SoundSensory { get; set; }
+    SoundSensory Auditory { get; set; }
+    SightSensory Sight { get; set; }
     Animator animator;
     Enemy Enemy { get; set; }
     [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
@@ -69,12 +70,15 @@ public class EnemyMover : MonoBehaviour
         get { return patrolIndex; }
         set { patrolIndex = value; }
     }
+
+    public Queue <RotateRequestSlip> RotateList = new Queue<RotateRequestSlip> ();
     #endregion
     private void Start()
     {
         patrolIndex = 0;
         DefaultMove = Instantiate(defaultMove);
-        SoundSensory = GetComponent<SoundSensory>();
+        Auditory = GetComponent<SoundSensory>();
+        Sight = GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
         Enemy = GetComponent<Enemy>();
         patrolPoints = new List<PatrolPoint>();
@@ -126,6 +130,12 @@ public class EnemyMover : MonoBehaviour
         characterController.Move(LookDir * currentSpeed * Time.deltaTime); 
     }
 
+    public void LockedChase()
+    {
+        Vector3 toPlayer = (Sight.PlayerLocked.position - transform.position).normalized;
+        LookDir = toPlayer;
+        Chase(); 
+    }
     public virtual void ReactToSound(Vector3[] newPath)
     {
         StopAllCoroutines();
@@ -142,6 +152,13 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
+    //IEnumerator RotatorMechanism()
+    //{
+    //    while (RotateList.Count > 0)
+    //    {
+
+    //    }
+    //}
     IEnumerator FollowSound(Vector3[] traceablePath)
     {
         traceSoundPoints = traceablePath;
@@ -154,7 +171,7 @@ public class EnemyMover : MonoBehaviour
                 trackingIndex++;
                 if (trackingIndex >= traceablePath.Length)
                 {
-                    SoundSensory.HaveHeard = false;
+                    Auditory.HaveHeard = false;
                     yield break;
                 }
                 currentWaypoint = traceablePath[trackingIndex];

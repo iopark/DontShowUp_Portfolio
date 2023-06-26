@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class EnemyMovementHelper
 {
@@ -109,5 +110,17 @@ public struct AnimRequestSlip
             AnimRequestSlip newSlip = new AnimRequestSlip(animType, animTrigger, (bool)animBool);
             return newSlip;
         }
+    }
+}
+
+public struct RotateRequestSlip
+{
+    public Vector3 RequestedDir;
+    public Action<bool> completionCallback; 
+
+    public RotateRequestSlip (Vector3 requestDir, Action<bool> completionCallback)
+    {
+        this.RequestedDir = requestDir;
+        this.completionCallback = completionCallback;
     }
 }

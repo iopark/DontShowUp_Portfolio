@@ -16,6 +16,6 @@ public class CombatDecision : Decision
 
     private bool ContestForRange(StateController controller)
     {
-        return controller.Sight.AccessForAttack(attackRange);
+        return controller.Sight.AccessForAttackRange(); 
     }
 }

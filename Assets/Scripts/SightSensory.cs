@@ -9,6 +9,7 @@ public class SightSensory : MonoBehaviour
     #region GetSet Sight Sensory Properties 
     Enemy Enemy { get; set; }
     EnemyMover EnemyMover { get; set; }
+    EnemyAttacker EnemyAttacker { get; set; }
     [SerializeField] bool debug;
     [SerializeField] float range;
     [SerializeField, Range(0, 360f)] float angle;
@@ -20,6 +21,37 @@ public class SightSensory : MonoBehaviour
 
     private Vector3 playerInSight; 
     public Vector3 PlayerInSight { get { return playerInSight; } set { playerInSight = value; } }
+    #region testing Locking Target
+    private Transform playerLocked; 
+    public Transform PlayerLocked
+    {
+        get { return playerLocked; }
+        set { playerLocked = value; }
+    }
+    Vector3 DirToLockedTarget
+    {
+        get
+        {
+            if (playerLocked == null)
+                return Vector3.zero;
+            Vector3 toLockedTarget = playerLocked.position - transform.position.normalized;
+            toLockedTarget.y = transform.position.y; 
+            return toLockedTarget;
+        }
+    }
+    private float pinIntervalTimer;
+    public float PinIntervalTimer { get { return pinIntervalTimer; } set { pinIntervalTimer = value; } }
+    public bool CheckElapsedTime(float time)
+    {
+        PinIntervalTimer += Time.deltaTime;
+        if (PinIntervalTimer >= time)
+        {
+            PinIntervalTimer = 0;
+            return true;
+        }
+        return false;
+    }
+    #endregion
     public float Range { get { return range; }
         set { range = value; } }
 
@@ -32,6 +64,7 @@ public class SightSensory : MonoBehaviour
     {
         Enemy = GetComponent<Enemy>();
         EnemyMover = GetComponent<EnemyMover>();
+        EnemyAttacker = GetComponent<EnemyAttacker>();
     }
     private void Start()
     {
@@ -70,13 +103,25 @@ public class SightSensory : MonoBehaviour
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
-
+            PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
             playerInSight = collider.transform.position;
+            playerLocked = collider.transform; 
             return playerInSight;
         }
         return Vector3.zero;
     }
-
+    //Based on the Locked Target State 
+    public bool AccessForAttackRange()
+    {
+        if (playerLocked == null)
+            return false;
+        RaycastHit hit;
+        if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
+            return false;
+        SetDirToTargetForChase(hit.point);
+        EnemyAttacker.AttackDir = (hit.point - transform.position).normalized;
+        return true;
+    }
     public bool AccessForAttack(float attackRange)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, targetMask);
