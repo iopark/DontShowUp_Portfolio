@@ -43,6 +43,17 @@ public class MapManager : MonoBehaviour
         return gridMap[x, y];
     }
 
+    public (int, int) GridValueFromWorldPoint(Vector3 worldPosition)
+    {
+        float percentX = (worldPosition.x + gridMapSize.x * 0.5f) / gridMapSize.x;
+        float percentY = (worldPosition.z + gridMapSize.y * 0.5f) / gridMapSize.y;
+        percentX = Mathf.Clamp01(percentX);
+        percentY = Mathf.Clamp01(percentY);
+
+        int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
+        int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+        return (x, y);
+    }
     public List<Cell> GetNeighbours(Cell node)
     {
         List<Cell> neighbours = new List<Cell>();

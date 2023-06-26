@@ -16,6 +16,7 @@ public class EnemyMover : MonoBehaviour
     SightSensory Sight { get; set; }
     Animator animator;
     Enemy Enemy { get; set; }
+    StateController stateController; 
     [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
     public Act DefaultMove { get; private set; }
     #region Pertaining to Move 
@@ -71,16 +72,20 @@ public class EnemyMover : MonoBehaviour
         set { patrolIndex = value; }
     }
 
-    public Queue <RotateRequestSlip> RotateList = new Queue<RotateRequestSlip> ();
+    public Queue <MoveRequestSlip> MoveList = new Queue<MoveRequestSlip> ();
     #endregion
+
+    #region 움직임 계산 관련 
+    public const float dotThreshold = 0.99f; 
     private void Start()
     {
-        patrolIndex = 0;
+        patrolIndex = 0;        
         DefaultMove = Instantiate(defaultMove);
         Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
         Enemy = GetComponent<Enemy>();
+        stateController = GetComponent<StateController>();
         patrolPoints = new List<PatrolPoint>();
         Enemy.CurrentStat.SyncMovementData(this); 
     }
@@ -152,13 +157,23 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
-    //IEnumerator RotatorMechanism()
-    //{
-    //    while (RotateList.Count > 0)
-    //    {
+    IEnumerator RotatorMechanism(Vector3 loc)
+    {
+        Vector3 targetAlign = loc.normalized; 
+        Quaternion rotation = Quaternion.LookRotation(targetAlign);
+        while (Vector3.Dot(transform.forward, loc.normalized) < dotThreshold)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+            yield return null;
+        }
+        stateController.
 
-    //    }
-    //}
+    }
+
+    IEnumerator MoveToDestination(Vector3 destination)
+    {
+        d
+    }
     IEnumerator FollowSound(Vector3[] traceablePath)
     {
         traceSoundPoints = traceablePath;

@@ -110,7 +110,7 @@ public class StateController : MonoBehaviour
     public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
     ActionRequestSlip currentRequest;
     bool isCompletingAction;
-    public void RequestAction(UnityEngine.Object bodyComponent, float interval, Action<bool> _callback)
+    public void RequestMove(Vector3 from, Vector3 to)
     {
         ActionRequestSlip newRequest = new ActionRequestSlip(bodyComponent, interval, _callback);
         actionRequests.Enqueue(newRequest);
@@ -126,7 +126,7 @@ public class StateController : MonoBehaviour
         }
     }
 
-    public void FinishedProcessingPath(bool success)
+    public void FinishedAction(bool success)
     {
         if (success) // path 를 찾았을때만 해당 Path 를 전달한다. 
             currentRequest.callback(success);

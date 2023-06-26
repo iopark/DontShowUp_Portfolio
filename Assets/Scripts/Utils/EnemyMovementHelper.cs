@@ -113,14 +113,40 @@ public struct AnimRequestSlip
     }
 }
 
-public struct RotateRequestSlip
-{
-    public Vector3 RequestedDir;
-    public Action<bool> completionCallback; 
+/// <summary>
+/// Probably it is best for state controller to controll these. 
+/// 
+/// </summary>
+/// 
 
-    public RotateRequestSlip (Vector3 requestDir, Action<bool> completionCallback)
+public enum MoveType
+{
+    RotateOnly, 
+    Move
+}
+public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
+{
+    public MoveType moveType; 
+    public Vector3 RequestedLocation;
+    public Vector3 RequestedDestination;
+
+    public Vector3 RequestedDirection; 
+    public MoveRequestSlip(Vector3 requestDir, Vector3 RequestedLoc)
     {
-        this.RequestedDir = requestDir;
-        this.completionCallback = completionCallback;
+        this.RequestedLocation = requestDir;
+        this.RequestedDestination = RequestedLoc;
+    }
+
+    /// <summary>
+    /// if true, reject the slip since the requested location is nearby the previous location 
+    /// if false, accept  it. 
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool Equals(MoveRequestSlip other)
+    {
+        //only take request for new  destination where its larger than the 1f magnitude in value. 
+        Vector3 offset = other.RequestedLocation - this.RequestedDestination;
+        return Vector3.Dot(offset, offset) < 1; 
     }
 }
