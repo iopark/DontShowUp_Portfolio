@@ -30,6 +30,11 @@ public class EnemyAttacker : MonoBehaviour
         DefaultAttack.Strike();
     }
 
+    public void FinishAttackTrigger()
+    {
+        isAttacking = false;
+    }
+
     public void TryStrike()
     {
         if (isAttacking)

@@ -7,12 +7,13 @@ public class AttackAction : Action
 {
     public override void Act(StateController controller)
     {
-        controller.EnemyAttacker.DefaultAttack.Perform();
+        PerformAttack(controller);
     }
 
     private void PerformAttack(StateController controller)
     {
         //better to do so in the coroutine?
         //controller.EnemyMover.CurrentSpeed = 0f; 
+        controller.EnemyAttacker.TryStrike(); 
     }
 }
