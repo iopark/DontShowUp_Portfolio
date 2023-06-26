@@ -9,14 +9,17 @@ public class PursuitAction : Action
     {
         Pursuit(controller);
     }
-
+    /// <summary>
+    /// If PlayerInSight no longer exists, will simply return, and evaluate whether it is appropriate to be in the pursuit state. 
+    /// </summary>
+    /// <param name="controller"></param>
     private void Pursuit(StateController controller)
     {
         // 
         // if scanner has found the target, try to seek it out. 
         // since scanner will identify target to track and choose its direction, Vector3 target = controller.Sight.FindTarget();
-        if (controller.Sight.PlayerInSight == Vector3.zero)
-            return;
-        controller.EnemyMover.Chase(); 
+        if (controller.Sight.LockInTarget != null)
+            controller.EnemyMover.Chase(); 
+        controller.EnemyMover.Mover();
     }
 }

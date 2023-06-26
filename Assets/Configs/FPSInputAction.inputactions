@@ -1,5 +1,5 @@
 {
-    "name": "InputAction",
+    "name": "FPSInputAction",
     "maps": [
         {
             "name": "Player",
@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "SwitchCam",
+                    "name": "Focus",
                     "type": "Button",
                     "id": "ead86982-18ca-4ff4-b83c-bf9dc058685a",
                     "expectedControlType": "Button",
@@ -205,11 +205,11 @@
                 {
                     "name": "",
                     "id": "358d6133-43b4-479f-af43-7b72a6580a4c",
-                    "path": "<Keyboard>/q",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchCam",
+                    "action": "Focus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

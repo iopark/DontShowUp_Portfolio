@@ -17,7 +17,6 @@ public class State : ScriptableObject
     [SerializeField] private AnimType animType;
     [SerializeField] private bool animBool;
     [SerializeField] private float animFloat;
-
     [Header("State Anim Bool and Float")]
     [SerializeField] private bool setBoolAsNull;
     [SerializeField] private bool setFloatAsNull;
@@ -29,9 +28,7 @@ public class State : ScriptableObject
     [SerializeField] protected Action[] actions;
     [SerializeField] protected Transition[] transitions;
 
-    [Header("Fixed")]
-    [SerializeField] protected Action[] fixedActions;
-    [SerializeField] protected Transition[] fixedTransitions;
+    [Header("Sequence?")]
 
     [SerializeField] protected Act[] exitActs;
     //You could also do Decisions[], if requiring wider range or options to converge with other states. 
@@ -40,24 +37,6 @@ public class State : ScriptableObject
     {
         DoActions(controller); // Upon Changing into a certain state, a State contains 'set' of actions, which will iterate until doing every bit of the given actions 
         CheckTransition(controller);
-    }
-
-    public virtual void FixedUpdateState(StateController controller)
-    {
-        if (fixedActions.Length == 0 && fixedTransitions.Length == 0)
-            return;
-        DoFixedActions(controller);
-        CheckFixedTransition(controller);
-    }
-
-    protected virtual void DoFixedActions(StateController controller)
-    {
-        if (fixedActions.Length == 0)
-            return;
-        for (int i = 0; i < actions.Length; i++)
-        {
-            fixedActions[i].Act(controller);
-        }
     }
     protected virtual void DoActions(StateController controller)
     {
@@ -96,7 +75,6 @@ public class State : ScriptableObject
             preRequisiteActs[i].Perform(controller);
         }
     }
-
     public void ExitState(StateController controller)
     {
         if (exitActs.Length == 0)
@@ -104,23 +82,6 @@ public class State : ScriptableObject
         for (int i = 0; i < exitActs.Length; i++)
         {
             exitActs[i].Perform(controller);
-        }
-    }
-
-    protected virtual void CheckFixedTransition(StateController controller)
-    {
-        if (fixedTransitions.Length == 0)
-            return;
-        for (int i = 0; i < transitions.Length; i++)
-        {
-            bool decision = transitions[i].decision.Decide(controller);
-
-            if (decision)
-            {
-                controller.TransitionToState(transitions[i].trueState);
-            }
-            else
-                controller.TransitionToState(transitions[i].falseState);
         }
     }
     protected virtual void CheckTransition(StateController controller)
@@ -139,4 +100,39 @@ public class State : ScriptableObject
                 controller.TransitionToState(transitions[i].falseState);
         }
     }
+    #region Fixed Actions & Transitions
+    //protected virtual void CheckFixedTransition(StateController controller)
+    //{
+    //    if (fixedTransitions.Length == 0)
+    //        return;
+    //    for (int i = 0; i < transitions.Length; i++)
+    //    {
+    //        bool decision = transitions[i].decision.Decide(controller);
+
+    //        if (decision)
+    //        {
+    //            controller.TransitionToState(transitions[i].trueState);
+    //        }
+    //        else
+    //            controller.TransitionToState(transitions[i].falseState);
+    //    }
+    //}
+    //public virtual void FixedUpdateState(StateController controller)
+    //{
+    //    if (fixedActions.Length == 0 && fixedTransitions.Length == 0)
+    //        return;
+    //    DoFixedActions(controller);
+    //    CheckFixedTransition(controller);
+    //}
+
+    //protected virtual void DoFixedActions(StateController controller)
+    //{
+    //    if (fixedActions.Length == 0)
+    //        return;
+    //    for (int i = 0; i < actions.Length; i++)
+    //    {
+    //        fixedActions[i].Act(controller);
+    //    }
+    //}
+    #endregion
 }

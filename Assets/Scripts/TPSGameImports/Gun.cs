@@ -45,7 +45,7 @@ public class Gun : MonoBehaviour
 
 
 
-            //hittableObj?.takeHit(hit, damage); // if ain't null, proceed with Hit, else, return; 
+            hittableObj?.TakeHit(damage); // if ain't null, proceed with Hit, else, return; 
             // where 
         }
         else

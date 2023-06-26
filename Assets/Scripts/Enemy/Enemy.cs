@@ -45,9 +45,14 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
     public EnemyStat CurrentStat { get { return currentStat; } set { currentStat = value; } }
     #endregion
 
+    private void FixedUpdate()
+    {
+        //TODO: Must respond to the Gravity 
+
+    }
     protected virtual void Awake()
     {
-        data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
+        data = GameManager.Resource.Load<EnemyData>("Data/Zombie/PatrolZ/EnemyData_PatrolZ");
         sight = GetComponent<SightSensory>();
         auditory = GetComponent<SoundSensory>();
         controller = GetComponent<StateController>();

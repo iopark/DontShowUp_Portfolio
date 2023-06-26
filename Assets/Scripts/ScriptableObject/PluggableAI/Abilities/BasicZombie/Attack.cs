@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 [CreateAssetMenu(fileName = "Skill_Attack_", menuName = "PluggableSkill/Skill/Attack")]
 public class Attack : SkillProperty
@@ -14,7 +13,7 @@ public class Attack : SkillProperty
     [SerializeField] private float attackInterval;
     public float AttackInterval { get { return attackInterval; } }
     [SerializeField] private int attackDamage;
-    public int AttackDamage { get { return attackDamage; } }
+    public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
     [SerializeField] private LayerMask targetMask;
     public LayerMask TargetMask { get { return targetMask; } }
     public EnemyAttacker Attacker { get; set; }

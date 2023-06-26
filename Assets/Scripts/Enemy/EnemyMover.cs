@@ -12,7 +12,8 @@ public class EnemyMover : MonoBehaviour
     public bool debug; 
 
     CharacterController characterController;
-    SoundSensory SoundSensory { get; set; }
+    SoundSensory Auditory { get; set; }
+    SightSensory Sight { get; set; }
     Animator animator;
     Enemy Enemy { get; set; }
     [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
@@ -56,6 +57,16 @@ public class EnemyMover : MonoBehaviour
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
+    private Vector3 lockedDir; 
+    public Vector3 LockedDir
+    {
+        get {
+            if (Sight.LockInTarget == null)
+                return Vector3.zero;
+            return (transform.position - Sight.LockInTarget.transform.position).normalized; 
+        }
+    }
+
     #endregion
     #region 유한상태 머신 관련 
     private float pinIntervalTimer;
@@ -74,7 +85,8 @@ public class EnemyMover : MonoBehaviour
     {
         patrolIndex = 0;
         DefaultMove = Instantiate(defaultMove);
-        SoundSensory = GetComponent<SoundSensory>();
+        Auditory = GetComponent<SoundSensory>();
+        Sight= GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
         Enemy = GetComponent<Enemy>();
         patrolPoints = new List<PatrolPoint>();
@@ -91,14 +103,24 @@ public class EnemyMover : MonoBehaviour
 
     public void ChangeMovementSpeed(float speed)
     {
-        CurrentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
+        CurrentSpeed = Mathf.Lerp(currentSpeed, speed, 0.3f);
     }
     public void Rotator(Vector3 alignDir)
     {
         Quaternion rotation = Quaternion.LookRotation(alignDir);
         transform.rotation = rotation;
         //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
-        LookDir = transform.forward; 
+        //LookDir = transform.forward; 
+    }
+    /// <summary>
+    /// Will set the parameter unit vector as LookDir, and rotate to that location; 
+    /// </summary>
+    /// <param name="dir"></param>
+    public void QuickRotator(Vector3 dir)
+    {
+        LookDir = dir; 
+        Quaternion rotation = Quaternion.LookRotation(LookDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.5f);
     }
 
     public void Rotator()
@@ -122,8 +144,10 @@ public class EnemyMover : MonoBehaviour
     }
     public void Chase()
     {
-        Rotator(0.5f); 
-        characterController.Move(LookDir * currentSpeed * Time.deltaTime); 
+        //QuickRotator(LookDir); 
+        //characterController.Move(LookDir * currentSpeed * Time.deltaTime); 
+        QuickRotator(LockedDir);
+        characterController.Move(LockedDir * currentSpeed * Time.deltaTime);
     }
 
     public virtual void ReactToSound(Vector3[] newPath)
@@ -154,7 +178,7 @@ public class EnemyMover : MonoBehaviour
                 trackingIndex++;
                 if (trackingIndex >= traceablePath.Length)
                 {
-                    SoundSensory.HaveHeard = false;
+                    Auditory.HaveHeard = false;
                     yield break;
                 }
                 currentWaypoint = traceablePath[trackingIndex];

@@ -16,8 +16,12 @@ public class EnemyStat : ScriptableObject
     public int attackRange;
 
     //Pertaining to Sight
-    public float sightAngle;
-    public float sightDepth;
+    public float normalPeripheralSightDepth;
+    public float alertPeripheralSightDepth; 
+    public float normalSightAngle;
+    public float normalSightDepth;
+    public float alertSightAngle;
+    public float alertSightDepth;
 
     //Others 
     public int stateSize;
@@ -34,8 +38,8 @@ public class EnemyStat : ScriptableObject
 
     public void SyncSightData(SightSensory enemySight)
     {
-        enemySight.Range = sightDepth;
-        enemySight.Angle = sightAngle;
+        enemySight.Range = normalSightDepth;
+        enemySight.Angle = normalSightAngle;
         enemySight.TargetMask = targetMask;
         enemySight.ObstacleMask = obstacleMask;
     }

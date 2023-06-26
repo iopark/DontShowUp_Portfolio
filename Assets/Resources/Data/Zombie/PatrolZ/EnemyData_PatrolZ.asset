@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2971799143f11947870ae4a92d8680e, type: 3}
-  m_Name: EnemyData_Example
+  m_Name: EnemyData_PatrolZ
   m_EditorClassIdentifier: 
   enemyStages:
-  - {enemy: {fileID: 4121959300166204255, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}, enemyStat: {fileID: 11400000, guid: 17d12bbc6ea8a5d4596530b19f5123fc, type: 2}}
-  - {enemy: {fileID: 0}, enemyStat: {fileID: 0}}
-  - {enemy: {fileID: 0}, enemyStat: {fileID: 0}}
+  - enemy: {fileID: 7798791515859370384, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
+    enemyStat: {fileID: 11400000, guid: ab382c4370998104e9feaac1fc54c7b9, type: 2}
+  - enemy: {fileID: 7798791515859370384, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
+    enemyStat: {fileID: 11400000, guid: 151b788be438dfc44b8a7f2f0b05dc49, type: 2}

@@ -13,21 +13,23 @@ MonoBehaviour:
   m_Name: State_Attack_BasicZombie
   m_EditorClassIdentifier: 
   noAnimUpdate: 0
-  animName: 
+  animName: AlertState
   animType: 0
   animBool: 0
   animFloat: 0
-  setBoolAsNull: 0
-  setFloatAsNull: 0
+  setBoolAsNull: 1
+  setFloatAsNull: 1
   preRequisiteActs: []
   preRequisiteActions: []
   actions:
-  - {fileID: 11400000, guid: ff2b62d80a9f5dd42a604dc41e2f539b, type: 2}
-  transitions: []
-  fixedActions: []
-  fixedTransitions:
-  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+  - {fileID: 11400000, guid: 525e3527203d05946a362990b4c58128, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 0e58354668d8572439a19d37db89533d, type: 2}
     trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
     falseState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
-  exitActs: []
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+    falseState: {fileID: 11400000, guid: a08ee70c722c8f34cbd5bd56760c0228, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: e8da8ca158aa87947b601542859ae217, type: 2}
   sceneGizmoColor: {r: 0.87987995, g: 0, b: 1, a: 1}

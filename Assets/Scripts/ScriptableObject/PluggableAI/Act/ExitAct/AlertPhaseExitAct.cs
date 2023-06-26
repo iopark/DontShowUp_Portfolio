@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnteringAct_AlertPhase_", menuName = "PluggableAI/EnteringAct/AlertPhaseAct")]
-public class AlertPhaseAct : Act
+[CreateAssetMenu(fileName = "ExitAct_AlertPhase_", menuName = "PluggableAI/ExitAct/AlertPhaseAct")]
+public class AlertPhaseExitAct : Act
 {
     public override void Perform(StateController controller)
     {
@@ -14,8 +14,9 @@ public class AlertPhaseAct : Act
     {
         AnimRequestSlip animRequestSlip = new AnimRequestSlip(AnimType, animTrigger);
         controller.Enemy.AnimationUpdate(animRequestSlip);
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.AlertMoveSpeed);
-        controller.Sight.ChangeSightByState(SightSensory.STATE.Alert);
-        controller.EnemyMover.Rotator(controller.EnemyMover.LockedDir); 
+        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.NormalMoveSpeed);
+        controller.EnemyMover.PatrolPoints.Clear(); 
+        controller.Sight.ChangeSightByState(SightSensory.STATE.Normal);
     }
 }
+

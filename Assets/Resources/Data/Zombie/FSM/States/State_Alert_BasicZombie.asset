@@ -13,17 +13,28 @@ MonoBehaviour:
   m_Name: State_Alert_BasicZombie
   m_EditorClassIdentifier: 
   noAnimUpdate: 0
-  animName: 
+  animName: AlertState
   animType: 0
   animBool: 0
   animFloat: 0
-  setBoolAsNull: 0
-  setFloatAsNull: 0
-  preRequisiteActs: []
+  setBoolAsNull: 1
+  setFloatAsNull: 1
+  preRequisiteActs:
+  - {fileID: 11400000, guid: 5623326c81a555b40a1fc269cdbc41e4, type: 2}
   preRequisiteActions: []
-  actions: []
-  transitions: []
-  fixedActions: []
-  fixedTransitions: []
-  exitActs: []
+  actions:
+  - {fileID: 11400000, guid: 4a724f170780a3d4a820f71f1a12b16a, type: 2}
+  - {fileID: 11400000, guid: 6800a269d057d274ead3389b7741c734, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 5d0314fc496659041944c5779ef67362, type: 2}
+    trueState: {fileID: 11400000, guid: 52cf571d9e52a774ea7e71073e9e63f8, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 7045c6d07d78bd44a826638d8641d814, type: 2}
+    trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: 641e492367818f14089b4efa6fd0308f, type: 2}
   sceneGizmoColor: {r: 1, g: 0.5276336, b: 0, a: 1}
