@@ -134,26 +134,8 @@ public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
     public const float newDirectionThreshhold = 0.96f;
     public const int newLocationThreshhold = 1; 
     public MoveType moveType; 
-    //public Vector3 RequestedLocation;
     public Vector3 requestedDestination;
-    public IEnumerator enumerator; 
-    //public Action<bool> _callBack; //as should be defined by the statecontroller. 
-
-    //public MoveRequestSlip(Vector3 requestDir, Vector3 RequestedLoc, IEnumerator enumerator)
-    //{
-    //    this.moveType = MoveType.Move;
-    //    this.RequestedLocation = requestDir;
-    //    this.RequestedDestination = RequestedLoc;
-    //    this.enumerator = enumerator;
-    //}
-
-    //public MoveRequestSlip(Vector3 requestDir, IEnumerator enumerator)
-    //{
-    //    this.moveType = MoveType.RotateOnly; 
-    //    this.RequestedLocation = requestDir;
-    //    this.RequestedDestination = Vector3.zero;
-    //    this.enumerator = enumerator; 
-    //}
+    public IEnumerator enumerator;
 
     public MoveRequestSlip(MoveType moveType, Vector3 requestedDestination, IEnumerator enumerator)
     {

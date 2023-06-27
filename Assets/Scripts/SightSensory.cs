@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SightSensory : MonoBehaviour
@@ -86,32 +85,38 @@ public class SightSensory : MonoBehaviour
     {
         LookDir = direction;
     }
-    public Vector3 FindTarget()
+    public bool FindTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
         if (colliders.Length == 0)
-            return Vector3.zero; 
+            return false;
         foreach (Collider collider in colliders)
         {
-            //2. ÇÃ·¹ÀÌ¾î ±âÁØ ¾Õ¿¡ ÀÖ´ÂÁö¿¡ ´ëÇØ¼­ È®ÀÎÀÛ¾÷ ÇÊ¿ä 
-            Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
+            Vector3 dirTarget = collider.transform.position - transform.position;
+            dirTarget.y = 0f; 
+            dirTarget.Normalize();
 
-            //3. ÇÃ·¹ÀÌ¾î ÁöÁ¤ °¢µµ¿Í ºñ±³ 
+            Debug.Log($"Dot Product: {Vector3.Dot(transform.forward, dirTarget)}");
+            Debug.Log($"Cos Value{Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad)}"); 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
                 continue;
-
-            //4. Áß°£¿¡ Àå¾Ö¹°ÀÌ ¾ø´ÂÁö 
 
             Vector3 distToTarget = dirTarget - transform.position; 
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
-            PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
-            playerInSight = collider.transform.position;
-            playerLocked = collider.transform; 
-            return playerInSight;
+
+            SetTarget(collider.transform); 
+            return true;
         }
-        return Vector3.zero;
+        return false;
+    }
+
+    private void SetTarget(Transform transform)
+    {
+        PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
+        playerInSight = transform.position;
+        playerLocked = transform;
     }
     //Based on the Locked Target State 
     public bool AccessForAttackRange()
@@ -137,11 +142,11 @@ public class SightSensory : MonoBehaviour
         {
             Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
 
-            //1. ÇÃ·¹ÀÌ¾î ÁöÁ¤ °¢µµ¿Í ºñ±³ 
+            //1. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
                 continue;
 
-            //2. Áß°£¿¡ Àå¾Ö¹°ÀÌ ¾ø´ÂÁö 
+            //2. ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
             Vector3 distToTarget = dirTarget - transform.position;
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
@@ -197,7 +202,7 @@ public class SightSensory : MonoBehaviour
     {
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
-        //player ±âÁØÀ¸·Î »ý¼ºÇÏ±â¿¡, where player front is z axis, 
+        //player ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±â¿¡, where player front is z axis, 
     }
 
     public Vector3[] SightEdgesInDir(int interval)

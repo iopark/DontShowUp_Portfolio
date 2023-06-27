@@ -37,6 +37,8 @@ public class EnemyAttacker : MonoBehaviour
 
     public void StopAttack()
     {
+        if (attackRoutine == null)
+            return;
         StopCoroutine(attackRoutine); 
         isAttacking = false;
     }
