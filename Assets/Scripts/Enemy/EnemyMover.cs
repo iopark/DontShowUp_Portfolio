@@ -157,22 +157,39 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
-    IEnumerator RotatorMechanism(Vector3 loc)
+    Coroutine RotationRoutine;
+    Coroutine MovingRoutine;
+    public void StartRotationOnly(Vector3 alignDir)
     {
-        Vector3 targetAlign = loc.normalized; 
-        Quaternion rotation = Quaternion.LookRotation(targetAlign);
-        while (Vector3.Dot(transform.forward, loc.normalized) < dotThreshold)
+        if (RotationRoutine != null)
+            UnityEngine.Debug.Log("StateController failed to manage jobs"); 
+
+        RotationRoutine = StartCoroutine(RotatorMechanism(alignDir));
+    }
+
+    public void StartMoveRequest(Vector3 destination)
+    {
+        if (MovingRoutine != null)
+            UnityEngine.Debug.Log("StateController failed to manage jobs");
+
+        MovingRoutine = StartCoroutine(MoveToDestination(destination));
+    }
+
+    IEnumerator RotatorMechanism(Vector3 alignDir)
+    {
+        Quaternion rotation = Quaternion.LookRotation(alignDir);
+        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
             yield return null;
         }
-        stateController.
-
+        stateController.FinishedAction(true);
+        RotationRoutine = null;
     }
 
     IEnumerator MoveToDestination(Vector3 destination)
     {
-        d
+        while ()
     }
     IEnumerator FollowSound(Vector3[] traceablePath)
     {

@@ -58,6 +58,10 @@ public class StateController : MonoBehaviour
     public State currentState;
     public State remainState;
     public State previousState;
+
+    //[Header("StateRequired Elements")]
+    //public bool isAligning; 
+    //public 
     private void Awake()
     {
         Enemy = GetComponent<Enemy>();
@@ -107,12 +111,14 @@ public class StateController : MonoBehaviour
         Enemy.AnimationUpdate((AnimRequestSlip)stateAnim); 
     }
     #region attempting to perform request for future path in delegated ways
-    public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
-    ActionRequestSlip currentRequest;
+    public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
+    MoveRequestSlip currentRequest;
     bool isCompletingAction;
     public void RequestMove(Vector3 from, Vector3 to)
     {
-        ActionRequestSlip newRequest = new ActionRequestSlip(bodyComponent, interval, _callback);
+        if (to == Vector3.zero)
+            MoveRequestSlip newRequest = new MoveRequestSlip(loc.);
+        MoveRequestSlip newRequest = new MoveRequestSlip(from, to);
         actionRequests.Enqueue(newRequest);
         TryCompleteNext(); 
     }

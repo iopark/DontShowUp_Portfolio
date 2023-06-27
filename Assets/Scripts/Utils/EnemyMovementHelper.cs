@@ -124,17 +124,28 @@ public enum MoveType
     RotateOnly, 
     Move
 }
+
+
 public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
 {
+    public const float newDirectionThreshhold = 0.96f;
+    public const int newLocationThreshhold = 1; 
     public MoveType moveType; 
     public Vector3 RequestedLocation;
     public Vector3 RequestedDestination;
 
-    public Vector3 RequestedDirection; 
     public MoveRequestSlip(Vector3 requestDir, Vector3 RequestedLoc)
     {
+        this.moveType = MoveType.Move;
         this.RequestedLocation = requestDir;
         this.RequestedDestination = RequestedLoc;
+    }
+
+    public MoveRequestSlip(Vector3 requestDir)
+    {
+        this.moveType = MoveType.RotateOnly; 
+        this.RequestedLocation = requestDir;
+        this.RequestedDestination = Vector3.zero; 
     }
 
     /// <summary>
@@ -146,7 +157,14 @@ public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
     public bool Equals(MoveRequestSlip other)
     {
         //only take request for new  destination where its larger than the 1f magnitude in value. 
-        Vector3 offset = other.RequestedLocation - this.RequestedDestination;
-        return Vector3.Dot(offset, offset) < 1; 
+        if (other.moveType == MoveType.RotateOnly)
+        {
+            return (Vector3.Dot(this.RequestedLocation, other.RequestedLocation) < newDirectionThreshhold); 
+        }
+        else
+        {
+            Vector3 offset = other.RequestedLocation - this.RequestedDestination;
+            return Vector3.Dot(offset, offset) < newLocationThreshhold;
+        }
     }
 }
