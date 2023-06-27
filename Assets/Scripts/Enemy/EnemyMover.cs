@@ -58,6 +58,8 @@ public class EnemyMover : MonoBehaviour
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
+    private float distanceToTarget; 
+
     #endregion
     #region 유한상태 머신 관련 
     private float pinIntervalTimer;
@@ -76,7 +78,9 @@ public class EnemyMover : MonoBehaviour
     #endregion
 
     #region 움직임 계산 관련 
-    public const float dotThreshold = 0.99f; 
+    public const float dotThreshold = 0.99f;
+    public const float distanceThreshhold = 0.1f; 
+    Quaternion rotation; 
     private void Start()
     {
         patrolIndex = 0;        
@@ -170,7 +174,7 @@ public class EnemyMover : MonoBehaviour
     public void StartMoveRequest(Vector3 destination)
     {
         if (MovingRoutine != null)
-            UnityEngine.Debug.Log("StateController failed to manage jobs");
+            UnityEngine.Debug.Log("StateController failed to manage job allocation");
 
         MovingRoutine = StartCoroutine(MoveToDestination(destination));
     }
@@ -189,8 +193,49 @@ public class EnemyMover : MonoBehaviour
 
     IEnumerator MoveToDestination(Vector3 destination)
     {
-        while ()
+        distanceToTarget = Vector3.SqrMagnitude(destination - transform.position);
+        while (distanceToTarget > 0.1f)
+        {
+            lookDir = destination - transform.position; 
+            lookDir.y = transform.position.y;
+            lookDir.Normalize(); 
+            rotation  = Quaternion.LookRotation(lookDir);
+            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+                yield return null;
+            }
+            characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+            yield return null;
+        }
+        stateController.FinishedAction(true); 
     }
+
+    IEnumerator ChaseTarget()
+    {
+
+        while (Sight.PlayerLocked != null)
+        {
+            distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);
+            lookDir = Sight.PlayerLocked.position - transform.position;
+            lookDir.y = transform.position.y;
+            lookDir.Normalize();
+            rotation = Quaternion.LookRotation(lookDir);
+            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
+                yield return null;
+            }
+            while (distanceToTarget > distanceThreshhold)
+            {
+                characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+        }
+        stateController.FinishedAction(true); 
+    }
+    #endregion
     IEnumerator FollowSound(Vector3[] traceablePath)
     {
         traceSoundPoints = traceablePath;

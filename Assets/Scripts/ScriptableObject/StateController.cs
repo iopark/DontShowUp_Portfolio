@@ -116,9 +116,13 @@ public class StateController : MonoBehaviour
     bool isCompletingAction;
     public void RequestMove(Vector3 from, Vector3 to)
     {
+        MoveRequestSlip newRequest;
         if (to == Vector3.zero)
-            MoveRequestSlip newRequest = new MoveRequestSlip(loc.);
-        MoveRequestSlip newRequest = new MoveRequestSlip(from, to);
+        {
+            newRequest = new MoveRequestSlip(from);
+        }
+        else 
+            newRequest = new MoveRequestSlip(from, to);
         actionRequests.Enqueue(newRequest);
         TryCompleteNext(); 
     }
@@ -128,7 +132,11 @@ public class StateController : MonoBehaviour
         {
             currentRequest = actionRequests.Dequeue();
             isCompletingAction = true; 
-            Enemy.DoAction(currentRequest.bodyComponent, currentRequest.interval);
+            if (currentRequest.moveType == MoveType.RotateOnly)
+            {
+                EnemyMover.
+            }
+
         }
     }
 

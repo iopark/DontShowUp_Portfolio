@@ -34,11 +34,14 @@ public class SightSensory : MonoBehaviour
         {
             if (playerLocked == null)
                 return Vector3.zero;
-            Vector3 toLockedTarget = playerLocked.position - transform.position.normalized;
-            toLockedTarget.y = transform.position.y; 
+            Vector3 toLockedTarget = playerLocked.position - transform.position;
+            toLockedTarget.y = transform.position.y;
+            toLockedTarget.Normalize();
             return toLockedTarget;
         }
     }
+
+    Vector3 distanceToTarget; 
     private float pinIntervalTimer;
     public float PinIntervalTimer { get { return pinIntervalTimer; } set { pinIntervalTimer = value; } }
     public bool CheckElapsedTime(float time)
@@ -115,11 +118,14 @@ public class SightSensory : MonoBehaviour
     {
         if (playerLocked == null)
             return false;
-        RaycastHit hit;
-        if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
+        //RaycastHit hit;
+        //if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
+        //    return false;
+        //SetDirToTargetForChase(hit.point);
+        //EnemyAttacker.AttackDir = DirToLockedTarget; 
+        distanceToTarget = playerLocked.transform.position - transform.position;
+        if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
-        SetDirToTargetForChase(hit.point);
-        EnemyAttacker.AttackDir = (hit.point - transform.position).normalized;
         return true;
     }
     public bool AccessForAttack(float attackRange)
