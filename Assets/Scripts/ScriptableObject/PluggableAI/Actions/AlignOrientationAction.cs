@@ -10,6 +10,7 @@ public class AlignOrientationAction : Action
     public override void Act(StateController controller)
     {
         Align(controller);
+        controller.StarCoroutine(RotatorMechanism()); 
     }
 
     private void Align(StateController controller)
@@ -43,5 +44,17 @@ public class AlignOrientationAction : Action
                 //controller.Sight.SetDirToLook(-targetDir);
             }
         }
+    }
+
+    IEnumerator RotatorMechanism(Vector3 alignDir)
+    {
+        Quaternion rotation = Quaternion.LookRotation(alignDir);
+        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+            yield return null;
+        }
+        stateController.FinishedAction(true);
+        RotationRoutine = null;
     }
 }

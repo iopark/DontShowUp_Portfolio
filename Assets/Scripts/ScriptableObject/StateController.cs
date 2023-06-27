@@ -134,7 +134,8 @@ public class StateController : MonoBehaviour
             isCompletingAction = true; 
             if (currentRequest.moveType == MoveType.RotateOnly)
             {
-                EnemyMover.
+                //TODO: Run the Coroutine 
+                return;
             }
 
         }
@@ -142,7 +143,7 @@ public class StateController : MonoBehaviour
 
     public void FinishedAction(bool success)
     {
-        if (success) // path ¸¦ Ã£¾ÒÀ»¶§¸¸ ÇØ´ç Path ¸¦ Àü´ÞÇÑ´Ù. 
+        if (success) // path ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ Path ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
             currentRequest.callback(success);
         //How do we Deliever this path to the Requestee? 
 
