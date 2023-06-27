@@ -179,7 +179,7 @@ public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
         {
             //if distance between newly requested location is less than 1, it is treated as equal. 
             Vector3 offset = other.requestedDestination - this.requestedDestination;
-            return Vector3.Dot(offset, offset) < newLocationThreshhold;
+            return Vector3.SqrMagnitude(offset) < newLocationThreshhold;
         }
         else
         {

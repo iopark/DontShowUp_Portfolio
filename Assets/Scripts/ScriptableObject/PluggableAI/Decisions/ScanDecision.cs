@@ -7,6 +7,7 @@ using UnityEngine.SocialPlatforms;
 [CreateAssetMenu(fileName = "Decision_Scan_", menuName = "PluggableAI/Decisions/Scan")]
 public class ScanDecision : Decision
 {
+    [SerializeField] float resetLock; 
     public override bool Decide(StateController controller)
     {
         bool targetVisible = Scan(controller);
@@ -15,17 +16,31 @@ public class ScanDecision : Decision
 
     private bool Scan(StateController controller)
     {
-        Vector3 findingTarget = controller.Sight.FindTarget();
-        if (findingTarget != Vector3.zero)
+        controller.Sight.PlayerInSight = controller.Sight.FindTarget();
+        if (controller.Sight.PlayerInSight != Vector3.zero)
         {
-            controller.Sight.PlayerInSight = findingTarget;
             //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
             return true; 
         }
-        else
+        else if (controller.Sight.PlayerInSight == Vector3.zero && controller.Sight.PlayerLocked != null)
         {
-            controller.Sight.PlayerInSight = Vector3.zero;
-            return false;
+            ////TODO: shoot a ray to the player to see if he is still somewhere within the reach 
+            //if (controller.Sight.AccessForPursuit())
+            //    return true;
+            //if (controller.Sight.CheckElapsedTime(resetLock))
+            //    return false; 
+            //controller.Sight.PlayerInSight = Vector3.zero;
+            //return false;
+            return AttemptToTrack(controller);
         }
+        return false;
+    }
+
+    private bool AttemptToTrack(StateController controller)
+    {
+        if (controller.Sight.AccessForPursuit() || !controller.Sight.CheckElapsedTime(resetLock))
+            return true;
+        controller.Sight.PlayerLocked = null;
+        return false; 
     }
 }

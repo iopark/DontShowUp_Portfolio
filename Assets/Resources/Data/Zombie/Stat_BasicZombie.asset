@@ -22,7 +22,10 @@ MonoBehaviour:
   maxLevel: 1
   attackRange: 1
   sightAngle: 100
-  sightDepth: 10
+  sightDepth: 7
+  maxDepth: 15
+  alertSightDepth: 10
+  alertSightAngle: 120
   stateSize: 0
   patrolSize: 5
   obstacleMask:

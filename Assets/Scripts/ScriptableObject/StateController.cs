@@ -94,7 +94,8 @@ public class StateController : MonoBehaviour
             currentState = nextState;
             name = currentState.name;
             AnimationUpdate(); 
-            currentState.EnterState(this);
+            currentState.EnterStateAct(this);
+            currentState.EnterStateActions(this);
         }
         return;
     }
@@ -112,6 +113,8 @@ public class StateController : MonoBehaviour
     }
     #region attempting to perform request for future path in delegated ways
     public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
+    public List<Coroutine> coroutines = new List<Coroutine>();
+    public List<string> coroutineNames = new List<string>();
     MoveRequestSlip currentRequest;
     MoveRequestSlip previousRequest; 
     bool isCompletingAction;
@@ -180,6 +183,38 @@ public class StateController : MonoBehaviour
             TryCompleteNext(); // run the next expected coroutine 
         }
     }
+
+    public void RunAndSaveForReset(IEnumerator _routine, string coroutineKey)
+    {
+        if (CheckOverlapCoroutine(coroutineKey))
+            return; 
+        Coroutine routine = StartCoroutine(_routine);
+        coroutines.Add(routine);
+        coroutineNames.Add(coroutineKey);
+    }
+
+    private bool CheckOverlapCoroutine(string key)
+    {
+        foreach (string name in coroutineNames)
+        {
+            if (name == key)
+                return true; 
+        }
+        return false; 
+    }
+
+    public void ResetCoroutines()
+    {
+        if (coroutines.Count == 0)
+            return; 
+        foreach(Coroutine routine in coroutines)
+        {
+             StopCoroutine(routine);
+        }
+        coroutines.Clear();
+        coroutineNames.Clear(); 
+    }
+
     #endregion
     protected void OnDrawGizmos()
     {

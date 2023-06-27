@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
 public class SightSensory : MonoBehaviour
 {
     #region GetSet Sight Sensory Properties 
@@ -62,6 +61,7 @@ public class SightSensory : MonoBehaviour
         set { angle = value; } }
 
     private Vector3 LookDir { set { EnemyMover.LookDir = value; } }
+    Vector3 tempDir; 
     #endregion
     private void Awake()
     {
@@ -153,6 +153,18 @@ public class SightSensory : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool AccessForPursuit()
+    {
+        tempDir = PlayerLocked.transform.position - transform.position; 
+        tempDir.y = transform.position.y;
+        tempDir.Normalize();
+        Physics.Raycast(transform.position, tempDir, out RaycastHit hit, Enemy.CurrentStat.maxDepth, LayerMask.GetMask("Unwalkable", "Player"));
+        if (hit.collider == null || hit.collider.tag != "Player")
+            return false;
+        PinIntervalTimer = 0; 
+        return true; 
     }
 
     //private void Trace(Vector3 target)

@@ -9,7 +9,6 @@ public class Rotate : Act
     {
         Rotator(controller);
     }
-
     private void Rotator(StateController controller)
     {
         controller.EnemyMover.Rotator(); 

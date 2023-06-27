@@ -83,13 +83,14 @@ public class PatrolAction : Action
         float distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
         while (distanceToTarget > 0.1f)
         {
+            distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
             Vector3 lookDir = destination - controller.transform.position;
-            lookDir.y = controller.transform.position.y;
+            lookDir.y = 0f; 
             lookDir.Normalize();
             controller.transform.rotation = Quaternion.LookRotation(lookDir);
             while (Vector3.Dot(controller.transform.forward, lookDir) < dotThreshHold)
             {
-                controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, controller.transform.rotation, 0.3f);
+                controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, controller.transform.rotation, 0.03f);
                 yield return null;
             }
             controller.Enemy.characterController.Move(lookDir * controller.CurrentSpeed * Time.deltaTime);

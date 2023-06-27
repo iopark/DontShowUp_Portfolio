@@ -14,6 +14,5 @@ public abstract class Act : ScriptableObject
     public string aboutThisAct;
     #endregion
 
-    public abstract void Perform(StateController controller);
-
+    public virtual void Perform(StateController controller) { }
 }

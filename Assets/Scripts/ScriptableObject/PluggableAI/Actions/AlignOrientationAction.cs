@@ -17,13 +17,10 @@ public class AlignOrientationAction : Action
 
     private void Align(StateController controller)
     {
-        if (controller.EnemyMover.LookDir != Vector3.zero)
-        {
-            controller.EnemyMover.Rotator(controller.EnemyMover.LookDir);
-            return;
-        } 
         Vector3 targetDir = Vector3.zero;
         Vector3[] searchPoint = controller.Sight.SightEdgesInDir(2);
+        if (searchPoint.Length < 0)
+            return;
         foreach (Vector3 dir in searchPoint)
         {
             RaycastHit hit;

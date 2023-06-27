@@ -21,7 +21,7 @@ public class PursuitDecision : Decision
         {
             if (controller.Sight.CheckElapsedTime(resetTimer))
             {
-                controller.Sight.PlayerLocked = null; // uncheck the locked state. 
+                controller.Sight.PlayerLocked = null; // uncheck the locked state. would also stop the Coroutine of Pursuiting behaviour. 
                 return false; // if time has elapsed and no player is no longer found, 
             }
             return true; // until the timer has set, keep tracking the locked target. 

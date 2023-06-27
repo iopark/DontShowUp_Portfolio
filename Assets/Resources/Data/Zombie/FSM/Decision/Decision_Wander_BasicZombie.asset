@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3acaa0dffac9b4aa0e817591715079, type: 3}
   m_Name: Decision_Wander_BasicZombie
   m_EditorClassIdentifier: 
-  wallDetectionRange: 6
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  wanderPeriod: 10

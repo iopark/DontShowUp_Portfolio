@@ -107,20 +107,19 @@ public class EnemyMover : MonoBehaviour
     }
     public void Rotator(Vector3 alignDir)
     {
-        Quaternion rotation = Quaternion.LookRotation(alignDir);
+        rotation = Quaternion.LookRotation(alignDir);
         transform.rotation = rotation;
         //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
-        LookDir = transform.forward; 
     }
 
     public void Rotator()
     {
-        Quaternion rotation = Quaternion.LookRotation(LookDir);
+        rotation = Quaternion.LookRotation(LookDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
     }
     public void Rotator(float interval)
     {
-        Quaternion rotation = Quaternion.LookRotation(LookDir);
+        rotation = Quaternion.LookRotation(LookDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
     }
 
@@ -180,7 +179,7 @@ public class EnemyMover : MonoBehaviour
 
     IEnumerator RotatorMechanism(Vector3 alignDir)
     {
-        Quaternion rotation = Quaternion.LookRotation(alignDir);
+        rotation = Quaternion.LookRotation(alignDir);
         while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 

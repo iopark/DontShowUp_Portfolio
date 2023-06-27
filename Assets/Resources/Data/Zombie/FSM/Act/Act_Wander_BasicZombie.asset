@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animTrigger: 
   animType: 0
+  aboutThisAct: 'Sets the EnemyMover''s LookDirection into random direction value. '
   rangeMin: -1
   rangeMax: 1
