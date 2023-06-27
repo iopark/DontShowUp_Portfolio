@@ -56,7 +56,7 @@ public class PlayerMover : MonoBehaviour
         {
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, 0.5f);
         }
-        else  //            ¶Ü¹ÚÁú
+        else  //TODO: Add condition for the Running MoveSpeed 
         {
             moveSpeed = Mathf.Lerp(moveSpeed, runSpeed, 0.5f);
         }
@@ -112,5 +112,11 @@ public class PlayerMover : MonoBehaviour
     private void OnWalk(InputValue value)
     {
         isWalking = value.isPressed; // if pressed = True, Released = false 
+    }
+
+    private void OnRun(InputValue value)
+    {
+        isRunning = value.isPressed;
+        //TODO: Trigger 
     }
 }

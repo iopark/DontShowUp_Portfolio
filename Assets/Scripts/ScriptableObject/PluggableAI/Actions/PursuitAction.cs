@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_Pursuit_", menuName = "PluggableAI/Actions/Pursuit")]
 public class PursuitAction : Action
 {
+    [SerializeField] float dotThreshold = 0.98f;
+    [SerializeField] float distanceThreshhold = 0.1f; 
     public override void Act(StateController controller)
     {
         Pursuit(controller);
@@ -17,6 +19,35 @@ public class PursuitAction : Action
         // since scanner will identify target to track and choose its direction, Vector3 target = controller.Sight.FindTarget();
         //if (controller.Sight.PlayerInSight == Vector3.zero)
         //    return;
-        controller.EnemyMover.LockedChase(); 
+
+        Vector3 target = controller.Sight.PlayerLocked.position;
+        controller.RequestMove(MoveType.Chase, target, ChaseTarget(controller)); 
+    }
+
+    IEnumerator ChaseTarget(StateController controller)
+    {
+        float distanceToTarget;
+        Vector3 lookDir;
+        Quaternion rotation; 
+        while (controller.Sight.PlayerLocked != null)
+        {
+            distanceToTarget = Vector3.SqrMagnitude(controller.Sight.PlayerLocked.position - controller.transform.position);
+            lookDir = controller.Sight.PlayerLocked.position - controller.transform.position;
+            lookDir.y = controller.transform.position.y;
+            lookDir.Normalize();
+            rotation = Quaternion.LookRotation(lookDir);
+            while (Vector3.Dot(controller.transform.forward, lookDir) < dotThreshold)
+            {
+                controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, rotation, 0.3f);
+                yield return null;
+            }
+            while (distanceToTarget > distanceThreshhold)
+            {
+                controller.EnemyMover.CharacterController.Move(lookDir * controller.CurrentSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+        }
+        controller.FinishedAction(true);
     }
 }

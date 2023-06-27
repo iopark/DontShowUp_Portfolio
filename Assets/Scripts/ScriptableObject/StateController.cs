@@ -113,42 +113,72 @@ public class StateController : MonoBehaviour
     #region attempting to perform request for future path in delegated ways
     public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
     MoveRequestSlip currentRequest;
+    MoveRequestSlip previousRequest; 
     bool isCompletingAction;
-    public void RequestMove(Vector3 from, Vector3 to)
+    public bool IsCompletingAction { get { return isCompletingAction; } }
+    public void RequestMove(MoveType type, Vector3 destination, IEnumerator enumerator)
     {
-        MoveRequestSlip newRequest;
-        if (to == Vector3.zero)
-        {
-            newRequest = new MoveRequestSlip(from);
-        }
-        else 
-            newRequest = new MoveRequestSlip(from, to);
+        MoveRequestSlip newRequest = new MoveRequestSlip(type, destination, enumerator);
+        if (actionRequests.Count > 0 && CheckForEqual(newRequest)) // if new request is considered an equal one, ignore this request. 
+            return;
         actionRequests.Enqueue(newRequest);
         TryCompleteNext(); 
     }
-    void TryCompleteNext()
+    private void TryCompleteNext()
     {
         if (!isCompletingAction && actionRequests.Count > 0)
         {
             currentRequest = actionRequests.Dequeue();
-            isCompletingAction = true; 
-            if (currentRequest.moveType == MoveType.RotateOnly)
-            {
-                //TODO: Run the Coroutine 
-                return;
-            }
-
+            isCompletingAction = true;
+            StartCoroutine(currentRequest.enumerator); 
         }
     }
 
+    private bool CheckForEqual(MoveRequestSlip other)
+    {
+        foreach (MoveRequestSlip slip in  actionRequests)
+        {
+            if (other.moveType == slip.moveType)
+                if (other.Equals(slip))
+                    return true; 
+        }
+        return false;
+    }
+    /// <summary>
+    /// Simply call this function for every coroutines to imply a designated action has been finished. 
+    /// </summary>
+    /// <param name="success"></param>
     public void FinishedAction(bool success)
     {
-        if (success) // path �� ã�������� �ش� Path �� �����Ѵ�. 
-            currentRequest.callback(success);
+        if (!success)
+        {
+            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+            return;
+        }
         //How do we Deliever this path to the Requestee? 
+        else if (success)
+        {
+            //TODO: maybe do a next action? 
+            isCompletingAction = false;
+            TryCompleteNext(); // run the next expected coroutine 
+        }
+    }
 
-        isCompletingAction = false;
-        TryCompleteNext();
+    public void FinishedAction(bool success, System.Action<StateController> nextAction)
+    {
+        if (!success)
+        {
+            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+            return;
+        }
+        //How do we Deliever this path to the Requestee? 
+        else if (success)
+        {
+            //TODO: maybe do a next action? 
+            nextAction(this);
+            isCompletingAction = false;
+            TryCompleteNext(); // run the next expected coroutine 
+        }
     }
     #endregion
     protected void OnDrawGizmos()

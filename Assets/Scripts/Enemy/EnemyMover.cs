@@ -12,6 +12,7 @@ public class EnemyMover : MonoBehaviour
     public bool debug; 
 
     CharacterController characterController;
+    public CharacterController CharacterController { get { return characterController; } }
     SoundSensory Auditory { get; set; }
     SightSensory Sight { get; set; }
     Animator animator;
@@ -52,9 +53,6 @@ public class EnemyMover : MonoBehaviour
     {
         get { return Enemy.transform.forward; }
     }
-    private Vector3 alignDir;
-    public Vector3 AlignDir { get { return alignDir; } set { alignDir = value; } }
-
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
@@ -85,6 +83,7 @@ public class EnemyMover : MonoBehaviour
     {
         patrolIndex = 0;        
         DefaultMove = Instantiate(defaultMove);
+        characterController = GetComponent<CharacterController> ();
         Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
@@ -213,7 +212,6 @@ public class EnemyMover : MonoBehaviour
 
     IEnumerator ChaseTarget()
     {
-
         while (Sight.PlayerLocked != null)
         {
             distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);

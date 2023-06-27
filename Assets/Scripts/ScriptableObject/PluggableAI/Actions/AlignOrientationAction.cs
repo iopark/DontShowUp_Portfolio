@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 [CreateAssetMenu(fileName = "Action_Aligning_", menuName = "PluggableAI/Actions/BasisAlignment")]
 public class AlignOrientationAction : Action
 {
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private float dotThreshHold; 
 
     public override void Act(StateController controller)
     {
         Align(controller);
-        controller.StarCoroutine(RotatorMechanism()); 
+        
     }
 
     private void Align(StateController controller)
     {
-        if (controller.EnemyMover.AlignDir != Vector3.zero)
+        if (controller.EnemyMover.LookDir != Vector3.zero)
         {
-            controller.EnemyMover.Rotator(controller.EnemyMover.AlignDir);
+            controller.EnemyMover.Rotator(controller.EnemyMover.LookDir);
             return;
         } 
         Vector3 targetDir = Vector3.zero;
@@ -35,26 +37,27 @@ public class AlignOrientationAction : Action
         {
             if (Vector3.Dot(targetDir, controller.transform.forward) > 0)
             {
-                controller.EnemyMover.AlignDir = targetDir;
+                controller.EnemyMover.LookDir = targetDir;
                 //controller.Sight.SetDirToLook(targetDir);
             }
             else
             {
-                controller.EnemyMover.AlignDir = targetDir;
+                controller.EnemyMover.LookDir = targetDir;
                 //controller.Sight.SetDirToLook(-targetDir);
             }
+            controller.RequestMove(MoveType.RotateOnly, targetDir, RotatorMechanism(controller));
         }
     }
 
-    IEnumerator RotatorMechanism(Vector3 alignDir)
+    IEnumerator RotatorMechanism(StateController controller)
     {
-        Quaternion rotation = Quaternion.LookRotation(alignDir);
-        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
+        Quaternion rotation = Quaternion.LookRotation(controller.EnemyMover.LookDir);
+        while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+            controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, rotation, 0.3f);
             yield return null;
         }
-        stateController.FinishedAction(true);
-        RotationRoutine = null;
+        //TODO: if the action is to fail? 
+        controller.FinishedAction(true);
     }
 }

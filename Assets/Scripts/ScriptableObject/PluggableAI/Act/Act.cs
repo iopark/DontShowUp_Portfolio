@@ -10,6 +10,8 @@ public abstract class Act : ScriptableObject
     public string AnimTrigger { get { return animTrigger; } }
     [SerializeField] protected AnimType animType;
     public AnimType AnimType { get { return animType; } }
+    [TextArea]
+    public string aboutThisAct;
     #endregion
 
     public abstract void Perform(StateController controller);

@@ -122,30 +122,44 @@ public struct AnimRequestSlip
 public enum MoveType
 {
     RotateOnly, 
-    Move
+    Move, 
+    Chase
 }
 
-
+/// <summary>
+/// Based off Coroutines? 
+/// </summary>
 public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
 {
     public const float newDirectionThreshhold = 0.96f;
     public const int newLocationThreshhold = 1; 
     public MoveType moveType; 
-    public Vector3 RequestedLocation;
-    public Vector3 RequestedDestination;
+    //public Vector3 RequestedLocation;
+    public Vector3 requestedDestination;
+    public IEnumerator enumerator; 
+    //public Action<bool> _callBack; //as should be defined by the statecontroller. 
 
-    public MoveRequestSlip(Vector3 requestDir, Vector3 RequestedLoc)
-    {
-        this.moveType = MoveType.Move;
-        this.RequestedLocation = requestDir;
-        this.RequestedDestination = RequestedLoc;
-    }
+    //public MoveRequestSlip(Vector3 requestDir, Vector3 RequestedLoc, IEnumerator enumerator)
+    //{
+    //    this.moveType = MoveType.Move;
+    //    this.RequestedLocation = requestDir;
+    //    this.RequestedDestination = RequestedLoc;
+    //    this.enumerator = enumerator;
+    //}
 
-    public MoveRequestSlip(Vector3 requestDir)
+    //public MoveRequestSlip(Vector3 requestDir, IEnumerator enumerator)
+    //{
+    //    this.moveType = MoveType.RotateOnly; 
+    //    this.RequestedLocation = requestDir;
+    //    this.RequestedDestination = Vector3.zero;
+    //    this.enumerator = enumerator; 
+    //}
+
+    public MoveRequestSlip(MoveType moveType, Vector3 requestedDestination, IEnumerator enumerator)
     {
-        this.moveType = MoveType.RotateOnly; 
-        this.RequestedLocation = requestDir;
-        this.RequestedDestination = Vector3.zero; 
+        this.moveType= moveType;
+        this.requestedDestination = requestedDestination;
+        this.enumerator= enumerator;
     }
 
     /// <summary>
@@ -159,12 +173,19 @@ public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
         //only take request for new  destination where its larger than the 1f magnitude in value. 
         if (other.moveType == MoveType.RotateOnly)
         {
-            return (Vector3.Dot(this.RequestedLocation, other.RequestedLocation) < newDirectionThreshhold); 
+            return (Vector3.Dot(this.requestedDestination, other.requestedDestination) > newDirectionThreshhold); 
+        }
+        else if (other.moveType == MoveType.Move) 
+        {
+            //if distance between newly requested location is less than 1, it is treated as equal. 
+            Vector3 offset = other.requestedDestination - this.requestedDestination;
+            return Vector3.Dot(offset, offset) < newLocationThreshhold;
         }
         else
         {
-            Vector3 offset = other.RequestedLocation - this.RequestedDestination;
-            return Vector3.Dot(offset, offset) < newLocationThreshhold;
+            return false;
+            //TODO: Chase Method 
         }
+
     }
 }
