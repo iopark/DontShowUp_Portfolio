@@ -18,6 +18,5 @@ MonoBehaviour:
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionsToStop:
-  - pursuit
+  actionsToStop: []
   stopAllCoroutine: 0

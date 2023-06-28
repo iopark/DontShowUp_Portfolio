@@ -115,7 +115,7 @@ public class EnemyMover : MonoBehaviour
     public void Rotator()
     {
         rotation = Quaternion.LookRotation(LookDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 1f);
     }
     public void Rotator(float interval)
     {

@@ -17,16 +17,16 @@ public class ScanDecision : Decision
     private bool Scan(StateController controller)
     {
         bool tempResult = controller.Sight.FindTarget();
-        if (!tempResult)
-        {
-            Debug.Log(controller.Sight.PlayerInSight); 
-            //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
-            return tempResult; 
-        }
-        //else if (controller.Sight.PlayerInSight == Vector3.zero && controller.Sight.PlayerLocked != null)
+        //if (!tempResult)
         //{
-        //    return AttemptToTrack(controller);
+        //    //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
+           
+        //    return tempResult; 
         //}
+        ////else if (controller.Sight.PlayerInSight == Vector3.zero && controller.Sight.PlayerLocked != null)
+        ////{
+        ////    return AttemptToTrack(controller);
+        ////}
         return tempResult;
     }
 }

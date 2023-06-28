@@ -17,7 +17,5 @@ MonoBehaviour:
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionsToStop:
-  - facetoattack
+  actionsToStop: []
   stopAllCoroutine: 0
-  coroutineKey: 

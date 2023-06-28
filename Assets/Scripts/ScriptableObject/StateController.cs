@@ -240,12 +240,13 @@ public class StateController : MonoBehaviour
             if (name.Equals(slipKey))
             {
                 if (name.routine != null)
+                {
                     StopCoroutine(name.routine);
-                Debug.Log(name.routine);
-                Debug.Log(name.coroutineKey); 
+                    return;
+                }
+
                 //toDestroy = name.routine;
             }
-            //toDestroy = null; 
         }
         Debug.Log("Coroutine did not exist"); 
         return;

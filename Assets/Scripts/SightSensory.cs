@@ -112,8 +112,6 @@ public class SightSensory : MonoBehaviour
             dirTarget.y = 0f; 
             dirTarget.Normalize();
 
-            Debug.Log($"Dot Product: {Vector3.Dot(transform.forward, dirTarget)}");
-            Debug.Log($"Cos Value{Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad)}"); 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
             {
                 PlayerInSight = Vector3.zero;

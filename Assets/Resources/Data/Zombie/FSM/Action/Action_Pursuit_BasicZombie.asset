@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92d473df038c60468ae4fa1b48e9b2d, type: 3}
   m_Name: Action_Pursuit_BasicZombie
   m_EditorClassIdentifier: 
+  actionName: 
   RequiredProceedingAct: 
   RequiredPreceedingAction: 
   coroutineKey: pursuit
   dotThreshold: 0.98
-  distanceThreshhold: 0.1
+  distanceThreshhold: 1
   defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
   defaultRotate: {fileID: 11400000, guid: 699ff2e45b1285d4b890a540ebea849b, type: 2}
   postAct: {fileID: 0}
