@@ -9,11 +9,18 @@ public static class EnemyMovementHelper
 {
     public static void ReversePatrolPoints(this StateController controller)
     {
+        Vector3 prevPoint = Vector3.zero; 
         Debug.Log("Reversed"); 
         controller.EnemyMover.PatrolPoints.Reverse();
-        foreach (PatrolPoint p in controller.EnemyMover.PatrolPoints)
+        for (int i = 0; i < controller.EnemyMover.PatrolPoints.Count; i++)
         {
-            p.Reverse();
+            if (i == 0)
+            {
+                controller.EnemyMover.PatrolPoints[0].Reverse();
+                prevPoint = controller.EnemyMover.PatrolPoints[0].worldPosition;
+                continue; 
+            }
+            controller.EnemyMover.PatrolPoints[i].Reverse(prevPoint);
         }
     }
 
@@ -37,6 +44,19 @@ public struct PatrolPoint
     public void Reverse()
     {
         this.Direction = Direction * -1;
+    }
+
+    public void Reverse(Vector3 pivotPoint)
+    {
+        Vector3 temp = pivotPoint - worldPosition;
+        temp.y = 0f;
+        temp.Normalize();
+        this.Direction = temp; 
+    }
+
+    private void RenewPreviousPointDir(PatrolPoint[] savedList)
+    {
+
     }
 }
 public struct ActionRequestSlip
@@ -169,5 +189,21 @@ public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
             //TODO: Chase Method 
         }
 
+    }
+}
+
+public struct CoroutineSlip : IEquatable<string>
+{
+    public string coroutineKey;
+    public Coroutine routine; 
+
+    public CoroutineSlip (string coroutineKey, Coroutine routine)
+    {
+        this.coroutineKey = coroutineKey;
+        this.routine = routine;
+    }
+    public bool Equals(string requestKey)
+    {
+        return requestKey == coroutineKey;
     }
 }

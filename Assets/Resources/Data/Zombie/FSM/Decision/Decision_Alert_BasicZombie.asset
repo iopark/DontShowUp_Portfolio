@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3acaa0dffac9b4aa0e817591715079, type: 3}
-  m_Name: Decision_Wander_BasicZombie
+  m_Script: {fileID: 11500000, guid: 24cde134085c0a946a92f9206ff9fc6d, type: 3}
+  m_Name: Decision_Alert_BasicZombie
   m_EditorClassIdentifier: 
-  coroutineKey: wander
-  wanderPeriod: 10
+  resetTargetLockInterval: 3

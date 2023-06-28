@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// TemporaryState Controller Inheriting NormalZombie Class
@@ -95,7 +96,7 @@ public class StateController : MonoBehaviour
             name = currentState.name;
             AnimationUpdate(); 
             currentState.EnterStateAct(this);
-            currentState.EnterStateActions(this);
+            //currentState.EnterStateActions(this);
         }
         return;
     }
@@ -111,10 +112,11 @@ public class StateController : MonoBehaviour
             return;
         Enemy.AnimationUpdate((AnimRequestSlip)stateAnim); 
     }
+
     #region attempting to perform request for future path in delegated ways
     public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
-    public List<Coroutine> coroutines = new List<Coroutine>();
-    public List<string> coroutineNames = new List<string>();
+    public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
+    Coroutine toDestroy;
     MoveRequestSlip currentRequest;
     MoveRequestSlip previousRequest; 
     bool isCompletingAction;
@@ -184,35 +186,82 @@ public class StateController : MonoBehaviour
         }
     }
 
-    public void RunAndSaveForReset(IEnumerator _routine, string coroutineKey)
+    public void RunAndSaveForReset(string coroutineKey, IEnumerator _routine)
     {
-        if (CheckOverlapCoroutine(coroutineKey))
+        if (CheckOverlapCoroutine(coroutineKey, _routine))
             return; 
         Coroutine routine = StartCoroutine(_routine);
-        coroutines.Add(routine);
-        coroutineNames.Add(coroutineKey);
+        CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, routine);
+        coroutines.Add(newSlip);
     }
 
-    private bool CheckOverlapCoroutine(string key)
+    public void RemoveFromCoroutineList(string slipKey)
     {
-        foreach (string name in coroutineNames)
+        foreach (CoroutineSlip slip in coroutines)
         {
-            if (name == key)
-                return true; 
+            if (slip.Equals(slipKey))
+            {
+                if (slip.routine != null)
+                    StopCoroutine(slip.routine); 
+                toDestroy = slip.routine; 
+                coroutines.Remove(slip);
+                return;
+            }
+        }
+        toDestroy = null; 
+    }
+
+    private bool CheckOverlapCoroutine(string slipKey, IEnumerator _routine)
+    {
+        foreach (CoroutineSlip name in coroutines)
+        {
+            if (name.Equals(slipKey))
+            {
+                if (name.routine == null)
+                {
+                    StartCoroutine(_routine); 
+                }
+                return true;
+            }
         }
         return false; 
     }
 
-    public void ResetCoroutines()
+    /// <summary>
+    /// if coroutine exists and if its not running, then stop the coroutine. 
+    /// </summary>
+    /// <param name="slipKey"></param>
+    public void ResetCoroutine(string slipKey)
+    {
+        if (coroutines.Count == 0)
+            return;
+        foreach (CoroutineSlip name in coroutines)
+        {
+            if (name.Equals(slipKey))
+            {
+                if (name.routine != null)
+                    StopCoroutine(name.routine);
+                Debug.Log(name.routine);
+                Debug.Log(name.coroutineKey); 
+                //toDestroy = name.routine;
+            }
+            //toDestroy = null; 
+        }
+        Debug.Log("Coroutine did not exist"); 
+        return;
+    }
+
+    public void ResetAllCoroutines()
     {
         if (coroutines.Count == 0)
             return; 
-        foreach(Coroutine routine in coroutines)
+        foreach(CoroutineSlip slip in coroutines)
         {
-             StopCoroutine(routine);
+            if (slip.routine == null)
+                continue;
+             StopCoroutine(slip.routine);
         }
-        coroutines.Clear();
-        coroutineNames.Clear(); 
+        //coroutines.Clear();
     }
 
     #endregion

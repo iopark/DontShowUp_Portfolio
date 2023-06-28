@@ -20,7 +20,7 @@ public class SightSensory : MonoBehaviour
     private Vector3 playerInSight; 
     public Vector3 PlayerInSight { get { return playerInSight; } set { playerInSight = value; } }
     #region testing Locking Target
-    private Transform playerLocked; 
+    [SerializeField] private Transform playerLocked; 
     public Transform PlayerLocked
     {
         get { return playerLocked; }
@@ -85,11 +85,27 @@ public class SightSensory : MonoBehaviour
     {
         LookDir = direction;
     }
+
+    public void SetDirToPlayer()
+    {
+        if (PlayerLocked == null)
+        {
+            Debug.Log("PlayerPosition is somewhat Zero"); 
+            return;
+        }
+        tempDir = PlayerLocked.position - transform.position;
+        tempDir.y = 0f;
+        tempDir.Normalize();
+        LookDir = tempDir; 
+    }
     public bool FindTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
         if (colliders.Length == 0)
+        {
+            PlayerInSight = Vector3.zero;
             return false;
+        }
         foreach (Collider collider in colliders)
         {
             Vector3 dirTarget = collider.transform.position - transform.position;
@@ -99,12 +115,19 @@ public class SightSensory : MonoBehaviour
             Debug.Log($"Dot Product: {Vector3.Dot(transform.forward, dirTarget)}");
             Debug.Log($"Cos Value{Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad)}"); 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
+            {
+                PlayerInSight = Vector3.zero;
                 continue;
+            }
 
-            Vector3 distToTarget = dirTarget - transform.position; 
-            float distance = Vector3.SqrMagnitude(distToTarget);
+            Vector2 distToTarget = (Vector2)collider.transform.position - (Vector2)transform.position; 
+            float distance = Vector2.SqrMagnitude(distToTarget);
+            Debug.DrawRay(transform.position, dirTarget, Color.red); 
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
+            {
+                PlayerInSight = Vector3.zero;
                 continue;
+            }
 
             SetTarget(collider.transform); 
             return true;
@@ -142,11 +165,9 @@ public class SightSensory : MonoBehaviour
         {
             Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
 
-            //1. �÷��̾� ���� ������ �� 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
                 continue;
 
-            //2. �߰��� ��ֹ��� ������ 
             Vector3 distToTarget = dirTarget - transform.position;
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
@@ -165,11 +186,16 @@ public class SightSensory : MonoBehaviour
         tempDir = PlayerLocked.transform.position - transform.position; 
         tempDir.y = transform.position.y;
         tempDir.Normalize();
-        Physics.Raycast(transform.position, tempDir, out RaycastHit hit, Enemy.CurrentStat.maxDepth, LayerMask.GetMask("Unwalkable", "Player"));
-        if (hit.collider == null || hit.collider.tag != "Player")
-            return false;
-        PinIntervalTimer = 0; 
-        return true; 
+        if (Physics.Raycast(transform.position, tempDir, out RaycastHit hit, Enemy.CurrentStat.maxDepth, targetMask))
+        {
+            PinIntervalTimer = 0;
+            return true;
+        }
+
+        //if (hit.collider == null || hit.collider.tag != "Player")
+        //    return false;
+
+        return false; 
     }
 
     //private void Trace(Vector3 target)

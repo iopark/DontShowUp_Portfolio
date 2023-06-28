@@ -24,12 +24,22 @@ public class State : ScriptableObject
 
     [Header("UponEnter")]
     [SerializeField] protected Act[] preRequisiteActs;
-    [SerializeField] protected Action[] preRequisiteActions;
+    [Header("preRequisteActions")]
 
     [SerializeField] protected Action[] actions;
     [SerializeField] protected Transition[] transitions;
 
     #region Fixed actions 
+    //[SerializeField] protected Action[] preRequisiteActions;
+    //public void EnterStateActions(StateController controller)
+    //{
+    //    if (preRequisiteActions.Length == 0)
+    //        return;
+    //    for (int i = 0; i < preRequisiteActions.Length; i++)
+    //    {
+    //        preRequisiteActions[i].Act(controller);
+    //    }
+    //}
     //[Header("Fixed")]
     //[SerializeField] protected Action[] fixedActions;
     //[SerializeField] protected Transition[] fixedTransitions;
@@ -107,15 +117,6 @@ public class State : ScriptableObject
         for (int i = 0; i < preRequisiteActs.Length; i++)
         {
             preRequisiteActs[i].Perform(controller);
-        }
-    }
-    public void EnterStateActions(StateController controller)
-    {
-        if (preRequisiteActions.Length == 0)
-            return;
-        for (int i = 0; i < preRequisiteActions.Length; i++)
-        {
-            preRequisiteActions[i].Act(controller);
         }
     }
 

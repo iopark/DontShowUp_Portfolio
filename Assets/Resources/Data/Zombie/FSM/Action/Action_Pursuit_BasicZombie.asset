@@ -17,3 +17,6 @@ MonoBehaviour:
   coroutineKey: pursuit
   dotThreshold: 0.98
   distanceThreshhold: 0.1
+  defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
+  defaultRotate: {fileID: 11400000, guid: 699ff2e45b1285d4b890a540ebea849b, type: 2}
+  postAct: {fileID: 0}

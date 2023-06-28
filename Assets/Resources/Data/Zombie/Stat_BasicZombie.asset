@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cbbff75894f024abe67fa105be0ddd, type: 3}
   m_Name: Stat_BasicZombie
   m_EditorClassIdentifier: 
-  _name: 
+  _name: PatrolZ
   health: 100
   normalMoveSpeed: 3
   alertMoveSpeed: 5

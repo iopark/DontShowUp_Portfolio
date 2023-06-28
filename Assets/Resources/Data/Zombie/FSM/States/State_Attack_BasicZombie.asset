@@ -19,8 +19,8 @@ MonoBehaviour:
   animFloat: 0
   setBoolAsNull: 1
   setFloatAsNull: 1
-  preRequisiteActs: []
-  preRequisiteActions: []
+  preRequisiteActs:
+  - {fileID: 11400000, guid: 3d6a12226ba35414590c45e145ad51f6, type: 2}
   actions:
   - {fileID: 11400000, guid: 525e3527203d05946a362990b4c58128, type: 2}
   transitions:
@@ -30,5 +30,6 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
     trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
     falseState: {fileID: 11400000, guid: a08ee70c722c8f34cbd5bd56760c0228, type: 2}
-  exitActs: []
+  exitActs:
+  - {fileID: 11400000, guid: cdef0d604d34fa743b5c503a97a949a2, type: 2}
   sceneGizmoColor: {r: 0.87987995, g: 0, b: 1, a: 1}

@@ -20,7 +20,7 @@ public class IdleWanderAction : Action
         //    return;
         //}
 
-        controller.RunAndSaveForReset(Wander(controller), coroutineKey); 
+        controller.RunAndSaveForReset(coroutineKey, Wander(controller)); 
     }
 
     IEnumerator Wander(StateController controller)
