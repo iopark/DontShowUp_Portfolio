@@ -53,7 +53,7 @@ public class EnemyAttacker : MonoBehaviour
     {
         while (true)
         {
-            enemyMover.CurrentSpeed = 0f; 
+            //enemyMover.CurrentSpeed = 0f; 
             isAttacking = true; 
             Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
             yield return attackInterval; 

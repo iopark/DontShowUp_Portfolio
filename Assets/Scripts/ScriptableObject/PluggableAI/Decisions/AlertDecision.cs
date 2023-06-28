@@ -8,15 +8,16 @@ public class AlertDecision : Decision
     [SerializeField] float resetTargetLockInterval; 
     public override bool Decide(StateController controller)
     {
-        throw new System.NotImplementedException();
+        return FurtherScan(controller);
     }
 
-    private void FurtherScan(StateController controller)
+    private bool FurtherScan(StateController controller)
     {
-        if (controller.Sight.PlayerInSight == Vector3.zero)
+        if (controller.Sight.PlayerLocked != null)
         {
-
+            return AttemptToTrack(controller); 
         }
+        return false; 
     }
 
     private bool AttemptToTrack(StateController controller)

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd3fd11b8ba590498fdf9df9cfb7b37, type: 3}
-  m_Name: EnteringAct_AlertPhase_BasicZombie
+  m_Script: {fileID: 11500000, guid: 544630dbf53f2274cb24a7ef3112bef8, type: 3}
+  m_Name: EnterAct_SetPatrolPoint_BasicZombie
   m_EditorClassIdentifier: 
-  animTrigger: Speed
-  animType: 1
+  animTrigger: 
+  animType: 0

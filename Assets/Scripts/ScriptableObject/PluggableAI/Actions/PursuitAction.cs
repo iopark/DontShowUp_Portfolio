@@ -1,3 +1,4 @@
+using BeeState;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,16 @@ public class PursuitAction : Action
 {
     [SerializeField] string coroutineKey; 
     [SerializeField] float dotThreshold = 0.98f;
-    [SerializeField] float distanceThreshhold = 0.1f; 
+    [SerializeField] float distanceThreshhold = 0.1f;
+
+    [Header("RequiredActs")]
+    [SerializeField] Act defaultMove;
+    [SerializeField] Act defaultRotate;
+
+    [TextArea]
+    string SequencingActs;
+    [SerializeField] Act postAct;
+
     public override void Act(StateController controller)
     {
         Pursuit(controller);
@@ -21,30 +31,32 @@ public class PursuitAction : Action
         //if (controller.Sight.PlayerInSight == Vector3.zero)k
         //    return;
 
-        Vector3 target = controller.Sight.PlayerLocked.position;
-        controller.RunAndSaveForReset(ChaseTarget(controller), coroutineKey); 
+        if (controller.Sight.PlayerLocked == null)
+            return; 
+        controller.RunAndSaveForReset(coroutineKey, ChaseTarget(controller)); 
     }
 
     IEnumerator ChaseTarget(StateController controller)
     {
         float distanceToTarget;
         Vector3 lookDir;
-        Quaternion rotation; 
+        //Quaternion rotation; 
         while (controller.Sight.PlayerLocked != null)
         {
             distanceToTarget = Vector3.SqrMagnitude(controller.Sight.PlayerLocked.position - controller.transform.position);
             lookDir = controller.Sight.PlayerLocked.position - controller.transform.position;
             lookDir.y = 0f; 
             lookDir.Normalize();
-            rotation = Quaternion.LookRotation(lookDir);
+            controller.EnemyMover.LookDir = lookDir;
+            //rotation = Quaternion.LookRotation(lookDir);
             while (Vector3.Dot(controller.transform.forward, lookDir) < dotThreshold)
             {
-                controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, rotation, 0.5f);
+                defaultRotate.Perform(controller); 
                 yield return null;
             }
             while (distanceToTarget > distanceThreshhold)
             {
-                controller.EnemyMover.CharacterController.Move(lookDir * controller.CurrentSpeed * Time.deltaTime);
+                defaultMove.Perform(controller);
                 yield return null;
             }
 
