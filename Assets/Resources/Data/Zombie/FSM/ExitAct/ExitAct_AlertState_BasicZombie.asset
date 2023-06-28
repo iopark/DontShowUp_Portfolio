@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f012e79e20956742ae10613e8ca3af3, type: 3}
+  m_Name: ExitAct_AlertState_BasicZombie
+  m_EditorClassIdentifier: 
+  animTrigger: AlertState
+  animType: 2
+  animFloatValue: 0
+  animBoolValue: 0
+  actionstoStop: []
+  stopAllCoroutine: 1
+  aboutThisAct: 
+  coroutineKey: 

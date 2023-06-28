@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 544630dbf53f2274cb24a7ef3112bef8, type: 3}
-  m_Name: EnteringAct_SetPatrolPoint_BasicZombie
+  m_Script: {fileID: 11500000, guid: 6291e9ca495e1d54d95619f9ae7fa7ef, type: 3}
+  m_Name: EnterAct_SearchState_BasicZombie
   m_EditorClassIdentifier: 
+  aboutThisAct: 'Reinitialize unit''s Current LookDir to transform.forward. '
   animTrigger: 
   animType: 0
+  animFloatValue: 0
+  animBoolValue: 0
+  actionstoStop: []
+  stopAllCoroutine: 0

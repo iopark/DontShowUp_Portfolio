@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
 public class SightSensory : MonoBehaviour
 {
     #region GetSet Sight Sensory Properties 
@@ -22,7 +20,7 @@ public class SightSensory : MonoBehaviour
     private Vector3 playerInSight; 
     public Vector3 PlayerInSight { get { return playerInSight; } set { playerInSight = value; } }
     #region testing Locking Target
-    private Transform playerLocked; 
+    [SerializeField] private Transform playerLocked; 
     public Transform PlayerLocked
     {
         get { return playerLocked; }
@@ -34,11 +32,14 @@ public class SightSensory : MonoBehaviour
         {
             if (playerLocked == null)
                 return Vector3.zero;
-            Vector3 toLockedTarget = playerLocked.position - transform.position.normalized;
-            toLockedTarget.y = transform.position.y; 
+            Vector3 toLockedTarget = playerLocked.position - transform.position;
+            toLockedTarget.y = transform.position.y;
+            toLockedTarget.Normalize();
             return toLockedTarget;
         }
     }
+
+    Vector3 distanceToTarget; 
     private float pinIntervalTimer;
     public float PinIntervalTimer { get { return pinIntervalTimer; } set { pinIntervalTimer = value; } }
     public bool CheckElapsedTime(float time)
@@ -59,6 +60,7 @@ public class SightSensory : MonoBehaviour
         set { angle = value; } }
 
     private Vector3 LookDir { set { EnemyMover.LookDir = value; } }
+    Vector3 tempDir; 
     #endregion
     private void Awake()
     {
@@ -83,43 +85,73 @@ public class SightSensory : MonoBehaviour
     {
         LookDir = direction;
     }
-    public Vector3 FindTarget()
+
+    public void SetDirToPlayer()
+    {
+        if (PlayerLocked == null)
+        {
+            Debug.Log("PlayerPosition is somewhat Zero"); 
+            return;
+        }
+        tempDir = PlayerLocked.position - transform.position;
+        tempDir.y = 0f;
+        tempDir.Normalize();
+        LookDir = tempDir; 
+    }
+    public bool FindTarget()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
         if (colliders.Length == 0)
-            return Vector3.zero; 
+        {
+            PlayerInSight = Vector3.zero;
+            return false;
+        }
         foreach (Collider collider in colliders)
         {
-            //2. ÇÃ·¹ÀÌ¾î ±âÁØ ¾Õ¿¡ ÀÖ´ÂÁö¿¡ ´ëÇØ¼­ È®ÀÎÀÛ¾÷ ÇÊ¿ä 
-            Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
+            Vector3 dirTarget = collider.transform.position - transform.position;
+            dirTarget.y = 0f; 
+            dirTarget.Normalize();
 
-            //3. ÇÃ·¹ÀÌ¾î ÁöÁ¤ °¢µµ¿Í ºñ±³ 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
+            {
+                PlayerInSight = Vector3.zero;
                 continue;
+            }
 
-            //4. Áß°£¿¡ Àå¾Ö¹°ÀÌ ¾ø´ÂÁö 
-
-            Vector3 distToTarget = dirTarget - transform.position; 
-            float distance = Vector3.SqrMagnitude(distToTarget);
+            Vector2 distToTarget = (Vector2)collider.transform.position - (Vector2)transform.position; 
+            float distance = Vector2.SqrMagnitude(distToTarget);
+            Debug.DrawRay(transform.position, dirTarget, Color.red); 
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
+            {
+                PlayerInSight = Vector3.zero;
                 continue;
-            PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
-            playerInSight = collider.transform.position;
-            playerLocked = collider.transform; 
-            return playerInSight;
+            }
+
+            SetTarget(collider.transform); 
+            return true;
         }
-        return Vector3.zero;
+        return false;
+    }
+
+    private void SetTarget(Transform transform)
+    {
+        PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
+        playerInSight = transform.position;
+        playerLocked = transform;
     }
     //Based on the Locked Target State 
     public bool AccessForAttackRange()
     {
         if (playerLocked == null)
             return false;
-        RaycastHit hit;
-        if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
+        //RaycastHit hit;
+        //if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
+        //    return false;
+        //SetDirToTargetForChase(hit.point);
+        //EnemyAttacker.AttackDir = DirToLockedTarget; 
+        distanceToTarget = playerLocked.transform.position - transform.position;
+        if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
-        SetDirToTargetForChase(hit.point);
-        EnemyAttacker.AttackDir = (hit.point - transform.position).normalized;
         return true;
     }
     public bool AccessForAttack(float attackRange)
@@ -131,11 +163,9 @@ public class SightSensory : MonoBehaviour
         {
             Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
 
-            //1. ÇÃ·¹ÀÌ¾î ÁöÁ¤ °¢µµ¿Í ºñ±³ 
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
                 continue;
 
-            //2. Áß°£¿¡ Àå¾Ö¹°ÀÌ ¾ø´ÂÁö 
             Vector3 distToTarget = dirTarget - transform.position;
             float distance = Vector3.SqrMagnitude(distToTarget);
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
@@ -147,6 +177,23 @@ public class SightSensory : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool AccessForPursuit()
+    {
+        tempDir = PlayerLocked.transform.position - transform.position; 
+        tempDir.y = transform.position.y;
+        tempDir.Normalize();
+        if (Physics.Raycast(transform.position, tempDir, out RaycastHit hit, Enemy.CurrentStat.maxDepth, targetMask))
+        {
+            PinIntervalTimer = 0;
+            return true;
+        }
+
+        //if (hit.collider == null || hit.collider.tag != "Player")
+        //    return false;
+
+        return false; 
     }
 
     //private void Trace(Vector3 target)
@@ -179,7 +226,7 @@ public class SightSensory : MonoBehaviour
     {
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
-        //player ±âÁØÀ¸·Î »ý¼ºÇÏ±â¿¡, where player front is z axis, 
+        //player ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±â¿¡, where player front is z axis, 
     }
 
     public Vector3[] SightEdgesInDir(int interval)

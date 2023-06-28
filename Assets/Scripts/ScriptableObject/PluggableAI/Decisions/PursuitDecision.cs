@@ -16,16 +16,22 @@ public class PursuitDecision : Decision
 
     private bool Pursuiting(StateController controller)
     {
-        // if player has been temporarily gone out of the sight, run the timer, 
-        if (controller.Sight.PlayerInSight == Vector3.zero) // the Scanner has lost to identify the target. 
+        //// if player has been temporarily gone out of the sight, run the timer, 
+        //if (controller.Sight.PlayerInSight == Vector3.zero) // the Scanner has lost to identify the target. 
+        //{
+        //    if (controller.Sight.CheckElapsedTime(resetTimer))
+        //    {
+        //        controller.Sight.PlayerLocked = null; // uncheck the locked state. would also stop the Coroutine of Pursuiting behaviour. 
+        //        return false; // if time has elapsed and no player is no longer found, 
+        //    }
+        //    return true; // until the timer has set, keep tracking the locked target. 
+        //}
+        //return true; //controller.Sight.PlayerInSight != Vector3.zero;
+        if (controller.Sight.PlayerLocked == null)
         {
-            if (controller.Sight.CheckElapsedTime(resetTimer))
-            {
-                controller.Sight.PlayerLocked = null; // uncheck the locked state. 
-                return false; // if time has elapsed and no player is no longer found, 
-            }
-            return true; // until the timer has set, keep tracking the locked target. 
+            return false;
         }
-        return true; //controller.Sight.PlayerInSight != Vector3.zero;
+
+        return true; 
     }
 }

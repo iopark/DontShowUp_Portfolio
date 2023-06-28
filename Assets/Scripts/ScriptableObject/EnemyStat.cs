@@ -18,6 +18,9 @@ public class EnemyStat : ScriptableObject
     //Pertaining to Sight
     public float sightAngle;
     public float sightDepth;
+    public float maxDepth;
+    public float alertSightDepth;
+    public float alertSightAngle; 
 
     //Others 
     public int stateSize;

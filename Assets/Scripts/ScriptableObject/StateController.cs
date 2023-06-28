@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// TemporaryState Controller Inheriting NormalZombie Class
@@ -58,6 +59,10 @@ public class StateController : MonoBehaviour
     public State currentState;
     public State remainState;
     public State previousState;
+
+    //[Header("StateRequired Elements")]
+    //public bool isAligning; 
+    //public 
     private void Awake()
     {
         Enemy = GetComponent<Enemy>();
@@ -90,7 +95,8 @@ public class StateController : MonoBehaviour
             currentState = nextState;
             name = currentState.name;
             AnimationUpdate(); 
-            currentState.EnterState(this);
+            currentState.EnterStateAct(this);
+            //currentState.EnterStateActions(this);
         }
         return;
     }
@@ -106,35 +112,159 @@ public class StateController : MonoBehaviour
             return;
         Enemy.AnimationUpdate((AnimRequestSlip)stateAnim); 
     }
+
     #region attempting to perform request for future path in delegated ways
-    public Queue<ActionRequestSlip> actionRequests = new Queue<ActionRequestSlip>();
-    ActionRequestSlip currentRequest;
+    public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
+    public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
+    Coroutine toDestroy;
+    MoveRequestSlip currentRequest;
+    MoveRequestSlip previousRequest; 
     bool isCompletingAction;
-    public void RequestAction(UnityEngine.Object bodyComponent, float interval, Action<bool> _callback)
+    public bool IsCompletingAction { get { return isCompletingAction; } }
+    public void RequestMove(MoveType type, Vector3 destination, IEnumerator enumerator)
     {
-        ActionRequestSlip newRequest = new ActionRequestSlip(bodyComponent, interval, _callback);
+        MoveRequestSlip newRequest = new MoveRequestSlip(type, destination, enumerator);
+        if (actionRequests.Count > 0 && CheckForEqual(newRequest)) // if new request is considered an equal one, ignore this request. 
+            return;
         actionRequests.Enqueue(newRequest);
         TryCompleteNext(); 
     }
-    void TryCompleteNext()
+    private void TryCompleteNext()
     {
         if (!isCompletingAction && actionRequests.Count > 0)
         {
             currentRequest = actionRequests.Dequeue();
-            isCompletingAction = true; 
-            Enemy.DoAction(currentRequest.bodyComponent, currentRequest.interval);
+            isCompletingAction = true;
+            StartCoroutine(currentRequest.enumerator); 
         }
     }
 
-    public void FinishedProcessingPath(bool success)
+    private bool CheckForEqual(MoveRequestSlip other)
     {
-        if (success) // path 를 찾았을때만 해당 Path 를 전달한다. 
-            currentRequest.callback(success);
-        //How do we Deliever this path to the Requestee? 
-
-        isCompletingAction = false;
-        TryCompleteNext();
+        foreach (MoveRequestSlip slip in  actionRequests)
+        {
+            if (other.moveType == slip.moveType)
+                if (other.Equals(slip))
+                    return true; 
+        }
+        return false;
     }
+    /// <summary>
+    /// Simply call this function for every coroutines to imply a designated action has been finished. 
+    /// </summary>
+    /// <param name="success"></param>
+    public void FinishedAction(bool success)
+    {
+        if (!success)
+        {
+            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+            return;
+        }
+        //How do we Deliever this path to the Requestee? 
+        else if (success)
+        {
+            //TODO: maybe do a next action? 
+            isCompletingAction = false;
+            TryCompleteNext(); // run the next expected coroutine 
+        }
+    }
+
+    public void FinishedAction(bool success, System.Action<StateController> nextAction)
+    {
+        if (!success)
+        {
+            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+            return;
+        }
+        //How do we Deliever this path to the Requestee? 
+        else if (success)
+        {
+            //TODO: maybe do a next action? 
+            nextAction(this);
+            isCompletingAction = false;
+            TryCompleteNext(); // run the next expected coroutine 
+        }
+    }
+
+    public void RunAndSaveForReset(string coroutineKey, IEnumerator _routine)
+    {
+        if (CheckOverlapCoroutine(coroutineKey, _routine))
+            return; 
+        Coroutine routine = StartCoroutine(_routine);
+        CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, routine);
+        coroutines.Add(newSlip);
+    }
+
+    public void RemoveFromCoroutineList(string slipKey)
+    {
+        foreach (CoroutineSlip slip in coroutines)
+        {
+            if (slip.Equals(slipKey))
+            {
+                if (slip.routine != null)
+                    StopCoroutine(slip.routine); 
+                toDestroy = slip.routine; 
+                coroutines.Remove(slip);
+                return;
+            }
+        }
+        toDestroy = null; 
+    }
+
+    private bool CheckOverlapCoroutine(string slipKey, IEnumerator _routine)
+    {
+        foreach (CoroutineSlip name in coroutines)
+        {
+            if (name.Equals(slipKey))
+            {
+                if (name.routine == null)
+                {
+                    StartCoroutine(_routine); 
+                }
+                return true;
+            }
+        }
+        return false; 
+    }
+
+    /// <summary>
+    /// if coroutine exists and if its not running, then stop the coroutine. 
+    /// </summary>
+    /// <param name="slipKey"></param>
+    public void ResetCoroutine(string slipKey)
+    {
+        if (coroutines.Count == 0)
+            return;
+        foreach (CoroutineSlip name in coroutines)
+        {
+            if (name.Equals(slipKey))
+            {
+                if (name.routine != null)
+                {
+                    StopCoroutine(name.routine);
+                    return;
+                }
+
+                //toDestroy = name.routine;
+            }
+        }
+        Debug.Log("Coroutine did not exist"); 
+        return;
+    }
+
+    public void ResetAllCoroutines()
+    {
+        if (coroutines.Count == 0)
+            return; 
+        foreach(CoroutineSlip slip in coroutines)
+        {
+            if (slip.routine == null)
+                continue;
+             StopCoroutine(slip.routine);
+        }
+        //coroutines.Clear();
+    }
+
     #endregion
     protected void OnDrawGizmos()
     {

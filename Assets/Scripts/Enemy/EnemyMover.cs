@@ -12,10 +12,12 @@ public class EnemyMover : MonoBehaviour
     public bool debug; 
 
     CharacterController characterController;
+    public CharacterController CharacterController { get { return characterController; } }
     SoundSensory Auditory { get; set; }
     SightSensory Sight { get; set; }
     Animator animator;
     Enemy Enemy { get; set; }
+    StateController stateController; 
     [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
     public Act DefaultMove { get; private set; }
     #region Pertaining to Move 
@@ -51,11 +53,10 @@ public class EnemyMover : MonoBehaviour
     {
         get { return Enemy.transform.forward; }
     }
-    private Vector3 alignDir;
-    public Vector3 AlignDir { get { return alignDir; } set { alignDir = value; } }
-
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
+
+    private float distanceToTarget; 
 
     #endregion
     #region 유한상태 머신 관련 
@@ -71,16 +72,23 @@ public class EnemyMover : MonoBehaviour
         set { patrolIndex = value; }
     }
 
-    public Queue <RotateRequestSlip> RotateList = new Queue<RotateRequestSlip> ();
+    public Queue <MoveRequestSlip> MoveList = new Queue<MoveRequestSlip> ();
     #endregion
+
+    #region 움직임 계산 관련 
+    public const float dotThreshold = 0.99f;
+    public const float distanceThreshhold = 0.1f; 
+    Quaternion rotation; 
     private void Start()
     {
-        patrolIndex = 0;
+        patrolIndex = 0;        
         DefaultMove = Instantiate(defaultMove);
+        characterController = GetComponent<CharacterController> ();
         Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
         Enemy = GetComponent<Enemy>();
+        stateController = GetComponent<StateController>();
         patrolPoints = new List<PatrolPoint>();
         Enemy.CurrentStat.SyncMovementData(this); 
     }
@@ -99,20 +107,19 @@ public class EnemyMover : MonoBehaviour
     }
     public void Rotator(Vector3 alignDir)
     {
-        Quaternion rotation = Quaternion.LookRotation(alignDir);
+        rotation = Quaternion.LookRotation(alignDir);
         transform.rotation = rotation;
         //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
-        LookDir = transform.forward; 
     }
 
     public void Rotator()
     {
-        Quaternion rotation = Quaternion.LookRotation(LookDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
+        rotation = Quaternion.LookRotation(LookDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 1f);
     }
     public void Rotator(float interval)
     {
-        Quaternion rotation = Quaternion.LookRotation(LookDir);
+        rotation = Quaternion.LookRotation(LookDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
     }
 
@@ -152,13 +159,80 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
-    //IEnumerator RotatorMechanism()
-    //{
-    //    while (RotateList.Count > 0)
-    //    {
+    Coroutine RotationRoutine;
+    Coroutine MovingRoutine;
+    public void StartRotationOnly(Vector3 alignDir)
+    {
+        if (RotationRoutine != null)
+            UnityEngine.Debug.Log("StateController failed to manage jobs"); 
 
-    //    }
-    //}
+        RotationRoutine = StartCoroutine(RotatorMechanism(alignDir));
+    }
+
+    public void StartMoveRequest(Vector3 destination)
+    {
+        if (MovingRoutine != null)
+            UnityEngine.Debug.Log("StateController failed to manage job allocation");
+
+        MovingRoutine = StartCoroutine(MoveToDestination(destination));
+    }
+
+    IEnumerator RotatorMechanism(Vector3 alignDir)
+    {
+        rotation = Quaternion.LookRotation(alignDir);
+        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+            yield return null;
+        }
+        stateController.FinishedAction(true);
+        RotationRoutine = null;
+    }
+
+    IEnumerator MoveToDestination(Vector3 destination)
+    {
+        distanceToTarget = Vector3.SqrMagnitude(destination - transform.position);
+        while (distanceToTarget > 0.1f)
+        {
+            lookDir = destination - transform.position; 
+            lookDir.y = transform.position.y;
+            lookDir.Normalize(); 
+            rotation  = Quaternion.LookRotation(lookDir);
+            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+                yield return null;
+            }
+            characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+            yield return null;
+        }
+        stateController.FinishedAction(true); 
+    }
+
+    IEnumerator ChaseTarget()
+    {
+        while (Sight.PlayerLocked != null)
+        {
+            distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);
+            lookDir = Sight.PlayerLocked.position - transform.position;
+            lookDir.y = transform.position.y;
+            lookDir.Normalize();
+            rotation = Quaternion.LookRotation(lookDir);
+            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
+                yield return null;
+            }
+            while (distanceToTarget > distanceThreshhold)
+            {
+                characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+        }
+        stateController.FinishedAction(true); 
+    }
+    #endregion
     IEnumerator FollowSound(Vector3[] traceablePath)
     {
         traceSoundPoints = traceablePath;

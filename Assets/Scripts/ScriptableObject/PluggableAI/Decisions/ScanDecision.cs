@@ -7,6 +7,7 @@ using UnityEngine.SocialPlatforms;
 [CreateAssetMenu(fileName = "Decision_Scan_", menuName = "PluggableAI/Decisions/Scan")]
 public class ScanDecision : Decision
 {
+    //[SerializeField] float resetLock; 
     public override bool Decide(StateController controller)
     {
         bool targetVisible = Scan(controller);
@@ -15,17 +16,17 @@ public class ScanDecision : Decision
 
     private bool Scan(StateController controller)
     {
-        Vector3 findingTarget = controller.Sight.FindTarget();
-        if (findingTarget != Vector3.zero)
-        {
-            controller.Sight.PlayerInSight = findingTarget;
-            //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
-            return true; 
-        }
-        else
-        {
-            controller.Sight.PlayerInSight = Vector3.zero;
-            return false;
-        }
+        bool tempResult = controller.Sight.FindTarget();
+        //if (!tempResult)
+        //{
+        //    //Do this somewhere else. controller.Sight.SetDirToTargetForChase(findingTarget);
+           
+        //    return tempResult; 
+        //}
+        ////else if (controller.Sight.PlayerInSight == Vector3.zero && controller.Sight.PlayerLocked != null)
+        ////{
+        ////    return AttemptToTrack(controller);
+        ////}
+        return tempResult;
     }
 }

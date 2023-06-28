@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13701bc34e04c54c80a9564de6a11e9, type: 3}
   m_Name: Act_Rotate_BasicZombie
   m_EditorClassIdentifier: 
+  aboutThisAct: Rotate Unit based on Unit's current LookDir by default Lerp value.
+    (Could potentially shift toward rotateSpeed)
+  animTrigger: 
+  animType: 0
+  animFloatValue: 0
+  animBoolValue: 0
+  actionstoStop: []
+  stopAllCoroutine: 0

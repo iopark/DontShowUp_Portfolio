@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff3a13fd7175654ba350c8027c14416, type: 3}
   m_Name: Action_Wander_BasicZombie
   m_EditorClassIdentifier: 
+  RequiredProceedingAct: 
+  RequiredPreceedingAction: 
+  coroutineKey: wander
+  wanderDistance: 2
   defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
   defaultRotate: {fileID: 11400000, guid: 699ff2e45b1285d4b890a540ebea849b, type: 2}
   defaultWander: {fileID: 11400000, guid: 5623326c81a555b40a1fc269cdbc41e4, type: 2}
+  dotThreshHold: 0.96
+  distanceThreshHold: 0.2

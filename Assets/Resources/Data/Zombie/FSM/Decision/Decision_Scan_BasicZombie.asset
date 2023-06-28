@@ -12,12 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020dce1f19dfd5448c4a4ff1f3a8052, type: 3}
   m_Name: Decision_Scan_BasicZombie
   m_EditorClassIdentifier: 
-  range: 0
-  sightRange: 0
-  sightAngle: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 8
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
+  resetLock: 3

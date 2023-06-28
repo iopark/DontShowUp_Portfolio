@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 908a542c7a07d8d4f932160d397607db, type: 3}
-  m_Name: EnteringAct_NormalPhase_BasicZombie
+  m_Script: {fileID: 11500000, guid: 544630dbf53f2274cb24a7ef3112bef8, type: 3}
+  m_Name: EnterAct_SetPatrolPoint_BasicZombie
   m_EditorClassIdentifier: 
   animTrigger: 
   animType: 0

@@ -24,23 +24,23 @@ public class Attack : SkillProperty
 
     }
 
-    public Vector3? StartStrike()
-    {
-        //Assumption is that unit is already looking at the enemy. ?
-        // no. assumption is that enemy is / was in the attacking range. 
-        Collider[] colliders = Physics.OverlapSphere(Attacker.transform.position, attackRange, targetMask);
-        if (colliders.Length == 0)
-            return null;
-        foreach (Collider collider in colliders)
-        {
-            Vector3 dirTarget = (collider.transform.position - Attacker.transform.position).normalized;
+    //public Vector3? StartStrike()
+    //{
+    //    //Assumption is that unit is already looking at the enemy. ?
+    //    // no. assumption is that enemy is / was in the attacking range. 
+    //    Collider[] colliders = Physics.OverlapSphere(Attacker.transform.position, attackRange, targetMask);
+    //    if (colliders.Length == 0)
+    //        return null;
+    //    foreach (Collider collider in colliders)
+    //    {
+    //        Vector3 dirTarget = (collider.transform.position - Attacker.transform.position).normalized;
 
-            if (Vector3.Dot(Attacker.transform.forward, dirTarget) < Mathf.Cos(attackAngle * 0.5f * Mathf.Deg2Rad))
-                return null;
-            return dirTarget;
-        }
-        return null;
-    }
+    //        if (Vector3.Dot(Attacker.transform.forward, dirTarget) < Mathf.Cos(attackAngle * 0.5f * Mathf.Deg2Rad))
+    //            return null;
+    //        return dirTarget;
+    //    }
+    //    return null;
+    //}
     public void Strike(Vector3 attackDir)
     {
         if (Physics.SphereCast(Attacker.transform.position, attackRange, attackDir, out RaycastHit hit, attackRange, targetMask))
