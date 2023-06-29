@@ -129,7 +129,7 @@ public class EnemyMover : MonoBehaviour
             case MoveState.Alert: nextSpeed = alertMoveSpeed; break;
             default: nextSpeed = 0f; break;
         }
-        CurrentSpeed = Mathf.Lerp(currentSpeed, normalMoveSpeed, 0.3f);
+        CurrentSpeed = Mathf.Lerp(currentSpeed, nextSpeed, 0.4f);
     }
 
     public void Rotator(Vector3 alignDir)

@@ -15,7 +15,6 @@ public class CombatDecision : Decision
         bool result  = controller.Sight.AccessForAttackRange(); 
         if (!result)
         {
-            Debug.Log("Don't Attack"); 
             controller.EnemyAttacker.StopAttack();
             controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert); 
         }

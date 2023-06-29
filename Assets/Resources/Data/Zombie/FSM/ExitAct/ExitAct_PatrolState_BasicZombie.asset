@@ -17,6 +17,6 @@ MonoBehaviour:
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionsToStop: []
+  actionsToStop:
+  - {fileID: 11400000, guid: 41bd3f4358173e74a8c235032c692da2, type: 2}
   stopAllCoroutine: 0
-  ActionToCease: {fileID: 11400000, guid: 41bd3f4358173e74a8c235032c692da2, type: 2}

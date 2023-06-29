@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f912409cc01fe4da93a975cb42f989, type: 3}
   m_Name: Action_Aligning_BasicZombie
   m_EditorClassIdentifier: 
-  actionName: AlignOrientationAction
   RequiredProceedingAct: 
   RequiredPreceedingAction: 
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
   dotThreshHold: 0.98
+  defaultRotate: {fileID: 11400000, guid: 699ff2e45b1285d4b890a540ebea849b, type: 2}
