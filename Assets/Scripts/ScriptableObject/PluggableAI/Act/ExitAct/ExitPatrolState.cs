@@ -5,13 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ExitAct_PatrolState_", menuName = "PluggableAI/ExitAct/PatrolState")]
 public class ExitPatrolState : Act
 {
-    [SerializeField] Action ActionToCease;
-
     public override void Perform(StateController controller)
     {
-        //controller.ResetCoroutine(ActionToCease.GetType().Name);
-        controller.ResetCoroutine(ActionToCease.GetType().Name); 
-        //Optional, probably not best implemented in the Advanced Zombie. 
+        foreach(Action act in actionsToStop)
+        {
+            controller.ResetCoroutine(act.GetType().Name);
+        }
         controller.EnemyMover.PatrolCount = 0; 
         controller.EnemyMover.PatrolIndex = 0;
     }

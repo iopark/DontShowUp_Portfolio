@@ -58,5 +58,6 @@ public class AlignOrientationAction : Action
             defaultRotate.Perform(controller); 
             yield return null;
         }
+        controller.SignalCoroutineFinish(actionName); 
     }
 }

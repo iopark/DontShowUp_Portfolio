@@ -165,17 +165,25 @@ public struct MoveRequestSlip
 public struct CoroutineSlip : IEquatable<string>
 {
     public string coroutineKey;
-    public IEnumerator? routine; 
+    public IEnumerator? routine;
+    public bool hasFinished; 
 
     public CoroutineSlip (string coroutineKey, IEnumerator routine)
     {
         this.coroutineKey = coroutineKey;
         this.routine = routine;
+        this.hasFinished = false; 
     }
 
-    public void ChangeRoutine(IEnumerator routine)
+    public void CoroutineFinished()
     {
-        this.routine = routine; 
+        this.hasFinished = true; 
+    }
+    public void ChangeRoutine(IEnumerator newroutine)
+    {
+        SetToNull(); 
+        this.routine = newroutine; 
+        this.hasFinished = false;
     }
 
     public void SetToNull()

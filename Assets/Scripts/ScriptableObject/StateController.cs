@@ -77,118 +77,35 @@ public class StateController : MonoBehaviour
     public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
     IEnumerator toRun;
 
-
-    #region Coroutine Manager through custom Coroutine 
-    //public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
-    //MoveRequestSlip currentRequest;
-    //MoveRequestSlip previousRequest;
-    //bool isCompletingAction;
-    //public bool IsCompletingAction { get { return isCompletingAction; } }
-    //public void RequestMove(string key, IEnumerator enumerator)
-    //{
-    //    MoveRequestSlip newRequest = new MoveRequestSlip(key, enumerator);
-    //    if (actionRequests.Count < 0 && CheckForEqual(newRequest)) // if new request is considered an equal one, ignore this request. 
-    //        return;
-    //    pauseRequests.Enqueue(newRequest);
-    //    TryCompleteNext(); 
-    //}
-    //private void TryCompleteNext()
-    //{
-    //    if (!isCompletingAction && actionRequests.Count > 0)
-    //    {
-    //        currentRequest = actionRequests.Dequeue();
-    //        isCompletingAction = true;
-    //        StartCoroutine(currentRequest.enumerator); 
-    //    }
-    //}
-
-    //private bool CheckForEqual(MoveRequestSlip other)
-    //{
-    //    foreach (MoveRequestSlip slip in  actionRequests)
-    //    {
-    //        if (other.Equals(slip))
-    //            return true;
-    //    }
-    //    return false;
-    //}
-    ///// <summary>
-    ///// Simply call this function for every coroutines to imply a designated action has been finished. 
-    ///// </summary>
-    ///// <param name="success"></param>
-    //public void FinishedAction(bool success)
-    //{
-    //    if (!success)
-    //    {
-    //        //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
-    //        return;
-    //    }
-    //    //How do we Deliever this path to the Requestee? 
-    //    else if (success)
-    //    {
-    //        //TODO: maybe do a next action? 
-    //        isCompletingAction = false;
-    //        TryCompleteNext(); // run the next expected coroutine 
-    //    }
-    //}
-
-    //public void FinishedAction(bool success, System.Action<StateController> nextAction)
-    //{
-    //    if (!success)
-    //    {
-    //        //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
-    //        return;
-    //    }
-    //    //How do we Deliever this path to the Requestee? 
-    //    else if (success)
-    //    {
-    //        //TODO: maybe do a next action? 
-    //        nextAction(this);
-    //        isCompletingAction = false;
-    //        TryCompleteNext(); // run the next expected coroutine 
-    //    }
-    //}
-    //public void EmptyQueue()
-    //{
-    //    if (coroutines.Count <= 0 && !isCompletingAction)
-    //        return;
-    //    else if (isCompletingAction)
-    //    {
-    //        StopCoroutine(currentRequest.enumerator);
-    //        suspendedCoroutine.Clear();
-    //    }
-    //    else
-    //    {
-    //        suspendedCoroutine.Clear();
-    //    }
-    //}
-    #endregion
     public void RunAndSaveForReset(string coroutineKey, IEnumerator _routine)
     {
         if (CheckOverlapCoroutine(coroutineKey, _routine))
-            return; 
-        IEnumerator routine = _routine;
-        StartCoroutine(routine); 
+            return;
         CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, _routine);
         coroutines.Add(newSlip);
+        StartCoroutine(_routine);
     }
 
+    public void SignalCoroutineFinish(string coroutineKey)
+    {
+        foreach (CoroutineSlip slip in coroutines)
+        {
+            if (slip.Equals(coroutineKey))
+            {
+                slip.CoroutineFinished(); 
+            }
+        }
+    }
     public void RestartCoroutine(string coroutineKey, IEnumerator _routine)
     {
         foreach (CoroutineSlip name in coroutines)
         {
             if (name.Equals(coroutineKey))
             {
-                if (name.routine == null)
-                {
-                    name.ChangeRoutine(_routine);
-                    StartCoroutine(_routine);
-                }
-                else
-                {
-                    StopCoroutine(name.routine);
-                    name.ChangeRoutine(_routine);
-                    StartCoroutine(name.routine); 
-                }
+                StopCoroutine(name.routine);
+                name.ChangeRoutine(_routine);
+                StartCoroutine(name.routine);
+                return;
             }
         }
         IEnumerator routine = _routine;
@@ -212,20 +129,16 @@ public class StateController : MonoBehaviour
         }
     }
 
-    private void StopAndRemoveThisCoroutine(CoroutineSlip thisSlip)
-    {
-        StopCoroutine(thisSlip.routine); 
-        coroutines.Remove(thisSlip);
-    }
     private bool CheckOverlapCoroutine(string slipKey, IEnumerator _routine)
     {
         foreach (CoroutineSlip name in coroutines)
         {
             if (name.Equals(slipKey))
             {
-                if (name.routine == null)
+                if (name.hasFinished)
                 {
-                    StartCoroutine(_routine);
+                    name.ChangeRoutine(_routine); 
+                    StartCoroutine(name.routine);
                 }
                 return true;
             }
@@ -245,30 +158,25 @@ public class StateController : MonoBehaviour
         {
             if (name.Equals(slipKey))
             {
-                if (name.routine != null)
-                {
-                    StopCoroutine(name.routine);
-                    name.SetToNull(); 
-                    return;
-                }
+                StopCoroutine(name.routine);
+                name.CoroutineFinished();
+                return;
                 //toDestroy = name.routine;
             }
         }
-        Debug.Log("Coroutine did not exist"); 
         return;
     }
-
     public void ResetAllCoroutines()
     {
         if (coroutines.Count == 0)
             return; 
         foreach(CoroutineSlip slip in coroutines)
         {
-            if (slip.routine == null)
+            if (slip.hasFinished)
                 continue;
-             StopCoroutine(slip.routine);
+            StopCoroutine(slip.routine);
+            slip.CoroutineFinished();
         }
-        //coroutines.Clear();
     }
     #endregion
     protected void OnDrawGizmos()

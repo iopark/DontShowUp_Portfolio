@@ -24,12 +24,14 @@ public class AttackAction : Action
 
     IEnumerator FaceTarget(StateController controller)
     {
+        Debug.Log("Facingtarget"); 
         while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
         {
             Debug.Log("FaceTarget"); 
             defaultRotate.Perform(controller);
             yield return null;
         }
+        controller.ResetCoroutine(actionName);
         controller.EnemyAttacker.TryStrike();
         //Since coroutine is finished, stop the coroutine, and remove from the list 
         //controller.ResetCoroutine(coroutineKey);

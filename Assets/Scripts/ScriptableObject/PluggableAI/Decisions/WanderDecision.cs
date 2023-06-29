@@ -6,7 +6,7 @@ using UnityEngine;
 public class WanderDecision : Decision
 {
     //Wander State Ending Decision, should be concluded if a wall is found, leading to the Align State 
-    [SerializeField] string coroutineKey; 
+    [SerializeField] Action ActionToEnd; 
     [SerializeField] private float wanderPeriod;
     public override bool Decide(StateController controller)
     {
@@ -17,7 +17,7 @@ public class WanderDecision : Decision
         if (controller.EnemyMover.CheckElapsedTime(wanderPeriod))
         {
             //TODO: Stop the Coroutine for the IdleWanderActions 
-            controller.ResetCoroutine(coroutineKey); 
+            controller.ResetCoroutine(ActionToEnd.actionName); 
             return true;
         }
         return false;

@@ -37,18 +37,14 @@ public class IdleWanderAction : Action
             //lookDir.Normalize();
             destination = controller.transform.forward * Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir); 
             distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
-            while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
-            {
-                defaultRotate.Perform(controller); 
-                yield return null;
-            }
+            defaultRotate.Perform(controller); 
             if (distanceToTarget > distanceThreshHold)
             {
                 defaultMove.Perform(controller);
-                yield return null;
             }
             else
-                defaultWander.Perform(controller); 
+                defaultWander.Perform(controller);
+            yield return null;
         }
     }
 }

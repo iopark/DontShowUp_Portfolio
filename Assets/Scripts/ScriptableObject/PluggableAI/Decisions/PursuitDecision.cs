@@ -27,7 +27,7 @@ public class PursuitDecision : Decision
             controller.RunAndSaveForReset(nameof(CountdownPlayerMissingTime), CountdownPlayerMissingTime(controller)); 
         }
         else 
-            controller.ResetCoroutine(nameof(CountdownPlayerMissingTime));
+            controller.SignalCoroutineFinish(nameof(CountdownPlayerMissingTime));
         return true; 
     }
 

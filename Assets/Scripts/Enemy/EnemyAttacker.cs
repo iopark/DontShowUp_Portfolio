@@ -13,7 +13,7 @@ public class EnemyAttacker : MonoBehaviour
     }
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;
-    bool isAttacking; 
+    [SerializeField] bool isAttacking; 
     public bool IsAttacking {  get { return isAttacking; } }
     Vector3 attackDir; 
     public Vector3 AttackDir { get { return attackDir; } set{ attackDir = value; } }
@@ -45,6 +45,8 @@ public class EnemyAttacker : MonoBehaviour
 
     public void TryStrike()
     {
+        Debug.Log("TryAttack");
+
         if (isAttacking)
             return;
         attackRoutine = StartCoroutine(DoAttack());
@@ -54,7 +56,7 @@ public class EnemyAttacker : MonoBehaviour
         while (true)
         {
             Debug.Log("Attack"); 
-            //enemyMover.CurrentSpeed = 0f; 
+            enemyMover.CurrentSpeed = 0f; 
             isAttacking = true; 
             Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
             yield return attackInterval; 
