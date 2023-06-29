@@ -20,7 +20,12 @@ public class SightSensory : MonoBehaviour
     private Vector3 playerInSight; 
     public Vector3 PlayerInSight { get { return playerInSight; } set { playerInSight = value; } }
     #region testing Locking Target
-    [SerializeField] private Transform playerLocked; 
+    [SerializeField] private Transform playerLocked;
+    private float sightThreshhold; 
+    float SightThreshHold
+    {
+        set { sightThreshhold = value; }
+    }
     public Transform PlayerLocked
     {
         get { return playerLocked; }
@@ -70,6 +75,7 @@ public class SightSensory : MonoBehaviour
     }
     private void Start()
     {
+        sightThreshhold = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);
         Enemy.CurrentStat.SyncSightData(this);
     }
     //TODO: Target must be continuing to search for the target, how can I implement this together with the FindTarget 
@@ -133,6 +139,8 @@ public class SightSensory : MonoBehaviour
         return false;
     }
 
+
+
     private void SetTarget(Transform transform)
     {
         PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
@@ -163,7 +171,7 @@ public class SightSensory : MonoBehaviour
         {
             Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
 
-            if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
+            if (Vector3.Dot(transform.forward, dirTarget) < sightThreshhold)
                 continue;
 
             Vector3 distToTarget = dirTarget - transform.position;
@@ -179,11 +187,22 @@ public class SightSensory : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Returns true if player is at the blindspot. 
+    /// </summary>
+    /// <param name="playerDir"></param>
+    /// <returns></returns>
+    public bool IsPlayerAtBlindSpot(Vector3 playerDir)
+    {
+        return (Vector3.Dot(transform.forward, playerDir) < sightThreshhold * -1); 
+    }
     public bool AccessForPursuit()
     {
         tempDir = PlayerLocked.transform.position - transform.position; 
         tempDir.y = transform.position.y;
         tempDir.Normalize();
+        if (IsPlayerAtBlindSpot(tempDir))
+            return false; 
         if (Physics.Raycast(transform.position, tempDir, out RaycastHit hit, Enemy.CurrentStat.maxDepth, targetMask))
         {
             PinIntervalTimer = 0;

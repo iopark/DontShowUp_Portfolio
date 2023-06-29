@@ -12,6 +12,6 @@ public class EnteringSearchState : Act
     private void InitializeSearchState(StateController controller)
     {
         controller.EnemyMover.LookDir = controller.transform.forward;
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.NormalMoveSpeed); 
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Normal); 
     }
 }

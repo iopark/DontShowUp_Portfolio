@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.InputSystem.XR.Haptics;
 
+public enum MoveState
+{
+    Idle,
+    Normal, 
+    Alert, 
+    Attack
+}
 public class EnemyMover : MonoBehaviour
 {
     [Header("Debugging Purposes")]
@@ -105,6 +113,26 @@ public class EnemyMover : MonoBehaviour
     {
         CurrentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
     }
+
+    float nextSpeed; 
+    /// <summary>
+    /// Insert Movement Type, 
+    /// Normal, 
+    /// Alert, 
+    /// and Attack using MoveState 
+    /// </summary>
+    /// <param name="speed"></param>
+    public void ChangeMovementSpeed(MoveState mState) 
+    {
+        switch (mState)
+        {
+            case MoveState.Normal: nextSpeed = normalMoveSpeed; break;
+            case MoveState.Alert: nextSpeed = alertMoveSpeed; break;
+            default: nextSpeed = 0f; break;
+        }
+        CurrentSpeed = Mathf.Lerp(currentSpeed, normalMoveSpeed, Time.deltaTime);
+    }
+
     public void Rotator(Vector3 alignDir)
     {
         rotation = Quaternion.LookRotation(alignDir);
@@ -159,6 +187,8 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
+    #endregion
+    #region Previous Coroutines 
     Coroutine RotationRoutine;
     Coroutine MovingRoutine;
     public void StartRotationOnly(Vector3 alignDir)

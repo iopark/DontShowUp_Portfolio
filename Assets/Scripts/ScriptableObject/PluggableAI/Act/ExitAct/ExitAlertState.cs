@@ -20,6 +20,6 @@ public class ExitAlertState : Act
     {
         AnimRequestSlip animRequestSlip = new AnimRequestSlip(AnimType, animTrigger, animBoolValue);
         controller.Enemy.AnimationUpdate(animRequestSlip);
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.NormalMoveSpeed);
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Normal);
     }
 }

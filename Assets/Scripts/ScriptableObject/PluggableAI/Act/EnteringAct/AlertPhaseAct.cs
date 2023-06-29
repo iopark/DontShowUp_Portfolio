@@ -15,6 +15,6 @@ public class AlertPhaseAct : Act
         controller.ResetAllCoroutines();
         AnimRequestSlip animRequestSlip = new AnimRequestSlip(AnimType, animTrigger, animBoolValue);
         controller.Enemy.AnimationUpdate(animRequestSlip);
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.AlertMoveSpeed);
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert);
     }
 }

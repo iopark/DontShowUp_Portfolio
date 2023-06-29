@@ -12,6 +12,6 @@ public class ExitAttackState : Act
         {
             controller.ResetCoroutine(key);
         }
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.AlertMoveSpeed); 
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert); 
     }
 }
