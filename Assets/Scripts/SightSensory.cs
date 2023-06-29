@@ -79,12 +79,12 @@ public class SightSensory : MonoBehaviour
         Enemy.CurrentStat.SyncSightData(this);
     }
     //TODO: Target must be continuing to search for the target, how can I implement this together with the FindTarget 
-    
-    public void SetDirToTargetForChase(Vector3 targetPos)
+    public void SetLookDirToPos(Vector3 targetPos)
     {
-        targetPos.y = transform.position.y;
-        Vector3 lookDirection = (targetPos - transform.position).normalized; 
-        LookDir = lookDirection; 
+        targetPos.y = 0f;
+        tempDir = targetPos - transform.position;
+        tempDir.Normalize();
+        LookDir = tempDir;
     }
 
     public void SetDirToLook(Vector3 direction)
@@ -181,7 +181,7 @@ public class SightSensory : MonoBehaviour
             Vector3 dir = (collider.transform.position - transform.position).normalized; 
             Debug.DrawRay(transform.position, dir, Color.red); 
             playerInSight = collider.transform.position;
-            SetDirToTargetForChase(playerInSight);
+            SetLookDirToPos(playerInSight);
             return true;
         }
         return false;

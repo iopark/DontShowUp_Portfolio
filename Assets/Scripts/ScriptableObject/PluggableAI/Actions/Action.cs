@@ -1,11 +1,13 @@
+using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Action : ScriptableObject
 {
+    public abstract string actionName { get; }
     [TextArea]
-    public string actionName; 
     public string RequiredProceedingAct;
     [TextArea] 
     public string RequiredPreceedingAction;

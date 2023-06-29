@@ -16,9 +16,8 @@ public abstract class Act : ScriptableObject
     [SerializeField] protected float animFloatValue;
     [SerializeField] protected bool animBoolValue;
 
-    [SerializeField] protected string[] actionsToStop;
+    [SerializeField] protected Action[] actionsToStop;
     [SerializeField] protected bool stopAllCoroutine; 
-
     #endregion
 
     public abstract void Perform(StateController controller); 

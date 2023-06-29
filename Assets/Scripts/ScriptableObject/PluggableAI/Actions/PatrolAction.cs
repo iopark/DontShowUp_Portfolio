@@ -6,7 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_Patrol_", menuName = "PluggableAI/Actions/Patrol")]
 public class PatrolAction : Action
 {
+    public override string actionName => typeof(PatrolAction).Name;
     [SerializeField] private Act defaultMove;
+    [SerializeField] private Act defaultRotate;
     [SerializeField] private float patrolOffset;
     [SerializeField] private float dotThreshHold; 
     public override void Act(StateController controller)
@@ -59,43 +61,62 @@ public class PatrolAction : Action
         //    //Debug.Log(controller.PatrolIndex);
         //}
         #endregion
-        Vector3 searchPoint = controller.EnemyMover.PatrolPoints[controller.PatrolIndex].worldPosition;
-        controller.RequestMove(MoveType.Move, searchPoint, MoveToDestination(searchPoint, controller)); 
+        controller.RunAndSaveForReset(actionName, MoveToDestination(controller)); 
     }
-    //private bool ReachedDestination(Vector3 origin, Vector3 destination)
-    //{
-    //    Vector3 delta = destination - origin;
-    //    //Vector3.Dot(delta, delta); 
-    //    return Vector3.Dot(delta, delta) < patrolOffset;
-    //}
-
     private void UpdatePatrolIndex(StateController controller)
     {
-        controller.EnemyMover.PatrolIndex = ((controller.EnemyMover.PatrolIndex + 1) % controller.PatrolPoints.Count);
+        controller.EnemyMover.PatrolIndex = ((controller.EnemyMover.PatrolIndex + 1) % controller.EnemyMover.PatrolPoints.Count);
+        Debug.Log($" Reached Certain Peak {controller.EnemyMover.PatrolIndex} index, {controller.EnemyMover.PatrolCount} count");
         if (controller.EnemyMover.PatrolIndex == controller.Enemy.CurrentStat.patrolSize - 1)
         {
             controller.ReversePatrolPoints(); // 패트롤 포인트를 반대로 돌려서 진행한다. 
-            controller.patrolCount++;
+            Debug.Log($" Reached Certain Peak {controller.EnemyMover.PatrolIndex} index, {controller.EnemyMover.PatrolCount} count");
+            controller.EnemyMover.PatrolCount++;
         }
     }
-    IEnumerator MoveToDestination(Vector3 destination, StateController controller)
+
+    //IEnumerator MoveToDestination(Vector3 destination, StateController controller)
+    //{
+    //    float distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
+    //    while (distanceToTarget > 0.1f)
+    //    {
+    //        distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
+    //        Vector3 lookDir = destination - controller.transform.position;
+    //        lookDir.y = 0f;
+    //        lookDir.Normalize();
+    //        controller.Sight.SetDirToLook(lookDir); 
+    //        defaultRotate.Perform(controller);
+    //        defaultMove.Perform(controller); 
+    //        //controller.Enemy.characterController.Move(lookDir * controller.EnemyMover.CurrentSpeed * Time.deltaTime);
+    //        yield return null;
+    //    }
+    //    controller.FinishedAction(true, UpdatePatrolIndex);
+    //}
+    /// <summary>
+    /// This Enumerator is Stopped in the patrolExit Stage. 
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <returns></returns>
+    IEnumerator MoveToDestination(StateController controller)
     {
-        float distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
-        while (distanceToTarget > 0.1f)
+        int index;
+        Vector3 destination;
+        float distanceToTarget;
+        while (true)
         {
+            index = controller.EnemyMover.PatrolIndex;
+            destination = controller.EnemyMover.PatrolPoints[index].worldPosition;
             distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
+
             Vector3 lookDir = destination - controller.transform.position;
-            lookDir.y = 0f; 
+            lookDir.y = 0f;
             lookDir.Normalize();
-            controller.transform.rotation = Quaternion.LookRotation(lookDir);
-            while (Vector3.Dot(controller.transform.forward, lookDir) < dotThreshHold)
-            {
-                controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, controller.transform.rotation, 0.03f);
-                yield return null;
-            }
-            controller.Enemy.characterController.Move(lookDir * controller.CurrentSpeed * Time.deltaTime);
+            controller.Sight.SetDirToLook(lookDir);
+            defaultRotate.Perform(controller);
+            defaultMove.Perform(controller);
+            if (distanceToTarget < patrolOffset)
+                UpdatePatrolIndex(controller);
             yield return null;
         }
-        controller.FinishedAction(true, UpdatePatrolIndex);
     }
 }

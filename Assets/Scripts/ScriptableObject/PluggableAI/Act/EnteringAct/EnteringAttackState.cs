@@ -9,9 +9,9 @@ public class EnteringAttackState : Act
     {
         if (actionsToStop.Length < 0)
             return;
-        foreach(string action in actionsToStop)
+        foreach(Action action in actionsToStop)
         {
-            controller.ResetCoroutine(action);
+            controller.ResetCoroutine(action.GetType().Name);
         }
         controller.Sight.SetDirToPlayer(); 
     }

@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aboutThisAct: Rotate Unit based on Unit's current LookDir by default Lerp value.
     (Could potentially shift toward rotateSpeed)
+  actName: Rotate
   animTrigger: 
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionstoStop: []
+  actionsToStop: []
   stopAllCoroutine: 0

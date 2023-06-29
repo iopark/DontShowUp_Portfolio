@@ -13,11 +13,12 @@ public class AlertDecision : Decision
 
     private bool FurtherScan(StateController controller)
     {
-        if (controller.Sight.PlayerLocked != null)
-        {
-            return AttemptToTrack(controller); 
-        }
-        return false; 
+        return AttemptToTrack(controller); 
+        //if (controller.Sight.PlayerLocked != null)
+        //{
+        //    return AttemptToTrack(controller); 
+        //}
+        //return false; 
     }
 
     private bool AttemptToTrack(StateController controller)

@@ -26,8 +26,6 @@ public class EnemyMover : MonoBehaviour
     Animator animator;
     Enemy Enemy { get; set; }
     StateController stateController; 
-    [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
-    public Act DefaultMove { get; private set; }
     #region Pertaining to Move 
     //Moving Abilities 
     private float currentSpeed;
@@ -64,10 +62,13 @@ public class EnemyMover : MonoBehaviour
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
-    private float distanceToTarget; 
+    private float distanceToTarget;
 
     #endregion
     #region 유한상태 머신 관련 
+    [SerializeField] private int patrolCount;
+    public int PatrolCount { get { return patrolCount; } set { patrolCount = value; } }
+
     private float pinIntervalTimer;
     public float PinIntervalTimer { get { return pinIntervalTimer; } set { pinIntervalTimer = value; } }
     private List<PatrolPoint> patrolPoints;
@@ -90,7 +91,6 @@ public class EnemyMover : MonoBehaviour
     private void Start()
     {
         patrolIndex = 0;        
-        DefaultMove = Instantiate(defaultMove);
         characterController = GetComponent<CharacterController> ();
         Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
@@ -105,7 +105,6 @@ public class EnemyMover : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-        DefaultMove = Instantiate(defaultMove);
         trail = GetComponent<TrailRenderer>();
     }
 
@@ -130,7 +129,7 @@ public class EnemyMover : MonoBehaviour
             case MoveState.Alert: nextSpeed = alertMoveSpeed; break;
             default: nextSpeed = 0f; break;
         }
-        CurrentSpeed = Mathf.Lerp(currentSpeed, normalMoveSpeed, Time.deltaTime);
+        CurrentSpeed = Mathf.Lerp(currentSpeed, normalMoveSpeed, 0.3f);
     }
 
     public void Rotator(Vector3 alignDir)
@@ -176,7 +175,7 @@ public class EnemyMover : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(FollowSound(newPath));
     }
-
+    
     public bool CheckElapsedTime(float time)
     {
         PinIntervalTimer += Time.deltaTime;
@@ -189,79 +188,79 @@ public class EnemyMover : MonoBehaviour
     }
     #endregion
     #region Previous Coroutines 
-    Coroutine RotationRoutine;
-    Coroutine MovingRoutine;
-    public void StartRotationOnly(Vector3 alignDir)
-    {
-        if (RotationRoutine != null)
-            UnityEngine.Debug.Log("StateController failed to manage jobs"); 
+    //Coroutine RotationRoutine;
+    //Coroutine MovingRoutine;
+    //public void StartRotationOnly(Vector3 alignDir)
+    //{
+    //    if (RotationRoutine != null)
+    //        UnityEngine.Debug.Log("StateController failed to manage jobs"); 
 
-        RotationRoutine = StartCoroutine(RotatorMechanism(alignDir));
-    }
+    //    RotationRoutine = StartCoroutine(RotatorMechanism(alignDir));
+    //}
 
-    public void StartMoveRequest(Vector3 destination)
-    {
-        if (MovingRoutine != null)
-            UnityEngine.Debug.Log("StateController failed to manage job allocation");
+    //public void StartMoveRequest(Vector3 destination)
+    //{
+    //    if (MovingRoutine != null)
+    //        UnityEngine.Debug.Log("StateController failed to manage job allocation");
 
-        MovingRoutine = StartCoroutine(MoveToDestination(destination));
-    }
+    //    MovingRoutine = StartCoroutine(MoveToDestination(destination));
+    //}
 
-    IEnumerator RotatorMechanism(Vector3 alignDir)
-    {
-        rotation = Quaternion.LookRotation(alignDir);
-        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
-            yield return null;
-        }
-        stateController.FinishedAction(true);
-        RotationRoutine = null;
-    }
+    //IEnumerator RotatorMechanism(Vector3 alignDir)
+    //{
+    //    rotation = Quaternion.LookRotation(alignDir);
+    //    while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
+    //    {
+    //        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+    //        yield return null;
+    //    }
+    //    stateController.FinishedAction(true);
+    //    RotationRoutine = null;
+    //}
 
-    IEnumerator MoveToDestination(Vector3 destination)
-    {
-        distanceToTarget = Vector3.SqrMagnitude(destination - transform.position);
-        while (distanceToTarget > 0.1f)
-        {
-            lookDir = destination - transform.position; 
-            lookDir.y = transform.position.y;
-            lookDir.Normalize(); 
-            rotation  = Quaternion.LookRotation(lookDir);
-            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
-                yield return null;
-            }
-            characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
-            yield return null;
-        }
-        stateController.FinishedAction(true); 
-    }
+    //IEnumerator MoveToDestination(Vector3 destination)
+    //{
+    //    distanceToTarget = Vector3.SqrMagnitude(destination - transform.position);
+    //    while (distanceToTarget > 0.1f)
+    //    {
+    //        lookDir = destination - transform.position; 
+    //        lookDir.y = transform.position.y;
+    //        lookDir.Normalize(); 
+    //        rotation  = Quaternion.LookRotation(lookDir);
+    //        while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+    //        {
+    //            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
+    //            yield return null;
+    //        }
+    //        characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+    //        yield return null;
+    //    }
+    //    stateController.FinishedAction(true); 
+    //}
 
-    IEnumerator ChaseTarget()
-    {
-        while (Sight.PlayerLocked != null)
-        {
-            distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);
-            lookDir = Sight.PlayerLocked.position - transform.position;
-            lookDir.y = transform.position.y;
-            lookDir.Normalize();
-            rotation = Quaternion.LookRotation(lookDir);
-            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
-                yield return null;
-            }
-            while (distanceToTarget > distanceThreshhold)
-            {
-                characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
-                yield return null;
-            }
+    //IEnumerator ChaseTarget()
+    //{
+    //    while (Sight.PlayerLocked != null)
+    //    {
+    //        distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);
+    //        lookDir = Sight.PlayerLocked.position - transform.position;
+    //        lookDir.y = transform.position.y;
+    //        lookDir.Normalize();
+    //        rotation = Quaternion.LookRotation(lookDir);
+    //        while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
+    //        {
+    //            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
+    //            yield return null;
+    //        }
+    //        while (distanceToTarget > distanceThreshhold)
+    //        {
+    //            characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
+    //            yield return null;
+    //        }
 
-        }
-        stateController.FinishedAction(true); 
-    }
+    //    }
+    //    stateController.FinishedAction(true); 
+    //}
     #endregion
     IEnumerator FollowSound(Vector3[] traceablePath)
     {
@@ -280,7 +279,6 @@ public class EnemyMover : MonoBehaviour
                 }
                 currentWaypoint = traceablePath[trackingIndex];
             }
-
             characterController.Move(currentWaypoint * currentSpeed * Time.deltaTime);
             yield return null;
         }

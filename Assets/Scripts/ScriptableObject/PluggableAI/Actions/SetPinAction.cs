@@ -9,6 +9,9 @@ public class SetPinAction : Action
 {
     [SerializeField] private float setPinInterval;
     [SerializeField] private Act defaultMove; //Move
+
+    public override string actionName => typeof(SetPinAction).Name;
+
     public override void Act(StateController controller)
     {
         SetPin(controller);
@@ -22,7 +25,7 @@ public class SetPinAction : Action
         defaultMove.Perform(controller);
         if (controller.EnemyMover.CheckElapsedTime(setPinInterval))
         {
-            PatrolPoint pin = new PatrolPoint(controller.CurrentLookDir, controller.EnemyMover.transform.position);
+            PatrolPoint pin = new PatrolPoint(controller.EnemyMover.LookDir, controller.EnemyMover.transform.position);
             controller.EnemyMover.PatrolPoints.Add(pin);
         }
     }

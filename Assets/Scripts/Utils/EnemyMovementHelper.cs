@@ -21,6 +21,7 @@ public static class EnemyMovementHelper
                 continue; 
             }
             controller.EnemyMover.PatrolPoints[i].Reverse(prevPoint);
+            prevPoint = controller.EnemyMover.PatrolPoints[i].worldPosition; 
         }
     }
 
@@ -48,7 +49,7 @@ public struct PatrolPoint
 
     public void Reverse(Vector3 pivotPoint)
     {
-        Vector3 temp = pivotPoint - worldPosition;
+        Vector3 temp = pivotPoint - this.worldPosition;
         temp.y = 0f;
         temp.Normalize();
         this.Direction = temp; 
@@ -149,58 +150,37 @@ public enum MoveType
 /// <summary>
 /// Based off Coroutines? 
 /// </summary>
-public struct MoveRequestSlip : IEquatable<MoveRequestSlip>
+public struct MoveRequestSlip
 {
-    public const float newDirectionThreshhold = 0.96f;
-    public const int newLocationThreshhold = 1; 
-    public MoveType moveType; 
-    public Vector3 requestedDestination;
+    public string name; 
     public IEnumerator enumerator;
 
-    public MoveRequestSlip(MoveType moveType, Vector3 requestedDestination, IEnumerator enumerator)
+    public MoveRequestSlip(string name,  IEnumerator enumerator)
     {
-        this.moveType= moveType;
-        this.requestedDestination = requestedDestination;
-        this.enumerator= enumerator;
-    }
-
-    /// <summary>
-    /// if true, reject the slip since the requested location is nearby the previous location 
-    /// if false, accept  it. 
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public bool Equals(MoveRequestSlip other)
-    {
-        //only take request for new  destination where its larger than the 1f magnitude in value. 
-        if (other.moveType == MoveType.RotateOnly)
-        {
-            return (Vector3.Dot(this.requestedDestination, other.requestedDestination) > newDirectionThreshhold); 
-        }
-        else if (other.moveType == MoveType.Move) 
-        {
-            //if distance between newly requested location is less than 1, it is treated as equal. 
-            Vector3 offset = other.requestedDestination - this.requestedDestination;
-            return Vector3.SqrMagnitude(offset) < newLocationThreshhold;
-        }
-        else
-        {
-            return false;
-            //TODO: Chase Method 
-        }
-
+        this.name = name; 
+        this.enumerator = enumerator;
     }
 }
 
 public struct CoroutineSlip : IEquatable<string>
 {
     public string coroutineKey;
-    public Coroutine routine; 
+    public IEnumerator? routine; 
 
-    public CoroutineSlip (string coroutineKey, Coroutine routine)
+    public CoroutineSlip (string coroutineKey, IEnumerator routine)
     {
         this.coroutineKey = coroutineKey;
         this.routine = routine;
+    }
+
+    public void ChangeRoutine(IEnumerator routine)
+    {
+        this.routine = routine; 
+    }
+
+    public void SetToNull()
+    {
+        this.routine = null; 
     }
     public bool Equals(string requestKey)
     {

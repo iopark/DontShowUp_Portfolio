@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ece75fb173577f4db3e326fc227a060, type: 3}
-  m_Name: EnterAct_AttackState_BasicZombie
+  m_Script: {fileID: 11500000, guid: b5074c86e5540274b86b455d53e77994, type: 3}
+  m_Name: ExitAct_PatrolState_BasicZombie
   m_EditorClassIdentifier: 
-  aboutThisAct: 'Must Proceed from the Pursuit State, thus, put puase to the pursuit
-    state. '
+  aboutThisAct: 
   animTrigger: 
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionsToStop:
-  - {fileID: 11400000, guid: a8aaa8b634d74dc44899a74d673450e3, type: 2}
+  actionsToStop: []
   stopAllCoroutine: 0
+  ActionToCease: {fileID: 11400000, guid: 41bd3f4358173e74a8c235032c692da2, type: 2}

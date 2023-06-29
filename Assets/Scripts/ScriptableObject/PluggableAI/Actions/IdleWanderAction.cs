@@ -3,13 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_IdleWander_", menuName = "PluggableAI/Actions/Wander")]
 public class IdleWanderAction : Action
 {
-    [SerializeField] string coroutineKey; 
     [SerializeField] private float wanderDistance; 
     [SerializeField] private Act defaultMove;
     [SerializeField] private Act defaultRotate;
     [SerializeField] private Act defaultWander;
     [SerializeField] private float dotThreshHold = .96f;
-    [SerializeField] private float distanceThreshHold = 0.2f; 
+    [SerializeField] private float distanceThreshHold = 0.2f;
+
+    public override string actionName => typeof(IdleWanderAction).Name;
+
     public override void Act(StateController controller)
     {
         //if (controller.EnemyMover.LookDir == Vector3.zero)
@@ -20,7 +22,7 @@ public class IdleWanderAction : Action
         //    return;
         //}
 
-        controller.RunAndSaveForReset(coroutineKey, Wander(controller)); 
+        controller.RunAndSaveForReset(actionName, Wander(controller)); 
     }
 
     IEnumerator Wander(StateController controller)

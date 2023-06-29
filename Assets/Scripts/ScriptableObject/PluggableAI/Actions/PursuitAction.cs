@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_Pursuit_", menuName = "PluggableAI/Actions/Pursuit")]
 public class PursuitAction : Action
 {
-    [SerializeField] string coroutineKey; 
     [SerializeField] float dotThreshold = 0.98f;
     [SerializeField] float distanceThreshhold = 0.1f;
 
@@ -16,6 +15,8 @@ public class PursuitAction : Action
     [TextArea]
     string SequencingActs;
     [SerializeField] Act postAct;
+
+    public override string actionName => typeof(PursuitAction).Name;
 
     public override void Act(StateController controller)
     {
@@ -32,7 +33,7 @@ public class PursuitAction : Action
 
         if (controller.Sight.PlayerLocked == null)
             return; 
-        controller.RunAndSaveForReset(coroutineKey, ChaseTarget(controller)); 
+        controller.RunAndSaveForReset(actionName, ChaseTarget(controller)); 
     }
     //IEnumerator RotatorMechanism(StateController controller)
     //{
@@ -96,4 +97,5 @@ public class PursuitAction : Action
             yield return null;
         }
     }
+
 }

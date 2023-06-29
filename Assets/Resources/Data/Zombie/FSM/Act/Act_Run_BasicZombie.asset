@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3792c74bb11dca243bf7f15010660239, type: 3}
   m_Name: Act_Run_BasicZombie
   m_EditorClassIdentifier: 
+  aboutThisAct: 
+  actName: Run
+  animTrigger: 
+  animType: 0
+  animFloatValue: 0
+  animBoolValue: 0
+  actionsToStop: []
+  stopAllCoroutine: 0

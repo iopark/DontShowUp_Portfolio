@@ -7,13 +7,13 @@ public class ExitAlertState : Act
 {
     public override void Perform(StateController controller)
     {
-        if (stopAllCoroutine)
-            controller.ResetAllCoroutines();
-        else
-            foreach(string actionToStop in actionsToStop)
-            {
-                controller.StopCoroutine(actionToStop);
-            }
+        //if (stopAllCoroutine)
+        //    controller.ResetAllCoroutines();
+        //else
+        //    foreach(Action actionToStop in actionsToStop)
+        //    {
+        //        controller.StopCoroutine(actionToStop.GetType().Name);
+        //    }
         AlertExitState(controller); 
     }
     private void AlertExitState(StateController controller)

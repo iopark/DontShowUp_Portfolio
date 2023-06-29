@@ -1,52 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder.MeshOperations;
 
 /// <summary>
 /// TemporaryState Controller Inheriting NormalZombie Class
 /// </summary>
 public class StateController : MonoBehaviour
 {
-    #region For the Convenience of State Machine Interaction, GetSet Linked with different Unit Bodies 
-    private float currentSpeed;
-    public float CurrentSpeed
-    {
-        get { return EnemyMover.CurrentSpeed; }
-        set { EnemyMover.CurrentSpeed = value; }
-    }
-
-    public Vector3 ForwardVector
-    {
-        get { return Enemy.transform.forward; }
-    }
-
-    private Vector3 currentLookDir;
-    public Vector3 CurrentLookDir
-    {
-        get { return EnemyMover.LookDir; }
-    }
-    public List<PatrolPoint> PatrolPoints
-    {
-        get { return EnemyMover.PatrolPoints;  }
-        set { EnemyMover.PatrolPoints = value; }
-    }
-
-    public int PatrolIndex
-    {
-        get { return EnemyMover.PatrolIndex; }
-        set { EnemyMover.PatrolIndex = value; } 
-    }
-    #endregion
-    #region Required Variables for State Controller 
-
-    public int patrolCount;
-    //Search and Patrol Segments 
-    public bool patrolStatus;
-    public bool searchCompleteStatus;
-
-    #endregion
     #region GetSet Unitbodies, must be declared on the Awake 
     public Enemy Enemy { get; private set; }
     public EnemyAttacker EnemyAttacker { get; private set; }
@@ -70,11 +34,6 @@ public class StateController : MonoBehaviour
         EnemyMover = GetComponent<EnemyMover>();
         Sight = GetComponent<SightSensory>();
         Auditory = GetComponent<SoundSensory>();
-
-        //DefaultAttack = Instantiate(defaultAttack);
-        patrolCount = 0;
-        searchCompleteStatus = false;
-        patrolStatus = false;
     }
 
 
@@ -114,84 +73,127 @@ public class StateController : MonoBehaviour
     }
 
     #region attempting to perform request for future path in delegated ways
-    public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
+
     public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
-    Coroutine toDestroy;
-    MoveRequestSlip currentRequest;
-    MoveRequestSlip previousRequest; 
-    bool isCompletingAction;
-    public bool IsCompletingAction { get { return isCompletingAction; } }
-    public void RequestMove(MoveType type, Vector3 destination, IEnumerator enumerator)
-    {
-        MoveRequestSlip newRequest = new MoveRequestSlip(type, destination, enumerator);
-        if (actionRequests.Count > 0 && CheckForEqual(newRequest)) // if new request is considered an equal one, ignore this request. 
-            return;
-        actionRequests.Enqueue(newRequest);
-        TryCompleteNext(); 
-    }
-    private void TryCompleteNext()
-    {
-        if (!isCompletingAction && actionRequests.Count > 0)
-        {
-            currentRequest = actionRequests.Dequeue();
-            isCompletingAction = true;
-            StartCoroutine(currentRequest.enumerator); 
-        }
-    }
+    IEnumerator toRun;
 
-    private bool CheckForEqual(MoveRequestSlip other)
-    {
-        foreach (MoveRequestSlip slip in  actionRequests)
-        {
-            if (other.moveType == slip.moveType)
-                if (other.Equals(slip))
-                    return true; 
-        }
-        return false;
-    }
-    /// <summary>
-    /// Simply call this function for every coroutines to imply a designated action has been finished. 
-    /// </summary>
-    /// <param name="success"></param>
-    public void FinishedAction(bool success)
-    {
-        if (!success)
-        {
-            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
-            return;
-        }
-        //How do we Deliever this path to the Requestee? 
-        else if (success)
-        {
-            //TODO: maybe do a next action? 
-            isCompletingAction = false;
-            TryCompleteNext(); // run the next expected coroutine 
-        }
-    }
 
-    public void FinishedAction(bool success, System.Action<StateController> nextAction)
-    {
-        if (!success)
-        {
-            //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
-            return;
-        }
-        //How do we Deliever this path to the Requestee? 
-        else if (success)
-        {
-            //TODO: maybe do a next action? 
-            nextAction(this);
-            isCompletingAction = false;
-            TryCompleteNext(); // run the next expected coroutine 
-        }
-    }
+    #region Coroutine Manager through custom Coroutine 
+    //public Queue<MoveRequestSlip> actionRequests = new Queue<MoveRequestSlip>();
+    //MoveRequestSlip currentRequest;
+    //MoveRequestSlip previousRequest;
+    //bool isCompletingAction;
+    //public bool IsCompletingAction { get { return isCompletingAction; } }
+    //public void RequestMove(string key, IEnumerator enumerator)
+    //{
+    //    MoveRequestSlip newRequest = new MoveRequestSlip(key, enumerator);
+    //    if (actionRequests.Count < 0 && CheckForEqual(newRequest)) // if new request is considered an equal one, ignore this request. 
+    //        return;
+    //    pauseRequests.Enqueue(newRequest);
+    //    TryCompleteNext(); 
+    //}
+    //private void TryCompleteNext()
+    //{
+    //    if (!isCompletingAction && actionRequests.Count > 0)
+    //    {
+    //        currentRequest = actionRequests.Dequeue();
+    //        isCompletingAction = true;
+    //        StartCoroutine(currentRequest.enumerator); 
+    //    }
+    //}
 
+    //private bool CheckForEqual(MoveRequestSlip other)
+    //{
+    //    foreach (MoveRequestSlip slip in  actionRequests)
+    //    {
+    //        if (other.Equals(slip))
+    //            return true;
+    //    }
+    //    return false;
+    //}
+    ///// <summary>
+    ///// Simply call this function for every coroutines to imply a designated action has been finished. 
+    ///// </summary>
+    ///// <param name="success"></param>
+    //public void FinishedAction(bool success)
+    //{
+    //    if (!success)
+    //    {
+    //        //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+    //        return;
+    //    }
+    //    //How do we Deliever this path to the Requestee? 
+    //    else if (success)
+    //    {
+    //        //TODO: maybe do a next action? 
+    //        isCompletingAction = false;
+    //        TryCompleteNext(); // run the next expected coroutine 
+    //    }
+    //}
+
+    //public void FinishedAction(bool success, System.Action<StateController> nextAction)
+    //{
+    //    if (!success)
+    //    {
+    //        //TODO: if some designated action is to fail, maybe allow the state to move to different state? if so, what should be placed in for the parameter?? 
+    //        return;
+    //    }
+    //    //How do we Deliever this path to the Requestee? 
+    //    else if (success)
+    //    {
+    //        //TODO: maybe do a next action? 
+    //        nextAction(this);
+    //        isCompletingAction = false;
+    //        TryCompleteNext(); // run the next expected coroutine 
+    //    }
+    //}
+    //public void EmptyQueue()
+    //{
+    //    if (coroutines.Count <= 0 && !isCompletingAction)
+    //        return;
+    //    else if (isCompletingAction)
+    //    {
+    //        StopCoroutine(currentRequest.enumerator);
+    //        suspendedCoroutine.Clear();
+    //    }
+    //    else
+    //    {
+    //        suspendedCoroutine.Clear();
+    //    }
+    //}
+    #endregion
     public void RunAndSaveForReset(string coroutineKey, IEnumerator _routine)
     {
         if (CheckOverlapCoroutine(coroutineKey, _routine))
             return; 
-        Coroutine routine = StartCoroutine(_routine);
-        CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, routine);
+        IEnumerator routine = _routine;
+        StartCoroutine(routine); 
+        CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, _routine);
+        coroutines.Add(newSlip);
+    }
+
+    public void RestartCoroutine(string coroutineKey, IEnumerator _routine)
+    {
+        foreach (CoroutineSlip name in coroutines)
+        {
+            if (name.Equals(coroutineKey))
+            {
+                if (name.routine == null)
+                {
+                    name.ChangeRoutine(_routine);
+                    StartCoroutine(_routine);
+                }
+                else
+                {
+                    StopCoroutine(name.routine);
+                    name.ChangeRoutine(_routine);
+                    StartCoroutine(name.routine); 
+                }
+            }
+        }
+        IEnumerator routine = _routine;
+        StartCoroutine(routine); 
+        CoroutineSlip newSlip = new CoroutineSlip(coroutineKey, _routine);
         coroutines.Add(newSlip);
     }
 
@@ -202,15 +204,19 @@ public class StateController : MonoBehaviour
             if (slip.Equals(slipKey))
             {
                 if (slip.routine != null)
-                    StopCoroutine(slip.routine); 
-                toDestroy = slip.routine; 
+                    StopCoroutine(slip.routine);
+                slip.SetToNull(); 
                 coroutines.Remove(slip);
                 return;
             }
         }
-        toDestroy = null; 
     }
 
+    private void StopAndRemoveThisCoroutine(CoroutineSlip thisSlip)
+    {
+        StopCoroutine(thisSlip.routine); 
+        coroutines.Remove(thisSlip);
+    }
     private bool CheckOverlapCoroutine(string slipKey, IEnumerator _routine)
     {
         foreach (CoroutineSlip name in coroutines)
@@ -219,7 +225,7 @@ public class StateController : MonoBehaviour
             {
                 if (name.routine == null)
                 {
-                    StartCoroutine(_routine); 
+                    StartCoroutine(_routine);
                 }
                 return true;
             }
@@ -242,9 +248,9 @@ public class StateController : MonoBehaviour
                 if (name.routine != null)
                 {
                     StopCoroutine(name.routine);
+                    name.SetToNull(); 
                     return;
                 }
-
                 //toDestroy = name.routine;
             }
         }
@@ -264,7 +270,6 @@ public class StateController : MonoBehaviour
         }
         //coroutines.Clear();
     }
-
     #endregion
     protected void OnDrawGizmos()
     {

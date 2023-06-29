@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d56017c4f5641d4d84124aec27ae6a2, type: 3}
   m_Name: Act_Wander_BasicZombie
   m_EditorClassIdentifier: 
+  aboutThisAct: 'Sets the EnemyMover''s LookDirection into random direction value. '
+  actName: Wander
   animTrigger: 
   animType: 0
-  aboutThisAct: 'Sets the EnemyMover''s LookDirection into random direction value. '
+  animFloatValue: 0
+  animBoolValue: 0
+  actionsToStop: []
+  stopAllCoroutine: 0
   rangeMin: -1
   rangeMax: 1

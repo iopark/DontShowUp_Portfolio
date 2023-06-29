@@ -5,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Action_Attack_", menuName = "PluggableAI/Actions/Attack")]
 public class AttackAction : Action
 {
-    [SerializeField] string coroutineKey; 
     [SerializeField] Act defaultRotate;
-    [SerializeField] float dotThreshHold; 
+    [SerializeField] float dotThreshHold;
+
+    public override string actionName => typeof(AttackAction).Name; 
+
     public override void Act(StateController controller)
     {
         PerformAttack(controller);
@@ -17,7 +19,7 @@ public class AttackAction : Action
     {
         //better to do so in the coroutine?
         //controller.EnemyMover.CurrentSpeed = 0f; 
-        controller.RunAndSaveForReset(coroutineKey, FaceTarget(controller)); 
+        controller.RunAndSaveForReset(actionName, FaceTarget(controller)); 
     }
 
     IEnumerator FaceTarget(StateController controller)

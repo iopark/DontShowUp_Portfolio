@@ -13,6 +13,6 @@ public class NormalPhaseAct : Act
 
     public void SetNormalPhase(StateController controller)
     {
-        controller.EnemyMover.CurrentSpeed = controller.EnemyMover.NormalMoveSpeed; 
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Normal);  
     }
 }

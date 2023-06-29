@@ -5,13 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ExitAct_AttackState_", menuName = "PluggableAI/ExitAct/AttackState")]
 public class ExitAttackState : Act
 {
+    [SerializeField] SkillProperty skillToStop;
+    //[SerializeField] Action actionToResume; 
     public override void Perform(StateController controller)
     {
+        controller.ResetCoroutine(skillToStop.GetType().Name);
         if (actionsToStop.Length > 0)
-        foreach (string key in actionsToStop)
-        {
-            controller.ResetCoroutine(key);
-        }
+            foreach (Action action in actionsToStop)
+            {
+                controller.ResetCoroutine(action.GetType().Name);
+            }
         controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert); 
     }
 }
