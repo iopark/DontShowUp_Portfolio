@@ -19,7 +19,8 @@ public class AttackAction : Action
     {
         //better to do so in the coroutine?
         //controller.EnemyMover.CurrentSpeed = 0f; 
-        controller.RunAndSaveForReset(actionName, FaceTarget(controller)); 
+        controller.RunAndSaveForReset(actionName, FaceTarget(controller));
+        controller.EnemyAttacker.TryStrike();
     }
 
     IEnumerator FaceTarget(StateController controller)
@@ -32,7 +33,7 @@ public class AttackAction : Action
             yield return null;
         }
         controller.ResetCoroutine(actionName);
-        controller.EnemyAttacker.TryStrike();
+
         //Since coroutine is finished, stop the coroutine, and remove from the list 
         //controller.ResetCoroutine(coroutineKey);
     }

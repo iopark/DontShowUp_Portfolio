@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f012e79e20956742ae10613e8ca3af3, type: 3}
   m_Name: ExitAct_AlertState_BasicZombie
   m_EditorClassIdentifier: 
+  aboutThisAct: 
   animTrigger: AlertState
   animType: 2
   animFloatValue: 0
   animBoolValue: 0
-  actionstoStop: []
+  actionsToStop:
+  - {fileID: 11400000, guid: 4a724f170780a3d4a820f71f1a12b16a, type: 2}
   stopAllCoroutine: 1
-  aboutThisAct: 
-  coroutineKey: 

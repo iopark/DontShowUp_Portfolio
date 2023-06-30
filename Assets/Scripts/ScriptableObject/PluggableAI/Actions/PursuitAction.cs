@@ -49,7 +49,7 @@ public class PursuitAction : Action
             defaultMove.Perform(controller);
             yield return null;
         }
-        controller.SignalCoroutineFinish(actionName); 
+        controller.ResetCoroutine(actionName); 
     }
 
 }

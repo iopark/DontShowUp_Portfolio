@@ -142,9 +142,8 @@ public class StateController : MonoBehaviour
                 {
                     coroutines[i].ChangeRoutine(_routine);
                     StartCoroutine(_routine);
-                    return true;
                 }
-                return false; 
+                return true; 
             }
         }
         return false; 
