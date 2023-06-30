@@ -1371,7 +1371,7 @@ Animator:
   m_GameObject: {fileID: 5110370025568813941}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ed3baf6a449aedb408a41f240f8a7966, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0c3144ab15daded45b89f5ee7de31611, type: 2}
+  m_Controller: {fileID: 9100000, guid: 53de6295ce6216145ac1c1e163996fa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1394,9 +1394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1addbdc0fd10af246a7418966c455a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolCount: 0
-  patrolStatus: 0
-  searchCompleteStatus: 0
   currentState: {fileID: 11400000, guid: adff528cd2a53834ba9a1f72dcc6a0fa, type: 2}
   remainState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
   previousState: {fileID: 0}
@@ -1487,6 +1484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAttack: {fileID: 11400000, guid: d547c67193894554e81ee47fdf22420d, type: 2}
+  isAttacking: 0
 --- !u!114 &2020543711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,7 +1499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDestination: {x: 0, y: 0, z: 0}
   debug: 1
-  defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}
+  patrolCount: 0
   patrolIndex: 0
 --- !u!1 &5203317677958970466
 GameObject:

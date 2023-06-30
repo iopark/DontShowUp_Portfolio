@@ -87,41 +87,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
                 break;
         }
     }
-    //Can be upgraded for the AdvancedZombie, able to take in weighted value of the Unit to search for the other paths to attack the player (if possible)
-    //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
-    //protected virtual void OnDrawGizmos()
-    //{
-    //    if (!debug && tracingStatus)
-    //    {
-    //        for (int i = 0; i < tracePath.Length; i++)
-    //        {
-    //            Gizmos.color = Color.black;
-    //            Gizmos.DrawCube(tracePath[i], Vector3.one);
 
-    //            if (i == trackingIndex)
-    //            {
-    //                Gizmos.DrawLine(transform.position, tracePath[i]);
-    //            }
-    //            else
-    //            {
-    //                Gizmos.DrawLine(tracePath[i - 1], tracePath[i]);
-    //            }
-    //        }
-    //    }
-    //}
-
-
-    public void DoAction<T>(T bodyComponent, float timeInterval)
-    {
-        if (bodyComponent is EnemyMover)
-        {
-            //Try Following 
-        }
-        else if (bodyComponent is EnemyAttacker)
-        {
-            //Try this instead 
-        }
-    }
     public void TakeHit(int damage)
     {
         throw new System.NotImplementedException();

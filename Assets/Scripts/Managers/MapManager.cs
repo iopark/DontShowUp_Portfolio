@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum AreaType
+{
+    Room, 
+    HallWay
+}
 public class MapManager : MonoBehaviour
 {
 

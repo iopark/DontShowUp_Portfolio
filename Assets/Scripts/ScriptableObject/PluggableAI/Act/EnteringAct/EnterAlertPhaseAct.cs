@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnteringAct_AlertPhase_", menuName = "PluggableAI/EnteringAct/AlertPhaseAct")]
-public class AlertPhaseAct : Act
+[CreateAssetMenu(fileName = "EnterAct_AlertPhase_", menuName = "PluggableAI/EnterAct/AlertPhaseAct")]
+public class EnterAlertPhaseAct : Act
 {
     public override void Perform(StateController controller)
     {

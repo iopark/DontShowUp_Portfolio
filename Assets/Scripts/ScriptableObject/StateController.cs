@@ -72,6 +72,7 @@ public class StateController : MonoBehaviour
     #region attempting to perform request for future path in delegated ways
 
     public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
+    CoroutineSlip tempSlip;
     IEnumerator toRun;
 
     public void RunAndSaveForReset(string slipKey, IEnumerator _routine)
@@ -92,13 +93,21 @@ public class StateController : MonoBehaviour
         {
             if (coroutines[i].Equals(slipKey))
             {
-                coroutines[i].CoroutineFinished();
+                tempSlip = coroutines[i];
+                tempSlip.CoroutineFinished();
+                coroutines[i] = tempSlip;
                 return;
             }
         }
     }
     public void RestartCoroutine(string slipKey, IEnumerator _routine)
     {
+        if (coroutines.Count <= 0)
+        {
+            RunAndSaveForReset(slipKey, _routine);
+            return;
+        }
+
         for (int i = 0; i < coroutines.Count; i++)
         {
             if (coroutines[i].Equals(slipKey))
@@ -109,25 +118,8 @@ public class StateController : MonoBehaviour
                 return;
             }
         }
-        IEnumerator routine = _routine;
-        StartCoroutine(routine); 
-        CoroutineSlip newSlip = new CoroutineSlip(slipKey, _routine);
-        coroutines.Add(newSlip);
-    }
 
-    public void RemoveFromCoroutineList(string slipKey)
-    {
-        for (int i = 0; i < coroutines.Count; i++)
-        {
-            if (coroutines[i].Equals(slipKey))
-            {
-                if (coroutines[i].routine != null)
-                    StopCoroutine(coroutines[i].routine);
-                coroutines[i].SetToNull();
-                coroutines.Remove(coroutines[i]);
-                return;
-            }
-        }
+        RunAndSaveForReset(slipKey, _routine);
     }
 
     private bool CheckOverlapCoroutine(string slipKey, IEnumerator _routine)
@@ -140,7 +132,9 @@ public class StateController : MonoBehaviour
             {
                 if (coroutines[i].hasFinished)
                 {
-                    coroutines[i].ChangeRoutine(_routine);
+                    tempSlip = coroutines[i];
+                    tempSlip.ChangeRoutine(_routine);
+                    coroutines[i] = tempSlip; 
                     StartCoroutine(_routine);
                 }
                 return true; 
@@ -162,8 +156,10 @@ public class StateController : MonoBehaviour
         {
             if (coroutines[i].Equals(slipKey))
             {
+                tempSlip = coroutines[i];
+                tempSlip.CoroutineFinished(); 
                 StopCoroutine(coroutines[i].routine);
-                coroutines[i].CoroutineFinished();
+                coroutines[i] = tempSlip;
                 return;
                 //toDestroy = name.routine;
             }
@@ -179,6 +175,21 @@ public class StateController : MonoBehaviour
                 continue; 
             StopCoroutine(coroutines[i].routine);
             coroutines[i].CoroutineFinished();
+        }
+    }
+
+    public void RemoveFromCoroutineList(string slipKey)
+    {
+        for (int i = 0; i < coroutines.Count; i++)
+        {
+            if (coroutines[i].Equals(slipKey))
+            {
+                if (coroutines[i].routine != null)
+                    StopCoroutine(coroutines[i].routine);
+                coroutines[i].SetToNull();
+                coroutines.Remove(coroutines[i]);
+                return;
+            }
         }
     }
     #endregion

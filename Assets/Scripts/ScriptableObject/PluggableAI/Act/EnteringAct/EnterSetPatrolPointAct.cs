@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "EnteringAct_SetPatrolPoint_", menuName = "PluggableAI/EnteringAct/SetPatrolPoint")]
-public class SetPatrolPointAct : Act
+[CreateAssetMenu(fileName = "EnterAct_SetPatrolPoint_", menuName = "PluggableAI/EnterAct/SetPatrolPoint")]
+public class EnterSetPatrolPointAct : Act
 {
     public override void Perform(StateController controller)
     {
@@ -12,7 +12,7 @@ public class SetPatrolPointAct : Act
     private void SetPatrolPoint(StateController controller)
     {
         controller.EnemyMover.PatrolIndex = 0;
-        controller.EnemyMover.LookDir = controller.EnemyMover.PatrolPoints[0].Direction;
+        controller.Sight.SetLookDirToPos(controller.EnemyMover.PatrolPoints[0].worldPosition);
         controller.EnemyMover.Rotator();
         controller.EnemyMover.ChangeMovementSpeed(MoveState.Normal); 
     }

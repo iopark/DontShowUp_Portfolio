@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 146c8fe3d0ab329429554240916a8d22, type: 3}
-  m_Name: Act_Attack_BasicZombie
+  m_Script: {fileID: 11500000, guid: f0d0e3ffb6bd11b4b9b39895d5381911, type: 3}
+  m_Name: ExitAct_SoundTraceState_BasicZombie
   m_EditorClassIdentifier: 
-  animTrigger: Attack
+  aboutThisAct: 
+  animTrigger: 
   animType: 0
-  attackRange: 1.5
-  attackAngle: 120
-  attackInterval: 3.5
-  attackDamage: 25
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 8
+  animFloatValue: 0
+  animBoolValue: 0
+  actionsToStop:
+  - {fileID: 11400000, guid: 92ea5f103879c584aa2b403b712c25c9, type: 2}
+  stopAllCoroutine: 0

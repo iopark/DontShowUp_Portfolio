@@ -2,46 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Action_TraceSound_", menuName = "PluggableAI/Actions/TraceSound")]
 public class TraceSoundAction : Action
 {
     public override string actionName => typeof(TraceSoundAction).Name;
-    [SerializeField] private Act defaultMove;
-    [SerializeField] private Act defaultRotate;
-    [SerializeField] private float pointOffSet;
-    [SerializeField] private float dotThreshHold;
 
     public override void Act(StateController controller)
     {
         if (controller.EnemyMover.CurrentSpeed != controller.Enemy.CurrentStat.alertMoveSpeed)
             controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert);
+        //TraceSound(controller); 
     }
 
     public void TraceSound(StateController controller)
     {
-        controller.RunAndSaveForReset(actionName, FollowSound(controller, controller.EnemyMover.TraceSoundPoints)); 
-    }
-
-    IEnumerator FollowSound(StateController controller, Vector3[] traceablePath)
-    {
-        controller.EnemyMover.TraceSoundPoints = traceablePath;
-        int trackingIndex = 0;
-        Vector3 currentWaypoint = traceablePath[0];
-        controller.Sight.SetLookDirToPos(currentWaypoint);
-        while (true)
-        {
-            defaultRotate.Perform(controller); 
-            if (Vector3.SqrMagnitude(currentWaypoint - controller.transform.position) < pointOffSet)
-            {
-                trackingIndex++;
-                if (trackingIndex >= traceablePath.Length)
-                {
-                    controller.Auditory.HaveHeard = false;
-                    yield break;
-                }
-                currentWaypoint = traceablePath[trackingIndex];
-            }
-            defaultMove.Perform(controller); 
-            yield return null;
-        }
+        //TODO: perhaps any obstacles on the way?
+        //TODO: perhaps leave any tracable path to follow?
+        //TODO: perhaps the tracable path can work like a node in which can be determined by higher zombie => priority queue to determine a path to trace unto. 
     }
 }

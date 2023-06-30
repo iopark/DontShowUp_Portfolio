@@ -19,12 +19,20 @@ MonoBehaviour:
   animFloat: 0
   setBoolAsNull: 0
   setFloatAsNull: 0
-  preRequisiteActs: []
-  preRequisiteActions: []
+  preRequisiteActs:
+  - {fileID: 11400000, guid: 6af3927a06a972f45b5cd74d46e7120e, type: 2}
   actions:
-  - {fileID: 11400000, guid: ff2b62d80a9f5dd42a604dc41e2f539b, type: 2}
-  transitions: []
-  fixedActions: []
-  fixedTransitions: []
-  exitActs: []
+  - {fileID: 11400000, guid: 92ea5f103879c584aa2b403b712c25c9, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 661aacfac6e95354b8573f0028894353, type: 2}
+    trueState: {fileID: 11400000}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 9077ee8cb2ad04949997ed04e3f1c5a5, type: 2}
+    trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+    falseState: {fileID: 11400000, guid: 52cf571d9e52a774ea7e71073e9e63f8, type: 2}
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: 0e7b80d636a308348986afa0ed3bbfcf, type: 2}
   sceneGizmoColor: {r: 0.97885394, g: 1, b: 0, a: 1}

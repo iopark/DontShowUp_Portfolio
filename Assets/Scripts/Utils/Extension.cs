@@ -18,7 +18,6 @@ public static class Extension
     {
         return component != null && component.gameObject.activeInHierarchy;
     }
-
     public struct ParallelTester : IJobParallelFor
     {
         public void Execute(int index)

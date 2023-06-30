@@ -21,6 +21,7 @@ public class PathManager : MonoBehaviour
     }
     public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
     {
+        Debug.Log("Request Processing"); 
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);
         pathRequests.Enqueue(newRequest);
         TryProcessNext();
@@ -41,7 +42,6 @@ public class PathManager : MonoBehaviour
         if (success) // path 를 찾았을때만 해당 Path 를 전달한다. 
             currentPath.callback(path, success);
         //How do we Deliever this path to the Requestee? 
-
         isProcessing = false;
         TryProcessNext();
     }

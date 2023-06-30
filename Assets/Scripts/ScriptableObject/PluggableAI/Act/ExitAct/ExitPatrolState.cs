@@ -14,5 +14,4 @@ public class ExitPatrolState : Act
         controller.EnemyMover.PatrolCount = 0; 
         controller.EnemyMover.PatrolIndex = 0;
     }
-
 }

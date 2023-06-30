@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ece75fb173577f4db3e326fc227a060, type: 3}
-  m_Name: EnterAct_WanderState_BasicZombie
+  m_Script: {fileID: 11500000, guid: e6f8ebce64d5a0c469152545a5704c74, type: 3}
+  m_Name: Action_TraceSound_BasicZombie
   m_EditorClassIdentifier: 
-  animTrigger: 
-  animType: 0
-  animFloatValue: 0
-  animBoolValue: 0
-  aboutThisAct: 
-  actionstoStop:
-  - pursuit
+  RequiredProceedingAct: EnteringAct predominates this state
+  RequiredPreceedingAction: "Exit Condition: \n1. Scan Decision \n2. Reached Destination "

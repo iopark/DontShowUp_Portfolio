@@ -34,6 +34,10 @@ public class EnemyAttacker : MonoBehaviour
         DefaultAttack.Strike();
         enemyMover.CurrentSpeed = Mathf.Lerp(0, enemyMover.AlertMoveSpeed, 0.4f); 
     }
+    public void FinishedAttacking()
+    {
+        isAttacking = false; 
+    }
 
     public void StopAttack()
     {

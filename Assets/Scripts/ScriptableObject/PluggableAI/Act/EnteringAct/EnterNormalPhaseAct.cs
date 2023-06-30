@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnteringAct_NormalPhase_", menuName = "PluggableAI/EnteringAct/NormalPhaseAct")]
-public class NormalPhaseAct : Act
+[CreateAssetMenu(fileName = "EnterAct_NormalPhase_", menuName = "PluggableAI/EnterAct/NormalPhaseAct")]
+public class EnterNormalPhaseAct : Act
 {
     public override void Perform(StateController controller)
     {
