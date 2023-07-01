@@ -21,6 +21,8 @@ public class EnterTraceState : Act
 
     IEnumerator FollowSound(StateController controller)
     {
+        if (controller.EnemyMover.TraceSoundPoints.Length <= 0)
+            yield break;
         //controller.EnemyMover.TraceSoundPoints = traceablePath;
         int trackingIndex = 0;
         Vector3 currentWaypoint = controller.EnemyMover.TraceSoundPoints[0];

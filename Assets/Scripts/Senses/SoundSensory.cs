@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +27,10 @@ public class SoundSensory : MonoBehaviour, IListenable
         if (success)
         {
             Debug.Log("Have Heard"); 
-            haveHeard = true; 
-            EnemyMover.TraceSoundPoints = soundPath;
+
+            EnemyMover.TraceSoundPoints = new Vector3[soundPath.Length];
+            Array.Copy(soundPath, EnemyMover.TraceSoundPoints, soundPath.Length);
+            haveHeard = true;
             //EnemyMover.ReactToSound(soundPath);
             // Can be called by the State Controller? 
         }

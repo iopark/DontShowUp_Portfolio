@@ -130,10 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (22)
@@ -191,10 +187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (23)
@@ -380,10 +372,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (8)
@@ -441,10 +429,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (19)
@@ -829,10 +813,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (29)
@@ -1103,10 +1083,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (13)
@@ -1164,10 +1140,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (25)
@@ -1225,10 +1197,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (21)
@@ -1480,10 +1448,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (28)
@@ -1638,10 +1602,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (27)
@@ -1699,10 +1659,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (10)
@@ -1760,10 +1716,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (24)
@@ -1918,10 +1870,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (14)
@@ -1979,10 +1927,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (30)
@@ -2092,10 +2036,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (12)
@@ -2153,10 +2093,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (11)
@@ -2214,10 +2150,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (26)
@@ -2275,10 +2207,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (18)
@@ -2336,10 +2264,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (31)
@@ -2402,10 +2326,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (7)
@@ -2463,10 +2383,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (15)
@@ -2524,10 +2440,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (17)
@@ -2585,10 +2497,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (9)
@@ -2743,10 +2651,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (16)
@@ -2804,10 +2708,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (6)
@@ -2865,10 +2765,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (20)
@@ -2926,10 +2822,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2020543711, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5110370025568813941, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_Name
       value: BasicZombie (5)
@@ -3044,6 +2936,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126191931, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1870972238, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_Effectors.Array.size
       value: 1
@@ -3076,6 +2972,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1177576729918433670, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2254068841650060133, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_Lens.NearClipPlane
       value: 0.16
@@ -3084,8 +2984,24 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6234908093378655943, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6290426607403520936, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6356038464869396732, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7004317603292264436, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7285570016673855646, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8511200705789855314, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
@@ -3100,6 +3016,14 @@ PrefabInstance:
       propertyPath: attackSoundIntensity
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 8511200705789855336, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 19758c80dd6c55546a3224ba83a8d4e9, type: 3}
+    - target: {fileID: 8511200705789855336, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ad19fe4676d99df40954055bce191f03, type: 2}
     - target: {fileID: 8511200705789855339, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_RootOrder
       value: 40
@@ -3142,6 +3066,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8511200705789855339, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787677105307814461, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965503729455402527, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

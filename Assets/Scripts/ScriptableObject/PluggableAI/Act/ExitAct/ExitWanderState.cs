@@ -7,9 +7,11 @@ public class ExitWanderState : Act
 {
     public override void Perform(StateController controller)
     {
+        if (actionsToStop.Length <= 0)
+            return;
         foreach(Action act in actionsToStop)
         {
-            controller.ResetCoroutine(actionsToStop.GetType().Name);
+            controller.ResetCoroutine(act.GetType().Name);
         }
     }
 

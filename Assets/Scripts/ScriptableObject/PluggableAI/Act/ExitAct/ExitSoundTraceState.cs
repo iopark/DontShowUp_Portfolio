@@ -9,7 +9,7 @@ public class ExitSoundTraceState : Act
     {
         foreach(Action act in actionsToStop)
         {
-            controller.ResetCoroutine(actionsToStop.GetType().Name);
+            controller.ResetCoroutine(act.GetType().Name);
         }
     }
 

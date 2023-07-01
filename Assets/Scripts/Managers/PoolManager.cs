@@ -241,7 +241,6 @@ public class PoolManager : MonoBehaviour
             return null;
         }
     }
-
     public bool ReleaseUI<T>(T instance) where T : Object
     {
         if (instance is GameObject)
