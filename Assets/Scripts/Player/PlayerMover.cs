@@ -93,7 +93,7 @@ public class PlayerMover : MonoBehaviour
             ySpeed = 0;
         }
         // 2. if accerlation == gravity 
-        if (ySpeed == Physics.gravity.y)
+        if (ySpeed <= Physics.gravity.y)
             ySpeed = Physics.gravity.y; 
 
         controller.Move(Vector3.up * ySpeed * Time.deltaTime);

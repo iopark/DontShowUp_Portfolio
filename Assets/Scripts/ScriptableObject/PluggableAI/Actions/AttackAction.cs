@@ -25,7 +25,7 @@ public class AttackAction : Action
 
     IEnumerator FaceTarget(StateController controller)
     {
-        Debug.Log("Facingtarget"); 
+        //Debug.Log("Facingtarget"); 
         while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
         {
             Debug.Log("FaceTarget"); 

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animTrigger: Attack
   animType: 0
-  attackRange: 1.5
-  attackAngle: 120
+  attackRange: 2
+  attackAngle: 100
   attackInterval: 3.5
   attackDamage: 25
   targetMask:

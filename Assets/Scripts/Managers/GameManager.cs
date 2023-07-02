@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     private static ResourceManager resource;
     private static PoolManager pool;
-    //private static UIManager uiManager; 
+    private static UIManager uiManager; 
     private static PathManager pathManager;
     private static MapManager mapManager; 
 
@@ -26,10 +26,10 @@ public class GameManager : MonoBehaviour
         get { return resource; }
     }
 
-    //public static UIManager UIManager
-    //{
-    //    get { return uiManager; }
-    //}
+    public static UIManager UIManager
+    {
+        get { return uiManager; }
+    }
 
     public static PathManager PathManager
     {
@@ -70,9 +70,9 @@ public class GameManager : MonoBehaviour
         poolObj.transform.SetParent(transform); 
         pool = poolObj.AddComponent<PoolManager>();
 
-        //GameObject uiObj = new GameObject() { name = "UI Manager" };
-        //uiObj.transform.SetParent(transform);
-        //uiManager = uiObj.AddComponent<UIManager>();
+        GameObject uiObj = new GameObject() { name = "UI Manager" };
+        uiObj.transform.SetParent(transform);
+        uiManager = uiObj.AddComponent<UIManager>();
 
         GameObject pathObj = new GameObject() { name = "Path Manager" };
         pathObj.transform.SetParent(transform);

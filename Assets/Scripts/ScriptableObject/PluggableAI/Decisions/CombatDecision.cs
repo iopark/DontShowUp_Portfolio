@@ -23,15 +23,5 @@ public class CombatDecision : Decision
             controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert);
             return false;
         }
-        ////if enemy not in range and have finished attacking, 
-        //if (!result && !controller.EnemyAttacker.IsAttacking)
-        //{
-        //    controller.EnemyAttacker.StopAttack();
-        //    controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert);
-        //    return false; 
-        //}
-        //if (result && !controller.EnemyAttacker.IsAttacking)
-        //    return true; 
-        //return result; 
     }
 }

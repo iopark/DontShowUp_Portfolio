@@ -152,11 +152,6 @@ public class SightSensory : MonoBehaviour
     {
         if (playerLocked == null)
             return false;
-        //RaycastHit hit;
-        //if (!Physics.Raycast(transform.position, DirToLockedTarget, out hit, EnemyAttacker.DefaultAttack.AttackRange, targetMask))
-        //    return false;
-        //SetDirToTargetForChase(hit.point);
-        //EnemyAttacker.AttackDir = DirToLockedTarget; 
         distanceToTarget = playerLocked.transform.position - transform.position;
         if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
