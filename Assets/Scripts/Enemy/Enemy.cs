@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
-public class Enemy : MonoBehaviour, IHittable, IStrikable
+public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 {
     //Data in which should be clicked and dragged || shared through ResourceManager. 
     [SerializeField] protected EnemyData data;
@@ -65,6 +65,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
 
     public void GetCoreStat()
     {
+
         CurrentStat.SyncCoreData(this);
     }
     protected virtual void ImportEnemyData()

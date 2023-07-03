@@ -6,7 +6,7 @@ public class TitleScene : BaseScene
 {
     public void StartButton()
     {
-        GameManager.Scene.LoadScene("GameScene"); 
+        GameManager.SceneManager.LoadScene("GameScene"); 
         //ALERT: 앞으로는 우리 씬매니저 쓰면서 로딩하는것이 정배다. 
 
     }

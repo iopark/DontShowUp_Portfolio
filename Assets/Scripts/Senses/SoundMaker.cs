@@ -10,10 +10,7 @@ public class SoundMaker : MonoBehaviour
     // Start is called before the first frame update
     public void TriggerSound(Transform transform, float range)
     {
-        PostProcessEffectRenderer test;
         this.range = range;
-        //Vector3 mapSoundOrigin = Extension.ConvertWorldtoMapPoint(transform); 
-        //Vector3 mapSoundOrigin = GameManager.Map.mapPos.InverseTransformPoint(transform.position); 
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
         foreach (Collider collider in colliders)
         {
