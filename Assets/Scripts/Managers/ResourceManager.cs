@@ -27,6 +27,14 @@ public class ResourceManager : MonoBehaviour
             return Object.Instantiate(original, position, rotation, parent);
     }
 
+    public T Instantiate<T>(T original, string path) where T : ScriptableObject 
+    {
+        string key = $"{typeof(T)}.{path}";
+        if (resources.ContainsKey(key))
+            return resources[key] as T;
+        return Load<T>(path);
+    }
+
     public T Instantiate<T>(T original, Vector3 position, Quaternion rotation, bool pooling = false) where T : Object
     {
         return Instantiate<T>(original, position, rotation, null, pooling);

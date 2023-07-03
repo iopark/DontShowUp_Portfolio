@@ -9,10 +9,9 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 {
     //Data in which should be clicked and dragged || shared through ResourceManager. 
     [SerializeField] protected EnemyData data;
-    [SerializeField] protected SightSensory sight;
-    [SerializeField] protected SoundSensory auditory;
     [SerializeField] public StateController controller;
-    [SerializeField] public CharacterController characterController;
+    [SerializeField] public EnemyAttacker enemyAttacker;
+    [SerializeField] public EnemyMover enemyMover;
     [SerializeField] public Animator anim;
 
     [Header("Debug Purposes")]
@@ -45,13 +44,12 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
     public EnemyStat CurrentStat { get { return currentStat; } set { currentStat = value; } }
     #endregion
 
+    WaitForSeconds returnToPool = new WaitForSeconds(5f); 
+
     protected virtual void Awake()
     {
         data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
-        sight = GetComponent<SightSensory>();
-        auditory = GetComponent<SoundSensory>();
         controller = GetComponent<StateController>();
-        characterController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         CurrentStat = data.AccessLevelData();
         GetCoreStat(); 
@@ -91,7 +89,9 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 
     public void TakeHit(int damage)
     {
-        throw new System.NotImplementedException();
+        health -= damage;
+        // stop the attack simulation, play the take hit anim trigger; 
+        AfterStrike(); 
     }
 
     public void GiveDamage(IHittable target, int damage)
@@ -99,5 +99,34 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         if (target == null)
             return;
         target.TakeHit(damage);
+    }
+
+    public void Pause()
+    {
+        enemyMover.CurrentSpeed = 0;
+        anim.speed = 0;
+    }
+
+    public void Resume()
+    {
+        enemyMover.CurrentSpeed = enemyMover.AlertMoveSpeed;
+        anim.speed = 1;
+    }
+
+    public void AfterStrike()
+    {
+        // stop the attack simulation, play the take hit anim trigger; 
+        enemyAttacker.StopAttack();
+        anim.SetTrigger("TakeHit"); 
+    }
+
+    public void UponDeath()
+    {
+        StartCoroutine(Death()); 
+    }
+    IEnumerator Death()
+    {
+        yield return returnToPool;
+        GameManager.Pool.Release(this.gameObject); 
     }
 }

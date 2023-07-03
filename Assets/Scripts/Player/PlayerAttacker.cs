@@ -63,7 +63,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
             return;
         nextFire = Time.time + fireRate; 
         //TODO: Make Coroutine which triggers gun animation + relative sound + gun striking function. 
-        soundMaker.TriggerSound(transform, attackSoundIntensity);
+        soundMaker.TriggerSound(attackSoundIntensity);
         Debug.Log("Attack");
     }
 
@@ -99,6 +99,14 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     public void TakeHit(int damage)
     {
-        health -= damage;
+        GameManager.DataManager.Health -= damage;  
+        AfterStrike(); 
+    }
+
+    public void AfterStrike()
+    {
+        anim.SetTrigger("TakeHit");
+        //TODO: Sound Play for the player hit. 
+        //Invoke after hit UI 
     }
 }

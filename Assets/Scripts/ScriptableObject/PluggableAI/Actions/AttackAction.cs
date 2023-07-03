@@ -8,7 +8,7 @@ public class AttackAction : Action
     [SerializeField] Act defaultRotate;
     [SerializeField] float dotThreshHold;
 
-    public override string actionName => typeof(AttackAction).Name; 
+    public override string actionName => nameof(AttackAction); 
 
     public override void Act(StateController controller)
     {
@@ -17,8 +17,6 @@ public class AttackAction : Action
 
     private void PerformAttack(StateController controller)
     {
-        //better to do so in the coroutine?
-        //controller.EnemyMover.CurrentSpeed = 0f; 
         controller.RunAndSaveForReset(actionName, FaceTarget(controller));
         controller.EnemyAttacker.TryStrike();
     }

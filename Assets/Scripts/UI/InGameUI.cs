@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class InGameUI : BaseUI
 {
+    public Slider slider; 
+
     public Transform followTarget;
     public Vector3 followOffset;
 

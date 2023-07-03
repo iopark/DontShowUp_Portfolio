@@ -23,22 +23,19 @@ public class EnemyAttacker : MonoBehaviour
     {
         Enemy = GetComponent<Enemy>();
         enemyMover = GetComponent<EnemyMover>();
-        DefaultAttack = Instantiate(defaultAttack);
-        attackInterval = new WaitForSeconds(DefaultAttack.AttackInterval);
-        DefaultAttack.Attacker = this;
-    }
-
-    public void StrikePlayer()
-    {
-        //Called by the Animator Event 
-        DefaultAttack.Strike();
-        enemyMover.CurrentSpeed = Mathf.Lerp(0, enemyMover.AlertMoveSpeed, 0.4f); 
+        defaultAttack = GameManager.Resource.Instantiate(defaultAttack, "Data/Zombie/FSM/Act/Act_Attack_BasicZombie");
+        attackInterval = new WaitForSeconds(defaultAttack.AttackInterval);
+        defaultAttack.Attacker = this;
     }
     public void FinishedAttacking()
     {
         isAttacking = false; 
     }
 
+    public void StrikePlayer()
+    {
+        DefaultAttack.Strike(); 
+    }
     public void StopAttack()
     {
         if (attackRoutine == null)
@@ -62,7 +59,7 @@ public class EnemyAttacker : MonoBehaviour
             Debug.Log("Attack"); 
             enemyMover.CurrentSpeed = 0f; 
             isAttacking = true; 
-            Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
+            Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
             yield return attackInterval; 
         }
     }

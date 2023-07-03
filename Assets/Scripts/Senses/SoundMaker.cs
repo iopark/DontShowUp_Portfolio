@@ -8,7 +8,7 @@ public class SoundMaker : MonoBehaviour
 {
     public float range; 
     // Start is called before the first frame update
-    public void TriggerSound(Transform transform, float range)
+    public void TriggerSound(float range)
     {
         this.range = range;
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);

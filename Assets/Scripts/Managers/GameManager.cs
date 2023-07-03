@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private static PathManager pathManager;
     private static MapManager mapManager; 
     private static SceneManager sceneManager;
+    private static CombatManager combatManager; 
 
     public static GameManager Instance
     {
@@ -51,6 +52,10 @@ public class GameManager : MonoBehaviour
         get { return sceneManager; }
     }
 
+    public static CombatManager CombatManager
+    {
+        get {  return combatManager; }
+    }
     private void Awake()
     {
         if (instance != null)
@@ -95,5 +100,9 @@ public class GameManager : MonoBehaviour
         GameObject sceneObj = new GameObject() { name = "Scene Manager" };
         sceneObj.transform.SetParent(transform);
         sceneManager = sceneObj.AddComponent<SceneManager>();
+
+        GameObject combatObj = new GameObject() { name = "Particle Manager" };
+        combatObj.transform.SetParent(transform);
+        combatManager = combatObj.AddComponent<CombatManager>();
     }
 }

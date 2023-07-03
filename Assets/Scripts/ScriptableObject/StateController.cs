@@ -21,9 +21,6 @@ public class StateController : MonoBehaviour
     public State remainState;
     public State previousState;
 
-    //[Header("StateRequired Elements")]
-    //public bool isAligning; 
-    //public 
     private void Awake()
     {
         Enemy = GetComponent<Enemy>();
@@ -32,15 +29,9 @@ public class StateController : MonoBehaviour
         Sight = GetComponent<SightSensory>();
         Auditory = GetComponent<SoundSensory>();
     }
-
-
     private void Update()
     {
         currentState.UpdateState(this);
-    }
-    private void FixedUpdate()
-    {
-        //currentState.FixedUpdateState(this);
     }
     public void TransitionToState(State nextState)
     {
@@ -52,15 +43,10 @@ public class StateController : MonoBehaviour
             name = currentState.name;
             AnimationUpdate(); 
             currentState.EnterStateAct(this);
-            //currentState.EnterStateActions(this);
         }
         return;
     }
 
-    public void AnimEvent()
-    {
-
-    }
     public void AnimationUpdate()
     {
         AnimRequestSlip? stateAnim = currentState.EnterStateAnim();
@@ -193,6 +179,12 @@ public class StateController : MonoBehaviour
         }
     }
     #endregion
+
+    public void Initialize()
+    {
+        currentState = GameManager.Resource.Load<State>("State_Idle_BasicZombie");
+        previousState = null; 
+    }
     protected void OnDrawGizmos()
     {
         Gizmos.color = currentState.sceneGizmoColor;
