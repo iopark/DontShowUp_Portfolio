@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a23a541ae5ef349afcddc7ee3333c2, type: 3}
   m_Name: Ranged_Crossbow
   m_EditorClassIdentifier: 
-  type: 0
-  weaponName: 
-  weaponPrefab: {fileID: 0}
-  damage: 0
-  weaponRange: 0
+  type: 1
+  weaponName: Crossbow
+  damage: 100
+  weaponRange: 30
   attackRate: 0
-  noiseIntensity: 0
+  noiseIntensity: 5
+  launcher: {fileID: 3594216062829857404, guid: e0842ff2c59d9bd44991d35bd59d6426, type: 3}
   reloadRate: 0
   roundLimit: 0

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   weaponName: ShotGun
-  weaponPrefab: {fileID: 326096475927757939, guid: 66e5a6128b80b5b4984a5d1fd831eac1, type: 3}
   damage: 51
   weaponRange: 20
   attackRate: 1
   noiseIntensity: 30
+  launcher: {fileID: 3911815456345104444, guid: 66e5a6128b80b5b4984a5d1fd831eac1, type: 3}
   reloadRate: 2
   roundLimit: 2

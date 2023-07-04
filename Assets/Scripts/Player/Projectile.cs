@@ -8,8 +8,11 @@ public class Projectile : MonoBehaviour, IPausable
 {
     [Header("Launcher Independent Attributes")]
     [SerializeField] ParticleSystem hitEffect;
-    [SerializeField] WaitForSeconds particleRes = new WaitForSeconds(1f); 
-    [SerializeField] float bulletMoveSpeed;
+    [SerializeField] WaitForSeconds particleRes = new WaitForSeconds(1f);
+
+    float currentMoveSpeed; 
+    [SerializeField] float projectileMoveSpeed;
+    [SerializeField] float pauseMovespeed = 0.1f; 
     SoundMaker soundMaker;
 
     [Header("Launcher Dependent Attributes")]
@@ -23,7 +26,6 @@ public class Projectile : MonoBehaviour, IPausable
     RaycastHit hitLoc;
     float distance;
     float trajectoryOffset = 0.5f; 
-
     
     private void Awake()
     {
@@ -34,26 +36,23 @@ public class Projectile : MonoBehaviour, IPausable
     }
     void Start()
     {
-        soundIntensity = 30f; //GameManager.DataManager.GunNoiseIntensity; 
-        damage = 51; //GameManager.DataManager.Damage;
+        soundIntensity = 30f;
+        currentMoveSpeed = projectileMoveSpeed; 
+        damage = 51; 
         transform.LookAt(targetLoc);
-
     }
     public void TrajectoryMiss(Vector3 endPoint)
     {
         //Gun should enter with the bullet end point. 
         transform.LookAt(endPoint);
-        StartCoroutine(BulletMissRoutine());
+        StartCoroutine(TrajectoryMissRoutine());
     }
-
     public void TrajectoryHit(in RaycastHit hit)
     {
         hitLoc = hit;
         targetLoc = hit.collider.transform;
-        StartCoroutine(BulletRoutine()); 
-        //TODO: Location of hit is predetermined by the raycast hit of the gun. 
+        StartCoroutine(TrajectoryHitRoutine()); 
     }
-
     private void OnDisable()
     {
         targetLoc = null; 
@@ -74,16 +73,14 @@ public class Projectile : MonoBehaviour, IPausable
         GameManager.Resource.Destroy(hitEffect.gameObject); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
     }
 
-    IEnumerator BulletRoutine()
+    IEnumerator TrajectoryHitRoutine()
     {
         Vector3 delta;
         delta = hitLoc.point - transform.position; 
         Vector3 endPoint = hitLoc.point; 
-        //float time = Vector3.Distance(transform.position, endPoint) / bulletMoveSpeed; // time until it reaches the enemy location 
         distance = Vector3.Dot(delta, delta); 
         while (distance > trajectoryOffset)
         {
-            // 발사 이후에 다시 없어질수도 있기 때문에 
             if (!targetLoc.IsValid())
             {
                 //transform.LookAt(hitLoc.point);
@@ -92,11 +89,9 @@ public class Projectile : MonoBehaviour, IPausable
             delta = endPoint - transform.position;
             distance = Vector3.Dot(delta, delta);
 
-            transform.position = Vector3.MoveTowards(transform.position, endPoint, bulletMoveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null;
         }
-        //After it reaches, double check if the target being strike is valid 
-        //예외처리 및 확인 작업 
         if (targetLoc.IsValid())
         {
             Explode(); 
@@ -105,8 +100,7 @@ public class Projectile : MonoBehaviour, IPausable
         }
         GameManager.Pool.Release(gameObject);
     }
-
-    IEnumerator BulletMissRoutine()
+    IEnumerator TrajectoryMissRoutine()
     {
         Vector3 endPoint = transform.forward * maxDistance;
         Vector3 delta = endPoint - transform.position;
@@ -115,23 +109,22 @@ public class Projectile : MonoBehaviour, IPausable
         {
             delta = endPoint - transform.position;
             distance = Vector3.Dot(delta, delta);
-            transform.position = Vector3.MoveTowards(transform.position, endPoint, bulletMoveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null; 
         }
         GameManager.Pool.Release(gameObject);
     }
-
     public void Pause()
     {
-        bulletMoveSpeed = 0;
+        currentMoveSpeed = pauseMovespeed; 
     }
     public void Resume()
     {
-        bulletMoveSpeed = GameManager.DataManager.BulletMoveSpeed; 
+        currentMoveSpeed = projectileMoveSpeed; 
     }
     IEnumerator ReleaseRoutine(GameObject effect)
     {
         yield return particleRes;
-        GameManager.Resource.Destroy(effect); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
+        GameManager.Resource.Destroy(effect);
     }
 }

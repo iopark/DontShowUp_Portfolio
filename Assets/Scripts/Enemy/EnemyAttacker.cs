@@ -31,7 +31,6 @@ public class EnemyAttacker : MonoBehaviour
     {
         isAttacking = false; 
     }
-
     public void StrikePlayer()
     {
         DefaultAttack.Strike(); 
@@ -56,7 +55,6 @@ public class EnemyAttacker : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("Attack"); 
             enemyMover.CurrentSpeed = 0f; 
             isAttacking = true; 
             Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);

@@ -13,6 +13,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     [SerializeField]
     RangedWeapon primary;
+    [SerializeField]
     RangedWeapon secondary; 
 
     [SerializeField] bool isReloading;
@@ -33,24 +34,16 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     #endregion
     private void Awake()
     {
-        primary = GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Shotgun");
-        secondary = GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Crossbow"); 
-        currentWeapon = primary; 
+        primary = GameManager.Resource.Instantiate<RangedWeapon>("Data/Weapon/Ranged_Shotgun", transform);
+        //secondary = GameManager.Resource.Instantiate<RangedWeapon>("Data/Weapon/Ranged_Crossbow", transform); 
+        currentWeapon = primary;
+        GameManager.Resource.Instantiate<Launcher>(primary.launcher, weaponHolder.position, Quaternion.identity, weaponHolder, true); 
     }
 
     private void Start()
     {
         isReloading = false; 
         anim = GetComponent<Animator>();
-    }
-    private void OnAttack(InputValue value)
-    {
-        //if (isReloading)
-        //    attack = false;
-        //else
-        //    attack = true;
-        //soundMaker.TriggerSound(transform, attackSoundIntensity);
-        //Debug.Log("Attack"); 
     }
 
     private void OnFire(InputValue input)
@@ -62,6 +55,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     private void OnSwitch(InputValue input)
     {
+
         if (currentWeapon.name == primary.name)
         {
             currentWeapon = secondary;

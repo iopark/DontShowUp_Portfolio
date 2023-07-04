@@ -6,6 +6,16 @@ public class Gun : Launcher
 {
     [SerializeField] ParticleSystem muzzleEffect;
 
+    protected override void Awake()
+    {
+        base.Awake(); 
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     public override void Fire()
     {
         if (nextFire != 0)
@@ -16,8 +26,6 @@ public class Gun : Launcher
         }
         fire = StartCoroutine(FireRoutine());
         muzzleEffect.Play(); // ÃÑ±¸ºÒºû 
-
-
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, targetMask))
         {
             hitDir = (hit.point - transform.position).normalized;

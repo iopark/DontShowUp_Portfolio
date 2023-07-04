@@ -1,6 +1,8 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine.Utility;
 
 [RequireComponent(typeof(SoundMaker))]
 public class Launcher : MonoBehaviour
@@ -8,40 +10,43 @@ public class Launcher : MonoBehaviour
     //[SerializeField] TrailRenderer bulletTrail;
     //[SerializeField] float bulletSpeed; 
     // Generally speaking, this should be done on the target being hit by the target . 
+
     [Header("Holder Dependent Attribute")]
     PlayerAttacker player; 
 
     [Header("Launcher attributes")]
-    [SerializeField] protected RangedWeapon weapon;
+    [SerializeField] public RangedWeapon weapon;
     [SerializeField] protected Camera camera;
     [SerializeField] protected LayerMask targetMask; 
     [SerializeField] protected Projectile projectile;
 
     [SerializeField] protected WaitForSeconds reloadInterval; 
     [SerializeField] protected float maxDistance;
-    [SerializeField] protected float fireRate; // defined by the time, (s) 
+    [SerializeField] protected float fireRate; 
     [SerializeField] protected int damage;
 
     [Header("Calculation Cacheing")]
     [SerializeField] protected float nextFire;
-
 
     [Header("Launcher Mechanism")]
     protected bool isReloading; 
     public bool IsReloading { get { return isReloading; } }
 
     SoundMaker soundMaker;
-    private void Awake()
+    protected virtual void Awake()
     {
         soundMaker = GetComponent<SoundMaker>();
     }
-    private void Start()
+    protected virtual void Start()
     {
+        weapon.launcher = this as Launcher; 
+        this.isReloading = false; 
+        this.player = GameObject.Find("Player").GetComponent<PlayerAttacker>();
         this.nextFire = 0;
         this.fireRate = weapon.attackRate;
         this.reloadInterval = new WaitForSeconds(weapon.reloadRate); 
         this.maxDistance = weapon.weaponRange;
-        camera = Camera.main;
+        camera = FindObjectOfType<CinemachineBrain>().OutputCamera;
     }
 
     protected Vector3 hitDir;
@@ -50,6 +55,7 @@ public class Launcher : MonoBehaviour
     protected Coroutine fire; 
     public virtual void Fire()
     {
+
         if (nextFire != 0)
         {
             //TODO: Invoke Event asking for the reload.
@@ -75,13 +81,11 @@ public class Launcher : MonoBehaviour
         }
     }
 
-
-    public void Reload()
+    public virtual void Reload()
     {
         if (isReloading) return;
         reload = StartCoroutine(ReloadRoutine());
     }
-
     protected IEnumerator ReloadRoutine()
     {
         player.anim.SetTrigger("Reload");

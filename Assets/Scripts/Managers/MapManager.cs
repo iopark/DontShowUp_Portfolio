@@ -102,24 +102,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public Cell GetWalkableCells(Cell cell, Vector3 position)
-    {
-        List<Cell> walkables = new List<Cell>();
-        Vector3 rayDir; 
-        Vector3 delta;
-        float len;  
-        foreach (Cell neighbor in GetNeighbours(cell))
-        {
-            delta = neighbor.worldPos - position; 
-            len = delta.magnitude;
-            rayDir = delta.normalized;
-            //Shoot raycast from the position to each cell coordinate, 
-            if (Physics.Raycast(position, rayDir, len, wall))
-                continue; 
-            walkables.Add(neighbor);
-        }
-        return walkables;
-    }
 
     public Cell GetShortestDistanceCell(List<Cell> cells, Cell destinationPoint)
     {

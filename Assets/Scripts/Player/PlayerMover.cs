@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
+[RequireComponent(typeof(SoundMaker))]
 public class PlayerMover : MonoBehaviour
 {
     private CharacterController controller;

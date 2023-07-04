@@ -11,6 +11,10 @@ public class DataManager : MonoBehaviour
     private float runSpeed;
     private float mouseSensitivity; 
     private int maxHealth; 
+    public int MaxHealth
+    {
+        get { return maxHealth; }   
+    }
     private int health;
     public int Health
     {
