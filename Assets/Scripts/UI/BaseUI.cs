@@ -20,6 +20,29 @@ public class BaseUI : MonoBehaviour
     // 매 프레임 별로 동작하는 활동에 대해서 
     // 캐싱하는 작업이 사실상 정배다. 
 
+    private void RecursiveBindingGrandChild(RectTransform child)
+    {
+        RectTransform[] children = child.GetComponentsInChildren<RectTransform>();
+        foreach (RectTransform grandchild in children)
+        {
+            string key = $"{child.gameObject.name}/{grandchild.gameObject.name}";
+            if (transforms.ContainsKey(key))
+                continue;
+            transforms.Add(key, child);
+
+            Button button = child.GetComponent<Button>();
+            if (button != null)
+            {
+                buttons.Add(key, button);
+            }
+
+            TMP_Text text = child.GetComponent<TMP_Text>();
+            if (text != null)
+            {
+                texts.Add(key, text);
+            }
+        }
+    }
     private void BindChildren()
     {
         transforms = new Dictionary<string, RectTransform>();
@@ -27,14 +50,14 @@ public class BaseUI : MonoBehaviour
         texts = new Dictionary<string, TMP_Text>();
         //Base UI 를 기준으로 하위 자식들을 찾게 되었을때 
 
-        RectTransform[] children = GetComponentsInChildren<RectTransform>(); 
+        RectTransform[] children = GetComponentsInChildren<RectTransform>(true); 
         foreach (RectTransform child in children)
         {
-            string key = child.gameObject.name; // key = gameobj's name
-                                                // Order:
-                                                // 1. Find All the components, 
-                                                // 2. Track component's binded gameObj 
-                                                // 3. use that gameObj's name and add them to the appropriate dictionary 
+            if (child.childCount > 0)
+            {
+                RecursiveBindingGrandChild(child);
+            }
+            string key = child.gameObject.name; 
             if (transforms.ContainsKey(key))
                 continue; 
             transforms.Add(key, child);

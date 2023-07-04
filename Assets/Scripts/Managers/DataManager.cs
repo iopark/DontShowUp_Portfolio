@@ -70,9 +70,6 @@ public class DataManager : MonoBehaviour
         set { gunNoiseIntensity = value; }
     }
 
-    [Header("Weapon Particles")]
-    public WaitForSeconds bulletResidue = new WaitForSeconds(3f); 
-
     [Header("Game Stat")]
     private int playerKills;
     public int PlayerKills
@@ -96,6 +93,11 @@ public class DataManager : MonoBehaviour
     public event UnityAction<int> StageChange; 
     public event UnityAction<int> OnKills;
 
+    private void Awake()
+    {
+        PlayerStat stat = Resources.Load<PlayerStat>("Data/Player/Stat_Player"); 
+        InitializeDefaultStat(stat);
+    }
     public void InitializeDefaultStat(PlayerStat stat)
     {
         moveSpeed = stat.normalSpeed;

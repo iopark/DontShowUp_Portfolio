@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8164961039370974957}
   - component: {fileID: 2958381913016429867}
   - component: {fileID: 6427215328338858389}
-  - component: {fileID: 3183022693735619909}
+  - component: {fileID: 3752906266065222619}
+  - component: {fileID: 3911815456345104444}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -88,7 +89,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3183022693735619909
+--- !u!114 &3752906266065222619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,17 +98,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 326096475927757939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eaeda2e18dc62247a7e22ca36b36b05, type: 3}
+  m_Script: {fileID: 11500000, guid: 46b29a11e745e214d8e9f4e9f091d11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 0
+--- !u!114 &3911815456345104444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326096475927757939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aea6755afebf01a45a1bac3ed72feb60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
+  camera: {fileID: 0}
   targetMask:
     serializedVersion: 2
-    m_Bits: 448
-  muzzleEffect: {fileID: 198234346748616026, guid: 9bd8ff13a14b2d64a9ead6bc5870154e, type: 3}
-  bullet: {fileID: 5542895809945723528, guid: f6076a51a0fe8fd45a74ba7479079d52, type: 3}
+    m_Bits: 256
+  projectile: {fileID: 5542895809945723528, guid: f6076a51a0fe8fd45a74ba7479079d52, type: 3}
   maxDistance: 0
   fireRate: 0
   damage: 0
+  nextFire: 0
+  muzzleEffect: {fileID: 198234346748616026, guid: 9bd8ff13a14b2d64a9ead6bc5870154e, type: 3}
 --- !u!1 &709558680096073270
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,9 +469,8 @@ GameObject:
   - component: {fileID: 4819284678281428707}
   - component: {fileID: 2690893712012930150}
   - component: {fileID: 1954840879968910468}
-  - component: {fileID: 7343300956384373598}
   m_Layer: 8
-  m_Name: Shotgun
+  m_Name: Shoulder Pad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,23 +541,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7343300956384373598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8668598679981293416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eaeda2e18dc62247a7e22ca36b36b05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  muzzleEffect: {fileID: 0}
-  bullet: {fileID: 0}
-  maxDistance: 0
-  fireRate: 0
-  damage: 0

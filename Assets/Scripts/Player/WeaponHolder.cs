@@ -1,25 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class WeaponHolder : MonoBehaviour
-{
-    // WeaponHolder can wield any guns 
-    [SerializeField] Gun gun; 
+//public class WeaponHolder : MonoBehaviour
+//{
+//    [SerializeField] Gun gun;
+//    [SerializeField] WeaponSO currentWeapon; 
 
-    List<Gun> gunList = new List<Gun>();
+//    List<Gun> gunList = new List<Gun>();
 
-    public void Swap(int index)
-    {
-        gun = gunList[index];
-    }
-    public void Fire()
-    {
-        gun.Fire();
-    }
+//    private void Start()
+//    {
+//        currentWeapon = GameManager.Resource.Instantiate<WeaponSO>("Data/Weapon/Ranged_Shotgun"); 
+//    }
+//    public void Swap(int index)
+//    {
+//        gun = gunList[index];
+//    }
+//    public void Fire()
+//    {
+//        gun.Fire();
+//    }
 
-    public void GetWeapon(Gun gun)
-    {
-        gunList.Add(gun);
-    }
-}
+//    public void GetWeapon(Gun gun)
+//    {
+//        gunList.Add(gun);
+//    }
+//}

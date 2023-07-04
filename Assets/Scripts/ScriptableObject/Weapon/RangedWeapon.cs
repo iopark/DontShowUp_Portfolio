@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Ranged_", menuName ="Registry/Weapon/Ranged")]
 public class RangedWeapon : WeaponSO
 {
+    public Launcher launcher; 
     public float reloadRate;
-    public float roundLimit;
+    public int roundLimit;
 }

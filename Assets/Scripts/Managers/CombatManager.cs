@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class CombatManager : MonoBehaviour
 {
     public UnityAction WeaponSwitch;
+    Vector3 enemyLookDir;
+    Vector3 playerLookDir; 
 
     public bool FlankJudgement()
     {

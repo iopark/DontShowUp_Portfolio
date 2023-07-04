@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IPausable
+[RequireComponent(typeof(SoundMaker))] 
+public class Projectile : MonoBehaviour, IPausable
 {
+    [Header("Launcher Independent Attributes")]
     [SerializeField] ParticleSystem hitEffect;
-    WaitForSeconds particleRes = new WaitForSeconds(1f); 
+    [SerializeField] WaitForSeconds particleRes = new WaitForSeconds(1f); 
     [SerializeField] float bulletMoveSpeed;
     SoundMaker soundMaker;
 
-    [Header("Bullet Attributes")]
+    [Header("Launcher Dependent Attributes")]
+    [SerializeField] RangedWeapon launcher;
     [SerializeField] int damage;
     [SerializeField] float soundIntensity;
     [SerializeField] float maxDistance;
@@ -19,28 +22,31 @@ public class Bullet : MonoBehaviour, IPausable
     Transform targetLoc; 
     RaycastHit hitLoc;
     float distance;
-    float bulletOffset = 0.5f; 
+    float trajectoryOffset = 0.5f; 
 
     
     private void Awake()
     {
+        damage = launcher.damage;
+        soundIntensity = launcher.noiseIntensity;
+        maxDistance = launcher.weaponRange; 
         soundMaker = GetComponent<SoundMaker>();
     }
     void Start()
     {
-        soundIntensity = GameManager.DataManager.GunNoiseIntensity; 
-        damage = GameManager.DataManager.Damage;
+        soundIntensity = 30f; //GameManager.DataManager.GunNoiseIntensity; 
+        damage = 51; //GameManager.DataManager.Damage;
         transform.LookAt(targetLoc);
 
     }
-    public void BulletMiss(Vector3 endPoint)
+    public void TrajectoryMiss(Vector3 endPoint)
     {
         //Gun should enter with the bullet end point. 
         transform.LookAt(endPoint);
         StartCoroutine(BulletMissRoutine());
     }
 
-    public void BulletHit(in RaycastHit hit)
+    public void TrajectoryHit(in RaycastHit hit)
     {
         hitLoc = hit;
         targetLoc = hit.collider.transform;
@@ -75,7 +81,7 @@ public class Bullet : MonoBehaviour, IPausable
         Vector3 endPoint = hitLoc.point; 
         //float time = Vector3.Distance(transform.position, endPoint) / bulletMoveSpeed; // time until it reaches the enemy location 
         distance = Vector3.Dot(delta, delta); 
-        while (distance > bulletOffset)
+        while (distance > trajectoryOffset)
         {
             // 발사 이후에 다시 없어질수도 있기 때문에 
             if (!targetLoc.IsValid())
@@ -105,7 +111,7 @@ public class Bullet : MonoBehaviour, IPausable
         Vector3 endPoint = transform.forward * maxDistance;
         Vector3 delta = endPoint - transform.position;
         distance = Vector3.Dot(delta, delta); 
-        while (distance > bulletOffset)
+        while (distance > trajectoryOffset)
         {
             delta = endPoint - transform.position;
             distance = Vector3.Dot(delta, delta);
@@ -122,5 +128,10 @@ public class Bullet : MonoBehaviour, IPausable
     public void Resume()
     {
         bulletMoveSpeed = GameManager.DataManager.BulletMoveSpeed; 
+    }
+    IEnumerator ReleaseRoutine(GameObject effect)
+    {
+        yield return particleRes;
+        GameManager.Resource.Destroy(effect); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
     }
 }

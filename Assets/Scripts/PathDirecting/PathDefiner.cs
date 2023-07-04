@@ -33,6 +33,64 @@ public class PathDefiner: MonoBehaviour
         StartCoroutine(FindPath(startPoint, endPoint)); 
     }
 
+    IEnumerator SoundPathFinder(Vector3 startPoint, Vector3 endPoint)
+    {
+        int xSize = GameManager.MapManager.GridSizeX;
+        int ySize = GameManager.MapManager.GridSizeY;
+        Vector3[] waypoints = new Vector3[0];
+        bool pathSuccess = false;
+
+        Cell startSpot = GameManager.MapManager.CellFromWorldPoint(startPoint);
+        Cell targetSpot = GameManager.MapManager.CellFromWorldPoint(endPoint);
+        GameManager.MapManager.CheckWalkable(ref startSpot, ref targetSpot);
+
+        PriorityQueue<Cell> openSet = new PriorityQueue<Cell>();
+        bool[,] visited = new bool[xSize, ySize];
+        openSet.Enqueue(startSpot);
+
+        while (openSet.Count > 0)
+        {
+            Cell currentSpot = openSet.Dequeue();
+            visited[currentSpot.gridX, currentSpot.gridY] = true;
+            if (currentSpot == targetSpot)
+            {
+                pathSuccess = true;
+                break;
+            }
+
+            foreach (Cell neighbour in GameManager.MapManager.GetNeighbours(currentSpot))
+            {
+                if (!neighbour.walkable || visited[neighbour.gridX, neighbour.gridY] == true)
+                {
+                    continue;
+                }
+                int g = currentSpot.gCost + ((currentSpot.gridX == neighbour.gridX ||
+                    currentSpot.gridY == neighbour.gridY) ? CostStraight : CostDiagonal);
+                int h = Heuristic(neighbour, targetSpot);
+
+                int newPotentialCost = g + h;
+                if (newPotentialCost < neighbour.fCost || !openSet.Contains(neighbour))
+                {
+                    neighbour.gCost = g;
+                    neighbour.hCost = h;
+                    neighbour.parent = currentSpot;
+
+                    if (!openSet.Contains(neighbour))
+                        openSet.Enqueue(neighbour);
+                    else
+                    {
+                        openSet.UpdateHeap(neighbour);
+                    }
+                }
+            }
+        }
+        yield return null;
+        if (pathSuccess)
+        {
+            waypoints = RetracePath(startSpot, targetSpot);
+        }
+        GameManager.PathManager.FinishedProcessingPath(waypoints, pathSuccess);
+    }
     IEnumerator FindPath(Vector3 startPoint, Vector3 endPoint)
     {
         int xSize = GameManager.MapManager.GridSizeX;
@@ -121,12 +179,29 @@ public class PathDefiner: MonoBehaviour
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
         return waypoints;
-
     }
 
+    Vector3[] RetracePathAdjusted(Cell startNode, Cell endNode)
+    {
+        //startNode must not be unwalkable. 
+        List<Cell> path = new List<Cell>();
+        Cell currentNode = endNode;
+
+        while (currentNode != startNode)
+        {
+            if (currentNode.walkable)
+                path.Add(currentNode);
+            currentNode = currentNode.parent;
+        }
+        Vector3[] waypoints = SimplifyPath(path);
+        Array.Reverse(waypoints);
+        return waypoints;
+    }
+    
     Vector3[] SimplifyPath(List<Cell> path)
     {
         //TODO: Reuse the given path to calculate the distance between the points, and thus calculate whether hear 'could' listen to that given sound. 
+        //TODO: 
         List<Vector3> waypoints = new List<Vector3>();
         Vector2 directionOld = Vector2.zero;
 

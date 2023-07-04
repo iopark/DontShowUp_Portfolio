@@ -37,6 +37,7 @@ public class MapManager : MonoBehaviour
         gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
     }
 
+    //TODO: This is called from the path definer 
     public Cell CellFromWorldPoint(Vector3 worldPosition)
     {
         float percentX = (worldPosition.x + gridMapSize.x / 2) / gridMapSize.x;
@@ -47,6 +48,92 @@ public class MapManager : MonoBehaviour
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
         return gridMap[x, y];
+    }
+
+    public void CheckWalkable(ref Cell start, ref Cell to)
+    {
+        if (start.walkable && to.walkable)
+        {
+            return;
+        }
+        else if (start.walkable && !to.walkable)
+        {
+            Cell newCell;
+            newCell = GetShortestDistanceCell(GetNeighbours(to), start);
+            if (!newCell.walkable)
+            {
+                CheckWalkable(ref start, ref newCell);
+                return;
+            }
+            to = newCell;
+            return; 
+        }
+        else if (!start.walkable && to.walkable)
+        {
+            Cell newCell;
+            newCell = GetShortestDistanceCell(GetNeighbours(start), to);
+            if (!newCell.walkable)
+            {
+                CheckWalkable(ref newCell, ref to);
+                return;
+            }
+            start = newCell; 
+            return;
+        }
+        else
+        {
+            Cell newStart;
+            Cell newEnd;
+            newEnd = GetShortestDistanceCell(GetNeighbours(to), start);
+            if (!newEnd.walkable)
+            {
+                CheckWalkable(ref start, ref newEnd);
+                return;
+            }
+            newStart = GetShortestDistanceCell(GetNeighbours(start), to);
+            if (!newStart.walkable)
+            {
+                CheckWalkable(ref newStart, ref to);
+                return;
+            }
+            start = newStart;
+            to = newEnd;
+            return;
+        }
+    }
+
+    public Cell GetWalkableCells(Cell cell, Vector3 position)
+    {
+        List<Cell> walkables = new List<Cell>();
+        Vector3 rayDir; 
+        Vector3 delta;
+        float len;  
+        foreach (Cell neighbor in GetNeighbours(cell))
+        {
+            delta = neighbor.worldPos - position; 
+            len = delta.magnitude;
+            rayDir = delta.normalized;
+            //Shoot raycast from the position to each cell coordinate, 
+            if (Physics.Raycast(position, rayDir, len, wall))
+                continue; 
+            walkables.Add(neighbor);
+        }
+        return walkables;
+    }
+
+    public Cell GetShortestDistanceCell(List<Cell> cells, Cell destinationPoint)
+    {
+        PriorityQueue<SoundPoint> shortestPoint = new PriorityQueue<SoundPoint>();
+        Vector3 delta;
+        float distance;
+        foreach (Cell cell in cells)
+        {
+            delta = cell.worldPos - destinationPoint.worldPos;
+            distance = Vector3.Dot(delta, delta);
+            SoundPoint soundPoint = new SoundPoint(cell, distance); 
+            shortestPoint.Enqueue(soundPoint); 
+        }
+        return shortestPoint.Dequeue().cell;
     }
 
     public (int, int) GridValueFromWorldPoint(Vector3 worldPosition)

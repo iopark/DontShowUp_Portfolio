@@ -18,6 +18,13 @@ public static class Extension
     {
         return component != null && component.gameObject.activeInHierarchy;
     }
+
+    //Should apply to Advanced Zombie 
+    public static Vector3 GetDestinationPoint(Vector3[] paths)
+    {
+        return paths[paths.Length- 1];
+    }
+
     public struct ParallelTester : IJobParallelFor
     {
         public void Execute(int index)

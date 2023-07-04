@@ -11,9 +11,10 @@ public class WeaponSO : ScriptableObject
 {
     public WeaponType type; 
     public string weaponName;
-    public GameObject weaponPrefab; 
     public int damage;
     public int weaponRange; 
     public float attackRate;
     public float noiseIntensity; 
+
+    //TODO: Upon Attack Request, must trigger for strike. 
 }

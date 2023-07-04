@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28f5bc7b9a5064d458753e6017dfa618, type: 3}
-  m_Name: Stat_Player
+  m_Script: {fileID: 11500000, guid: 23a23a541ae5ef349afcddc7ee3333c2, type: 3}
+  m_Name: Ranged_Crossbow
   m_EditorClassIdentifier: 
-  health: 100
-  normalSpeed: 2
-  runSpeed: 4
-  crouchSpeed: 1
-  jumpSpeed: 5
-  mouseSensitivity: 10
+  type: 0
+  weaponName: 
+  weaponPrefab: {fileID: 0}
+  damage: 0
+  weaponRange: 0
+  attackRate: 0
+  noiseIntensity: 0
+  reloadRate: 0
+  roundLimit: 0

@@ -7,19 +7,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour, IHittable
 {
-    [SerializeField] float attackSoundIntensity;
+    //[SerializeField] float attackSoundIntensity;
+    [SerializeField] RangedWeapon currentWeapon;
+    [SerializeField] Transform weaponHolder; 
+
+    [SerializeField]
+    RangedWeapon primary;
+    RangedWeapon secondary; 
+
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
 
-    WaitForSeconds reloadInterval;
-    Coroutine reloading; 
-    Animator anim;
-    SoundMaker soundMaker;
-
-    [Header("Pertaining to Gun Fire")]
-    float fireRate = 1f; // should be updated based on the pre-written scriptable object on player stats. 
-    float nextFire; 
-
+    public Animator anim;
 
     #region Temporary variables for the debugging purposes 
     private int health = 100; 
@@ -32,19 +31,16 @@ public class PlayerAttacker : MonoBehaviour, IHittable
         }
     }
     #endregion
-
-    public bool debug; 
-
     private void Awake()
     {
-        nextFire = 0; 
-        soundMaker = GetComponent<SoundMaker>();
+        primary = GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Shotgun");
+        secondary = GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Crossbow"); 
+        currentWeapon = primary; 
     }
 
     private void Start()
     {
         isReloading = false; 
-        reloadInterval = new WaitForSeconds(reloadTime);
         anim = GetComponent<Animator>();
     }
     private void OnAttack(InputValue value)
@@ -59,42 +55,28 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     private void OnFire(InputValue input)
     {
-        if (isReloading || Time.time < nextFire)
+        if (currentWeapon.launcher.IsReloading)
             return;
-        nextFire = Time.time + fireRate; 
-        //TODO: Make Coroutine which triggers gun animation + relative sound + gun striking function. 
-        soundMaker.TriggerSound(attackSoundIntensity);
-        Debug.Log("Attack");
+        currentWeapon.launcher.Fire();
+    }
+
+    private void OnSwitch(InputValue input)
+    {
+        if (currentWeapon.name == primary.name)
+        {
+            currentWeapon = secondary;
+            //TODO: Enable, Disable Weapon 
+            return;
+        }
+        currentWeapon = primary;
+        return;
     }
 
     private void OnReload(InputValue input)
     {
-        if (isReloading)
-            return;
-        reloading = StartCoroutine(ReloadRoutine());
-
-    }
-
-    IEnumerator ReloadRoutine()
-    {
-
-        anim.SetTrigger("Reload");
-        isReloading = true;
-        //재장전 시작시 weight 재설정 
-        //aimRig.weight = 0f; 
-        yield return reloadInterval; 
-        isReloading = false;
-        //aimRig.weight = 1f;
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        if (debug)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackSoundIntensity);
-        }
+        //if (currentWeapon.type != WeaponType.Ranged)
+        //    return;
+        currentWeapon.launcher.Reload();
     }
 
     public void TakeHit(int damage)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,29 @@ using UnityEngine;
 public class SoundPathHelper
 {
     
+}
+
+public struct SoundPoint : IComparable<SoundPoint>
+{
+    public Cell cell;
+    public float distance; 
+    public SoundPoint (Cell cell, float distance)
+    {
+        this.cell = cell;
+        this.distance = distance;
+    }
+
+    public int CompareTo(SoundPoint other)
+    {
+        int compare = distance.CompareTo(other.distance);
+        if (compare == 0)
+        {
+            // if hCost of this is smaller than the comparing one, 
+            // this would result in -1. // The result needs to be -1, if priority is higher 
+            compare = cell.gCost.CompareTo(cell.gCost);
+        }
+        return compare;
+    }
 }
 
 public class ValidSoundEvaluator

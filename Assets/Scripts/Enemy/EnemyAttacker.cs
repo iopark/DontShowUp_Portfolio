@@ -9,7 +9,7 @@ public class EnemyAttacker : MonoBehaviour
     EnemyMover enemyMover; 
     public Attack DefaultAttack
     {
-        get; set;
+        get { return defaultAttack; }
     }
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;

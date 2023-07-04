@@ -8,9 +8,11 @@ using UnityEngine.Windows;
 public class PlayerMover : MonoBehaviour
 {
     private CharacterController controller;
-    private Animator anim; 
+    private Animator anim;
 
     [Header("Pertaining to Movement")]
+    SoundMaker soundMaker; 
+
     private Vector3 moveDir;
     [SerializeField]private float moveSpeed;
     [Range(0f, 5f)]

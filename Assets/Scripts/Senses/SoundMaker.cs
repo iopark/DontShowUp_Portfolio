@@ -11,12 +11,14 @@ public class SoundMaker : MonoBehaviour
     public void TriggerSound(float range)
     {
         this.range = range;
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
         foreach (Collider collider in colliders)
         {
             IListenable listener = collider.GetComponent<IListenable>();
             listener?.Heard(transform.position);
-            
+
+            //TODO: Make sure the grid is walkable path. 
             //Return the sight which should print out tracable path for the listener. 
         }
         
@@ -26,5 +28,11 @@ public class SoundMaker : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range); 
+    }
+
+    IEnumerator AdjustGridPoint(Vector3 soundPoint)
+    {
+        GameManager.MapManager.CellFromWorldPoint(soundPoint);
+        yield return null; 
     }
 }
