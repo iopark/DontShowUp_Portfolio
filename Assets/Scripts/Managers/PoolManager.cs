@@ -17,40 +17,44 @@ public class PoolManager : MonoBehaviour
         poolDic = new Dictionary<string, ObjectPool<GameObject>>();
         poolContainer = new Dictionary<string, Transform>();
         poolRoot = new GameObject("PoolRoot").transform;
-        //canvasRoot = GameManager.Resource.Instantiate<Canvas>("UI/Canvas"); 
+        canvasRoot = GameManager.Resource.Instantiate<Canvas>("UI/Canvas"); 
     }
 
     /// <summary>
-    /// Generic, T 는 Object 이여서, 매개변수로 넣는 값에 대해서 해당 형태를 반환하게 할수 있게 한다. , Where Obj 는 유니티에서 가장 기초적인 객체 단위이다. 
+    /// Without set parent; 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="original"></param>
     /// <param name="position"></param>
     /// <param name="rotation"></param>
     /// <returns></returns>
+
     public T Get<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
     {
         // GameObject 일때
         if (original is GameObject)
         {
-            GameObject prefab = original as GameObject; 
+            GameObject prefab = original as GameObject;
             if (!poolDic.ContainsKey(prefab.name))
             {
                 CreatePool(prefab.name, prefab);
             }
 
             ObjectPool<GameObject> pool = poolDic[prefab.name]; // 해당 string 값을 키값으로 하여 Dict에서 찾는 오브젝트 풀을 찾은 이후에, 
-            GameObject go = pool.Get();  
+            GameObject go = pool.Get();
             go.transform.position = position;
             go.transform.rotation = rotation;
-            go.transform.SetParent(transform); 
+            if (parent == null)
+                go.transform.SetParent(transform); 
+            else 
+                go.transform.SetParent(parent);
             return go as T;
         }
         // Component 일때 
         if (original is Component)
         {
             Component component = original as Component; // T 형변환 => Componenent
-            string key = component.gameObject.name; 
+            string key = component.gameObject.name;
             if (!poolDic.ContainsKey(key))
             {
                 CreatePool(key, component.gameObject); // 해당 컴포넌트가 붙어있는 GameObj 를 Dict 에 추가하여주며, 
@@ -58,29 +62,19 @@ public class PoolManager : MonoBehaviour
             GameObject go = poolDic[key].Get(); // 게임오브젝트를 불러온뒤, 
             go.transform.position = position;
             go.transform.rotation = rotation;
-            go.transform.SetParent(transform);
+            if (parent == null)
+                go.transform.SetParent(transform); 
+            else 
+                go.transform.SetParent(parent);
             return go.GetComponent<T>(); // 해당 게임오브젝트의 컴포넌트를 반환하는 형식으로 해주면 된다. 
         }
         // GameObj 도, Componenent가 아니면 뱉어라. 먹는거 아니다. 
         else
         {
-            return null; 
+            return null;
         }
     }
-    //public GameObject Get(GameObject prefab, Vector3 position, Quaternion rotation)
-    //{
-    //    if (!poolDic.ContainsKey(prefab.name))
-    //    {
-    //        CreatePool(prefab.name, prefab);
-    //    }
 
-    //    ObjectPool<GameObject> pool = poolDic[prefab.name]; // 해당 string 값을 키값으로 하여 Dict에서 찾는 오브젝트 풀을 찾은 이후에, 
-
-    //    GameObject go = pool.Get(); // 그중 첫번째 poolable obj 를 반환한다. 
-    //    go.transform.position = position;
-    //    go.transform.rotation = rotation;
-    //    return go;
-    //}
     public T Get<T>(T original, Vector3 position, Quaternion rotation) where T : Object
     {
         return Get<T>(original, position, rotation, null);
@@ -144,6 +138,10 @@ public class PoolManager : MonoBehaviour
         return true; // 반납이 성공한 경우 return true 
     }
 
+    public void CreateAndSaveInPool(GameObject go)
+    {
+        CreatePool(go.name, go); 
+    }
     private void CreatePool(string key, GameObject prefab)
     {
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>(

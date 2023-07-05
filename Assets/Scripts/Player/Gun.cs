@@ -16,6 +16,10 @@ public class Gun : Launcher
         base.Start();
     }
 
+    private void OnDisable()
+    {
+        GameManager.Resource.Destroy(this);
+    }
     public override void Fire()
     {
         if (nextFire != 0)

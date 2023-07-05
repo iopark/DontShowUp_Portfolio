@@ -7,19 +7,15 @@ using Cinemachine.Utility;
 [RequireComponent(typeof(SoundMaker))]
 public class Launcher : MonoBehaviour
 {
-    //[SerializeField] TrailRenderer bulletTrail;
-    //[SerializeField] float bulletSpeed; 
-    // Generally speaking, this should be done on the target being hit by the target . 
-
     [Header("Holder Dependent Attribute")]
-    PlayerAttacker player; 
-
+    PlayerAttacker player;
+    //====================================================================================
     [Header("Launcher attributes")]
-    [SerializeField] public RangedWeapon weapon;
+    [SerializeField] public RangedWeapon weaponInfo;
     [SerializeField] protected Camera camera;
     [SerializeField] protected LayerMask targetMask; 
     [SerializeField] protected Projectile projectile;
-
+    //====================================================================================
     [SerializeField] protected WaitForSeconds reloadInterval; 
     [SerializeField] protected float maxDistance;
     [SerializeField] protected float fireRate; 
@@ -39,13 +35,12 @@ public class Launcher : MonoBehaviour
     }
     protected virtual void Start()
     {
-        weapon.launcher = this as Launcher; 
         this.isReloading = false; 
         this.player = GameObject.Find("Player").GetComponent<PlayerAttacker>();
         this.nextFire = 0;
-        this.fireRate = weapon.attackRate;
-        this.reloadInterval = new WaitForSeconds(weapon.reloadRate); 
-        this.maxDistance = weapon.weaponRange;
+        this.fireRate = weaponInfo.attackRate;
+        this.reloadInterval = new WaitForSeconds(weaponInfo.reloadRate); 
+        this.maxDistance = weaponInfo.weaponRange;
         camera = FindObjectOfType<CinemachineBrain>().OutputCamera;
     }
 

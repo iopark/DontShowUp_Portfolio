@@ -8,13 +8,13 @@ using UnityEngine.InputSystem;
 public class PlayerAttacker : MonoBehaviour, IHittable
 {
     //[SerializeField] float attackSoundIntensity;
-    [SerializeField] RangedWeapon currentWeapon;
+    [SerializeField] Launcher currentWeapon;
     [SerializeField] Transform weaponHolder; 
 
     [SerializeField]
-    RangedWeapon primary;
+    Launcher primary;
     [SerializeField]
-    RangedWeapon secondary; 
+    Launcher secondary; 
 
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
@@ -34,28 +34,30 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     #endregion
     private void Awake()
     {
-        primary = GameManager.Resource.Instantiate<RangedWeapon>("Data/Weapon/Ranged_Shotgun", transform);
+        GameManager.CombatManager.weaponHolder = weaponHolder;
+        primary = weaponHolder.GetComponentInChildren<Launcher>(); //GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Shotgun");
         //secondary = GameManager.Resource.Instantiate<RangedWeapon>("Data/Weapon/Ranged_Crossbow", transform); 
         currentWeapon = primary;
-        GameManager.Resource.Instantiate<Launcher>(primary.launcher, weaponHolder.position, Quaternion.identity, weaponHolder, true); 
+        //GameManager.Resource.Instantiate<Launcher>(primary.launcher, weaponHolder.position, Quaternion.identity, weaponHolder, true); 
     }
 
     private void Start()
     {
+
         isReloading = false; 
         anim = GetComponent<Animator>();
     }
 
     private void OnFire(InputValue input)
     {
-        if (currentWeapon.launcher.IsReloading)
+        if (currentWeapon.IsReloading)
             return;
-        currentWeapon.launcher.Fire();
+        currentWeapon.Fire();
     }
 
     private void OnSwitch(InputValue input)
     {
-
+        GameManager.CombatManager.WeaponSwitch?.Invoke(); 
         if (currentWeapon.name == primary.name)
         {
             currentWeapon = secondary;
@@ -70,7 +72,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     {
         //if (currentWeapon.type != WeaponType.Ranged)
         //    return;
-        currentWeapon.launcher.Reload();
+        currentWeapon.Reload();
     }
 
     public void TakeHit(int damage)

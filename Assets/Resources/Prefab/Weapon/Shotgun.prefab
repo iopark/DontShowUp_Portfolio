@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea6755afebf01a45a1bac3ed72feb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
+  weaponInfo: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
   camera: {fileID: 0}
   targetMask:
     serializedVersion: 2
