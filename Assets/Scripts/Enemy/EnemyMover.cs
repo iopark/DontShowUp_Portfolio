@@ -53,7 +53,7 @@ public class EnemyMover : MonoBehaviour
         get { return rotationSpeed; }
         set { rotationSpeed = value; }
     }
-    private Vector3[] traceSoundPoints;
+    [SerializeField] private Vector3[] traceSoundPoints;
     public Vector3[] TraceSoundPoints { get { return traceSoundPoints; } set { traceSoundPoints = value; } }
     Vector3 ForwardVector
     {

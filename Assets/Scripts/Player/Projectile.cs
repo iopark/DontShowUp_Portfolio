@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SoundMaker))] 
 public class Projectile : MonoBehaviour, IPausable
 {
     [Header("Launcher Independent Attributes")]
+    Camera cam; 
     [SerializeField] ParticleSystem hitEffect;
     [SerializeField] WaitForSeconds particleRes = new WaitForSeconds(1f);
 
@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour, IPausable
     [SerializeField] float maxDistance;
 
     [Header("Calculation Cacheing")]
-    Transform targetLoc; 
+    [SerializeField] Transform targetLoc; 
     RaycastHit hitLoc;
     float distance;
     float trajectoryOffset = 0.5f; 
@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour, IPausable
         maxDistance = launcher.weaponRange; 
         soundMaker = GetComponent<SoundMaker>();
     }
-    void Start()
+    private void Start()
     {
         soundIntensity = 30f;
         currentMoveSpeed = projectileMoveSpeed; 
@@ -43,24 +43,30 @@ public class Projectile : MonoBehaviour, IPausable
     }
     public void TrajectoryMiss(Vector3 endPoint)
     {
+        currentMoveSpeed = projectileMoveSpeed;
         //Gun should enter with the bullet end point. 
         transform.LookAt(endPoint);
         StartCoroutine(TrajectoryMissRoutine());
     }
     public void TrajectoryHit(in RaycastHit hit)
     {
+        currentMoveSpeed = projectileMoveSpeed;
         hitLoc = hit;
         targetLoc = hit.collider.transform;
         StartCoroutine(TrajectoryHitRoutine()); 
     }
+    private void OnEnable()
+    {
+        cam = Camera.main;
+    }
     private void OnDisable()
     {
         targetLoc = null; 
-        damage = 0;
     }
 
     private void Explode()
     {
+        soundMaker.TriggerSound(soundIntensity);
         StartCoroutine(ParticleRoutine()); 
     }
 
@@ -102,7 +108,7 @@ public class Projectile : MonoBehaviour, IPausable
     }
     IEnumerator TrajectoryMissRoutine()
     {
-        Vector3 endPoint = transform.forward * maxDistance;
+        Vector3 endPoint = cam.transform.forward * maxDistance;
         Vector3 delta = endPoint - transform.position;
         distance = Vector3.Dot(delta, delta); 
         while (distance > trajectoryOffset)

@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 
     #region Default Enemy Stats: Requires Refactoring 
     //TODO: Others to Refactor 
-    private int health;
+    [SerializeField] private int health;
     public int Health
     {
         get { return health; }
@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         controller = GetComponent<StateController>();
         anim = GetComponent<Animator>();
         CurrentStat = data.AccessLevelData();
+        enemyAttacker = GetComponent<EnemyAttacker>();
         GetCoreStat(); 
     }
 
@@ -127,12 +128,15 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
     Coroutine Freezer;
     IEnumerator Freeze(float time) 
     { 
-        yield return new WaitforSeconds(time); 
+        yield return new WaitForSeconds(time); 
         Resume(); 
     }
     IEnumerator Death()
     {
         yield return returnToPool;
-        GameManager.Pool.Release(this.gameObject); 
+        anim.SetBool("Death", false); 
+        GameManager.Resource.Destroy(this.gameObject); 
     }
+
+    //Any resets upon death?
 }

@@ -1,8 +1,7 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine.Utility;
+using TMPro.EditorUtilities;
 
 [RequireComponent(typeof(SoundMaker))]
 public class Launcher : MonoBehaviour
@@ -11,6 +10,7 @@ public class Launcher : MonoBehaviour
     PlayerAttacker player;
     //====================================================================================
     [Header("Launcher attributes")]
+    protected SoundMaker soundMaker;
     [SerializeField] public RangedWeapon weaponInfo;
     [SerializeField] protected Camera camera;
     [SerializeField] protected LayerMask targetMask; 
@@ -20,7 +20,22 @@ public class Launcher : MonoBehaviour
     [SerializeField] protected float maxDistance;
     [SerializeField] protected float fireRate; 
     [SerializeField] protected int damage;
+    [SerializeField] protected Transform muzzlePoint; 
+    //===========================WeaponRounds=============================================
+    [SerializeField] protected int currentRounds;
+    public int CurrentRounds
+    {
+        get { return currentRounds; } 
+        set
+        {
+            currentRounds = value;
+            if (currentRounds == 0)
+                GameManager.CombatManager.CombatAlert?.Invoke("Out of Ammo"); 
+            GameManager.CombatManager.WeaponFire.Invoke(currentRounds);
+        }
+    }
 
+    [SerializeField] protected int maxRounds; 
     [Header("Calculation Cacheing")]
     [SerializeField] protected float nextFire;
 
@@ -28,20 +43,22 @@ public class Launcher : MonoBehaviour
     protected bool isReloading; 
     public bool IsReloading { get { return isReloading; } }
 
-    SoundMaker soundMaker;
+
     protected virtual void Awake()
     {
         soundMaker = GetComponent<SoundMaker>();
     }
     protected virtual void Start()
     {
+        this.maxRounds = weaponInfo.roundLimit;
+        this.currentRounds = maxRounds; 
         this.isReloading = false; 
         this.player = GameObject.Find("Player").GetComponent<PlayerAttacker>();
         this.nextFire = 0;
         this.fireRate = weaponInfo.attackRate;
         this.reloadInterval = new WaitForSeconds(weaponInfo.reloadRate); 
         this.maxDistance = weaponInfo.weaponRange;
-        camera = FindObjectOfType<CinemachineBrain>().OutputCamera;
+        camera = Camera.main;
     }
 
     protected Vector3 hitDir;
@@ -53,13 +70,16 @@ public class Launcher : MonoBehaviour
 
         if (nextFire != 0)
         {
-            //TODO: Invoke Event asking for the reload.
-            // UI should show "Must Reload!" 
+            GameManager.CombatManager.CombatAlert?.Invoke("Not yet"); 
             return;
         }
-        fire = StartCoroutine(FireRoutine()); 
-        
+        else if (currentRounds <= 0)
+        {
+            GameManager.CombatManager.CombatAlert?.Invoke("Reload!");
+        }
 
+        CurrentRounds--;
+        fire = StartCoroutine(FireRoutine()); 
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, targetMask))
         {
             hitDir = (hit.point - transform.position).normalized;
@@ -85,21 +105,21 @@ public class Launcher : MonoBehaviour
     {
         player.anim.SetTrigger("Reload");
         isReloading = true;
-        //재장전 시작시 weight 재설정 
-        //aimRig.weight = 0f; 
         yield return reloadInterval;
+        CurrentRounds = maxRounds;  
         isReloading = false;
         //aimRig.weight = 1f;
         reload = null; 
     }
     protected IEnumerator FireRoutine()
     {
-        if (nextFire > fireRate)
+        while (nextFire < fireRate)
         {
-            nextFire = 0;
-            yield break;
+            nextFire += Time.deltaTime;
+            Debug.Log(nextFire);
+            yield return null;
         }
-        nextFire += Time.deltaTime;
-        yield return null;
+        nextFire = 0;
+        yield break;
     }
 }

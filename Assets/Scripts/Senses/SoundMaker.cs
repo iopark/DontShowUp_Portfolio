@@ -17,13 +17,15 @@ public class SoundMaker : MonoBehaviour
         {
 
             IListenable listener = collider.GetComponent<IListenable>();
-                        //Check for either distance evaluating path finding, or default a* search. 
-            listener?.Heard(transform.position);
-
-            //TODO: Make sure the grid is walkable path. 
-            //Return the sight which should print out tracable path for the listener. 
+            listener?.Heard(transform.position, WallIntersect(collider.transform.position));
         }
         
+    }
+
+    private bool WallIntersect(Vector3 destination)
+    {
+        Vector3 dir = destination - transform.position;
+        return Physics.Raycast(transform.position, dir.normalized, dir.sqrMagnitude, LayerMask.GetMask("Unwalkable")); 
     }
 
     private void OnDrawGizmos()

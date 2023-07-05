@@ -21,7 +21,6 @@ public class PathManager : MonoBehaviour
     }
     public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback, bool hasWall)
     {
-        Debug.Log("Request Processing"); 
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback, hasWall);
         pathRequests.Enqueue(newRequest);
         TryProcessNext();
@@ -42,9 +41,8 @@ public class PathManager : MonoBehaviour
 
     public void FinishedProcessingPath(Vector3[] path, bool success)
     {
-        if (success) // path �� ã�������� �ش� Path �� �����Ѵ�. 
+        if (success) 
             currentPath.callback(path, success);
-        //How do we Deliever this path to the Requestee? 
         isProcessing = false;
         TryProcessNext();
     }

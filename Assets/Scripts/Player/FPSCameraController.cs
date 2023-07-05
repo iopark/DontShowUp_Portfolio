@@ -6,7 +6,10 @@ using UnityEngine.InputSystem;
 public class FPSCameraController : MonoBehaviour
 {
     [SerializeField] float mouseSensitivity;
-    [SerializeField] Transform cameraRoot; 
+    [SerializeField] Transform cameraRoot;
+    [SerializeField] Transform aimTarget;
+    Camera camera; 
+    
 
     [Header("Relating to the rotation")]
     private Vector2 lookDelta;
@@ -15,6 +18,7 @@ public class FPSCameraController : MonoBehaviour
 
     private void Awake()
     {
+        camera = Camera.main;
         //cameraRoot = GetComponent<Transform>(); 
     }
 
@@ -41,6 +45,9 @@ public class FPSCameraController : MonoBehaviour
 
         cameraRoot.localRotation = Quaternion.Euler(xRotation,0,0);
         transform.localRotation = Quaternion.Euler(0,yRotation,0); 
+
+        Vector3 setAimTarget = camera.transform.position + camera.transform.forward * 50;
+        aimTarget.position = setAimTarget;
     }
 
     private void OnLook(InputValue value)

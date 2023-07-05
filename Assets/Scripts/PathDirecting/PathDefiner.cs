@@ -155,18 +155,19 @@ public class PathDefiner: MonoBehaviour
         if (pathSuccess)
         {
             waypoints = RetracePath(startSpot, targetSpot);
+            SoundValidityCheckSlip checkDist = new SoundValidityCheckSlip(startSpot.worldPos, targetSpot.worldPos, waypoints); 
+            if (!checkDist.isValid)
+                pathSuccess = false;
         }
         GameManager.PathManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
-    // �޸���ƽ (Heuristic) : �ֻ��� ��θ� �����ϴ� ������, �޸���ƽ�� ���� ���Ž�� ȿ���� ������
     // Implementing Euclidean 
     private int Heuristic(Cell start, Cell end)
     {
-        int xSize = Math.Abs(start.gridX - end.gridX);  // ���η� �����ϴ� Ƚ��
-        int ySize = Math.Abs(start.gridY - end.gridY);  // ���η� �����ϴ� Ƚ��
+        int xSize = Math.Abs(start.gridX - end.gridX);
+        int ySize = Math.Abs(start.gridY - end.gridY);
 
-        // Ÿ�ϸʿ� ��Ŭ���� �Ÿ� ���� 
         int straightCount = Math.Abs(xSize - ySize);
         int diagonalCount = Math.Max(xSize, ySize) - straightCount;
         return CostStraight * straightCount + CostDiagonal * diagonalCount;
@@ -186,24 +187,6 @@ public class PathDefiner: MonoBehaviour
         Array.Reverse(waypoints);
         return waypoints;
     }
-
-    Vector3[] RetracePathAdjusted(Cell startNode, Cell endNode)
-    {
-        //startNode must not be unwalkable. 
-        List<Cell> path = new List<Cell>();
-        Cell currentNode = endNode;
-
-        while (currentNode != startNode)
-        {
-            if (currentNode.walkable)
-                path.Add(currentNode);
-            currentNode = currentNode.parent;
-        }
-        Vector3[] waypoints = SimplifyPath(path);
-        Array.Reverse(waypoints);
-        return waypoints;
-    }
-    
     Vector3[] SimplifyPath(List<Cell> path)
     {
         //TODO: Reuse the given path to calculate the distance between the points, and thus calculate whether hear 'could' listen to that given sound. 

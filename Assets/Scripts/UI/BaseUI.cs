@@ -22,7 +22,7 @@ public class BaseUI : MonoBehaviour
         RectTransform[] children = child.GetComponentsInChildren<RectTransform>();
         foreach (RectTransform grandchild in children)
         {
-            string key = $"{child.gameObject.name}/{grandchild.gameObject.name}";
+            string key = $"{child.gameObject.name}_{grandchild.gameObject.name}";
             if (transforms.ContainsKey(key))
                 continue;
             transforms.Add(key, child);
@@ -49,11 +49,17 @@ public class BaseUI : MonoBehaviour
         RectTransform[] children = GetComponentsInChildren<RectTransform>(true); 
         foreach (RectTransform child in children)
         {
-            if (child.childCount > 0)
+            //if (child.childCount > 0)
+            //{
+            //    RecursiveBindingGrandChild(child);
+            //}
+            string key; 
+            if (child.parent != null)
             {
-                RecursiveBindingGrandChild(child);
+                key = $"{child.parent.gameObject.name}_{child.gameObject.name}";
             }
-            string key = child.gameObject.name;
+            else 
+                key = child.gameObject.name;
             if (transforms.ContainsKey(key))
                 continue; 
             transforms.Add(key, child);

@@ -11,4 +11,6 @@ public class PlayerStat : ScriptableObject
     public float crouchSpeed;
     public float jumpSpeed; 
     public float mouseSensitivity;
+    public int meleeDamage;
+    public int meleeFlankDamage; 
 }

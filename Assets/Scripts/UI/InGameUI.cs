@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class InGameUI : BaseUI
 {
     public Slider slider; 
+    Camera cam = Camera.main;
 
     public Transform followTarget;
     public Vector3 followOffset;
@@ -14,7 +15,7 @@ public class InGameUI : BaseUI
     {
         if (followTarget != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(followTarget.position) + followOffset;
+            transform.position = cam.WorldToScreenPoint(followTarget.position) + followOffset;
         }
     }
 
@@ -23,7 +24,7 @@ public class InGameUI : BaseUI
         followTarget = target;
         if (followTarget != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(followTarget.position) + followOffset;
+            transform.position = cam.WorldToScreenPoint(followTarget.position) + followOffset;
         }
     }
 
@@ -32,7 +33,7 @@ public class InGameUI : BaseUI
         followOffset = offset;
         if (followTarget != null)
         {
-            transform.position = Camera.main.WorldToScreenPoint(followTarget.position) + followOffset;
+            transform.position = cam.WorldToScreenPoint(followTarget.position) + followOffset;
         }
     }
 

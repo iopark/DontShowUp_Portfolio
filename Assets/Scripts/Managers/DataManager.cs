@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class DataManager : MonoBehaviour
 {
     [Header("Player Stat")]
+    PlayerStat stat; 
     private float moveSpeed;
     private float crouchSpeed;
     private float runSpeed;
@@ -43,35 +44,17 @@ public class DataManager : MonoBehaviour
     public WeaponSO primaryWeapon; 
     public WeaponSO secondaryWeapon;
 
-    private int damage;
-    public int Damage
+    private int meleeDamage;
+    public int MeleeDamage
     {
-        get { return damage; }
-        set { damage = value; }
+        get { return meleeDamage; }
+        set { meleeDamage = value; }
     }
-    private float fireRate;
-    public float FireRate
+    private int meleeFlank; 
+    public int MeleeFlank
     {
-        get { return fireRate; }
-        set { fireRate = value; }
-    }
-    private float bulletMoveSpeed; 
-    public float BulletMoveSpeed
-    {
-        get { return bulletMoveSpeed; }
-        set { bulletMoveSpeed = value; }
-    }
-    private float reloadSpeed;
-    public float ReloadSpeed
-    {
-        get { return reloadSpeed; }
-        set { reloadSpeed = value; }
-    }
-    private float gunNoiseIntensity; 
-    public float GunNoiseIntensity
-    {
-        get { return gunNoiseIntensity; }
-        set { gunNoiseIntensity = value; }
+        get => meleeFlank;
+        private set { meleeFlank = value; }
     }
 
     [Header("Game Stat")]
@@ -99,7 +82,7 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        PlayerStat stat = Resources.Load<PlayerStat>("Data/Player/Stat_Player"); 
+        stat = Resources.Load<PlayerStat>("Data/Player/Stat_Player"); 
         InitializeDefaultStat(stat);
     }
     public void InitializeDefaultStat(PlayerStat stat)
@@ -109,13 +92,10 @@ public class DataManager : MonoBehaviour
         runSpeed = stat.runSpeed;
         maxHealth = stat.health;
         mouseSensitivity = stat.mouseSensitivity;
+        meleeDamage = stat.meleeDamage;
+        meleeFlank = stat.meleeFlankDamage; 
         health = maxHealth; 
     }
-
-    public void InitializeWeaponStat(WeaponSO weaponSO)
-    {
-    }
-
     public void InitializeData()
     {
         health = maxHealth;

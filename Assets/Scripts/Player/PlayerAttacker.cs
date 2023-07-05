@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour, IHittable
 {
+# region Attacker Essential Properties. 
     //[SerializeField] float attackSoundIntensity;
     [SerializeField] Launcher currentWeapon;
     [SerializeField] Transform weaponHolder; 
@@ -20,34 +22,35 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     [SerializeField] float reloadTime;
 
     public Animator anim;
-
-    #region Temporary variables for the debugging purposes 
-    private int health = 100; 
-    public int Health
+    public Rig rig; 
+    private int meleeDamage; 
+    public int MeleeDamage
     {
-        get { return health; }
-        set
-        {
-            health = value;
-        }
+        get { return meleeDamage; }
+        set { meleeDamage = value; }
     }
-    #endregion
+    private int flankDamage; 
+#endregion 
     private void Awake()
     {
+        rig = GetComponentInChildren<Rig>();
         GameManager.CombatManager.weaponHolder = weaponHolder;
-        primary = weaponHolder.GetComponentInChildren<Launcher>(); //GameManager.Resource.Load<RangedWeapon>("Data/Weapon/Ranged_Shotgun");
-        //secondary = GameManager.Resource.Instantiate<RangedWeapon>("Data/Weapon/Ranged_Crossbow", transform); 
-        currentWeapon = primary;
-        //GameManager.Resource.Instantiate<Launcher>(primary.launcher, weaponHolder.position, Quaternion.identity, weaponHolder, true); 
     }
 
     private void Start()
     {
+        currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
+        meleeDamage = GameManager.DataManager.MeleeDamage;
+        flankDamage = GameManager.DataManager.MeleeFlank;
+        SetWeapon(); 
 
         isReloading = false; 
         anim = GetComponent<Animator>();
     }
-
+    public void SetWeapon()
+    {
+        currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
+    }
     private void OnFire(InputValue input)
     {
         if (currentWeapon.IsReloading)
@@ -57,21 +60,41 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     private void OnSwitch(InputValue input)
     {
-        GameManager.CombatManager.WeaponSwitch?.Invoke(); 
-        if (currentWeapon.name == primary.name)
-        {
-            currentWeapon = secondary;
-            //TODO: Enable, Disable Weapon 
-            return;
-        }
-        currentWeapon = primary;
+        if (input.isPressed)
+            GameManager.CombatManager.WeaponSwitch?.Invoke(); 
         return;
     }
 
+    public void TryFlank(Transform target, bool contestSuccess)
+    {
+        if (contestSuccess)
+        {
+            IHittable hittable = target.GetComponent<IHittable>();
+            hittable?.TakeHit(flankDamage); 
+        }
+        else
+        {
+            IHittable hittable = target.GetComponent<IHittable>();
+            hittable?.TakeHit(meleeDamage);
+        }
+    }
+
+    Transform tempTarget; 
+    private void OnMelee(InputValue input)
+    {
+        //TODO: Melee attempt 
+        rig.weight = 0; 
+        anim.SetTrigger("Melee");
+        RaycastHit targetInfo;
+        if (Physics.Raycast(transform.position, transform.forward, out targetInfo, 1.5f, LayerMask.GetMask("Enemy")))
+        {
+            tempTarget = targetInfo.collider.transform;
+            GameManager.CombatManager.FlankJudgement(tempTarget, TryFlank); 
+        }
+        rig.weight = 1; 
+    }
     private void OnReload(InputValue input)
     {
-        //if (currentWeapon.type != WeaponType.Ranged)
-        //    return;
         currentWeapon.Reload();
     }
 

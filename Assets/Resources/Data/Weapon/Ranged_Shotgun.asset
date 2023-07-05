@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 51
   weaponRange: 20
   attackRate: 1
-  noiseIntensity: 30
+  noiseIntensity: 100
   launcher: {fileID: 3911815456345104444, guid: 66e5a6128b80b5b4984a5d1fd831eac1, type: 3}
   reloadRate: 2
   roundLimit: 2

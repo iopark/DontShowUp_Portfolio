@@ -28,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5542895809945756719}
-  m_LocalRotation: {x: -0, y: 0.023287004, z: -0, w: 0.99972886}
-  m_LocalPosition: {x: -233.251, y: 1.464, z: -235.229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.8502805, y: 2.8502805, z: 2.8502805}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 2.669, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5542895809946892335
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126,8 +126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 5632185417469457746, guid: afb9461d5eb10ff4891eeb47e40d676c, type: 3}
-  bulletMoveSpeed: 50
+  projectileMoveSpeed: 40
+  pauseMovespeed: 0.1
   launcher: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
   damage: 0
   soundIntensity: 0
   maxDistance: 0
+  targetLoc: {fileID: 0}

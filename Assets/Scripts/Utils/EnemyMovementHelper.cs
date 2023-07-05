@@ -162,12 +162,6 @@ public struct MoveRequestSlip
     }
 }
 
-public struct SoundValidityTestSlip
-{
-    Action<bool> action;
-
-}
-
 public struct CoroutineSlip : IEquatable<string>
 {
     public string coroutineKey;

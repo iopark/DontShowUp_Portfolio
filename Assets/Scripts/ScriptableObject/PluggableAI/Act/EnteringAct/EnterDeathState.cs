@@ -8,6 +8,7 @@ public class EnterDeathState : Act
     public override void Perform(StateController controller)
     {
         //TODO: Stop all the running coroutines
+        controller.EnemyMover.CurrentSpeed = 0;
         controller.StopAllCoroutines();
         GameManager.DataManager.PlayerKills++;
         controller.Enemy.UponDeath(); 

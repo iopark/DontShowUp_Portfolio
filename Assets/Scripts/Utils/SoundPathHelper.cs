@@ -60,7 +60,7 @@ public struct SoundValidityCheckSlip
     private bool WallDoesNotInterfere()
     {
         Vector3 prev = startingPoint; 
-        float threshHold = 3 * Vector3.SqrMagnitude(destinationPoint - startingPoint);
+        float threshHold = 2 * Vector3.SqrMagnitude(destinationPoint - startingPoint);
         float accumDist = 0f;  
         foreach (Vector3 point in soundPath)
         {
