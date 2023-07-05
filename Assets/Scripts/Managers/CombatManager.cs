@@ -30,7 +30,7 @@ public class CombatManager : MonoBehaviour
         for (int i = 0; i < weaponList.RangedLists.Length; i++)
         {
             tempContainer = GameManager.Resource.Instantiate(weaponList.RangedLists[i].weapon.launcher, transform.position,
-                weaponList.RangedLists[i].weapon.launcher.transform.localRotation, true); 
+                weaponList.RangedLists[i].weapon.launcher.transform.localRotation, transform, true); 
             weapons.Enqueue(tempContainer); 
         }
         WeaponSwitch += NewWeapon;
@@ -45,15 +45,26 @@ public class CombatManager : MonoBehaviour
         if (weapons.Count <= 0)
             weapons.Enqueue(GameManager.Resource.Instantiate(weaponList.RangedLists[0].weapon.launcher, true));
         tempContainer = weapons.Dequeue();
-        currentWeapon = GameManager.Resource.Instantiate(tempContainer, weaponHolder.position, weaponHolder.rotation, weaponHolder, true); 
+        tempContainer.transform.position = weaponHolder.transform.position;
+        tempContainer.transform.rotation = weaponHolder.transform.rotation;
+        tempContainer.transform.SetParent(weaponHolder.transform);
+        currentWeapon = tempContainer; 
+            //GameManager.Resource.Instantiate(tempContainer, weaponHolder.position, weaponHolder.rotation, weaponHolder, true); 
         weapons.Enqueue(tempContainer);
+        attacker.SetWeapon(); 
     }
 
     private void NewWeapon()
     {
-        GameManager.Resource.Destroy(currentWeapon.gameObject); currentWeapon = null;
+        currentWeapon.transform.SetParent(transform, false); 
+        
+        //GameManager.Resource.Destroy(currentWeapon.gameObject); currentWeapon = null;
         tempContainer = weapons.Dequeue();
-        currentWeapon = GameManager.Resource.Instantiate(tempContainer, weaponHolder.position, weaponHolder.rotation, weaponHolder, true);
+        tempContainer.transform.position = weaponHolder.transform.position;
+        tempContainer.transform.rotation = weaponHolder.transform.rotation;
+        tempContainer.transform.SetParent(weaponHolder.transform);
+        currentWeapon = tempContainer;
+            //currentWeapon = GameManager.Resource.Instantiate(tempContainer, weaponHolder.position, weaponHolder.rotation, weaponHolder, true);
         attacker.SetWeapon();
         weapons.Enqueue(tempContainer);
     }

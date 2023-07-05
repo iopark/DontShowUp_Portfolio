@@ -116,10 +116,9 @@ public class Launcher : MonoBehaviour
         while (nextFire < fireRate)
         {
             nextFire += Time.deltaTime;
-            Debug.Log(nextFire);
             yield return null;
         }
         nextFire = 0;
-        yield break;
+        fire = null; 
     }
 }

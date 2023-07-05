@@ -1499,6 +1499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDestination: {x: 0, y: 0, z: 0}
   debug: 1
+  traceSoundPoints: []
   patrolCount: 0
   patrolIndex: 0
 --- !u!1 &5203317677958970466

@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour, IPausable
     [Header("Launcher Independent Attributes")]
     Camera cam; 
     [SerializeField] ParticleSystem hitEffect;
-    [SerializeField] WaitForSeconds particleRes = new WaitForSeconds(1f);
+    [SerializeField] LayerMask explodable; 
 
     float currentMoveSpeed; 
     [SerializeField] float projectileMoveSpeed;
@@ -37,48 +37,60 @@ public class Projectile : MonoBehaviour, IPausable
     private void Start()
     {
         soundIntensity = 30f;
-        currentMoveSpeed = projectileMoveSpeed; 
+        //currentMoveSpeed = 0f; 
         damage = 51; 
-        transform.LookAt(targetLoc);
     }
+
+
+    private void OnEnable()
+    {
+        cam = Camera.main;
+        //currentMoveSpeed = projectileMoveSpeed;
+    }
+    Coroutine trajectoryMovement; 
     public void TrajectoryMiss(Vector3 endPoint)
     {
         currentMoveSpeed = projectileMoveSpeed;
         //Gun should enter with the bullet end point. 
         transform.LookAt(endPoint);
-        StartCoroutine(TrajectoryMissRoutine());
+        trajectoryMovement = StartCoroutine(TrajectoryMissRoutine(endPoint));
     }
     public void TrajectoryHit(in RaycastHit hit)
     {
         currentMoveSpeed = projectileMoveSpeed;
         hitLoc = hit;
         targetLoc = hit.collider.transform;
-        StartCoroutine(TrajectoryHitRoutine()); 
+        transform.LookAt(targetLoc);
+        trajectoryMovement = StartCoroutine(TrajectoryHitRoutine()); 
     }
-    private void OnEnable()
-    {
-        cam = Camera.main;
-    }
+
     private void OnDisable()
     {
-        targetLoc = null; 
+        StopAllCoroutines(); 
+        targetLoc = null;
+        hitLoc = default; 
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        StopAllCoroutines();
+        ContactPoint contactPoint = collision.GetContact(0);
+        RandomExplosion(contactPoint, collision.gameObject.transform);
+    }
+    private void RandomExplosion(ContactPoint target, Transform hitTransform)
+    {
+        Vector3 contactPoint = target.point;
+        Vector3 contactNormal = target.normal;
+        soundMaker.TriggerSound(soundIntensity);
+        //explosion = StartCoroutine(RandomParticleRoutine(contactPoint, contactNormal)); 
+        ParticleSystem splash = GameManager.Resource.Instantiate(hitEffect, contactPoint, Quaternion.LookRotation(contactNormal), hitTransform, true);
     }
 
     private void Explode()
     {
         soundMaker.TriggerSound(soundIntensity);
-        StartCoroutine(ParticleRoutine()); 
+        ParticleSystem splash = GameManager.Resource.Instantiate(hitEffect, hitLoc.point, Quaternion.LookRotation(hitLoc.normal), hitLoc.transform, true);
     }
-
-    IEnumerator ParticleRoutine()
-    {
-        hitEffect = GameManager.Resource.Instantiate(hitEffect, hitLoc.point, Quaternion.LookRotation(hitLoc.normal), true);
-        soundMaker.TriggerSound(soundIntensity); 
-        //TODO: hit against the wall 
-        yield return particleRes; 
-        GameManager.Resource.Destroy(hitEffect.gameObject); // Instead of Destroy, simply return it to the ObjectPool within the Dict 
-    }
-
+    Coroutine explosion;
     IEnumerator TrajectoryHitRoutine()
     {
         Vector3 delta;
@@ -92,9 +104,10 @@ public class Projectile : MonoBehaviour, IPausable
                 //transform.LookAt(hitLoc.point);
                 endPoint = transform.forward * maxDistance;// Vector3.Dot(transform.forward * maxDistance, transform.forward);
             }
+            endPoint = hitLoc.point;
             delta = endPoint - transform.position;
-            distance = Vector3.Dot(delta, delta);
-
+            distance = Vector3.SqrMagnitude(delta);
+            Debug.Log(distance); 
             transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null;
         }
@@ -104,22 +117,24 @@ public class Projectile : MonoBehaviour, IPausable
             IHittable hittable = hitLoc.collider.GetComponent<IHittable>();
             hittable?.TakeHit(damage); 
         }
-        GameManager.Pool.Release(gameObject);
+        GameManager.Resource.Destroy(this.gameObject);
     }
-    IEnumerator TrajectoryMissRoutine()
+    Vector3 rayOrigin; 
+    private IEnumerator TrajectoryMissRoutine(Vector3 endPoint)
     {
-        Vector3 endPoint = cam.transform.forward * maxDistance;
         Vector3 delta = endPoint - transform.position;
         distance = Vector3.Dot(delta, delta); 
         while (distance > trajectoryOffset)
         {
             delta = endPoint - transform.position;
             distance = Vector3.Dot(delta, delta);
+            Debug.Log(distance); 
             transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null; 
         }
-        GameManager.Pool.Release(gameObject);
+        GameManager.Resource.Destroy(this.gameObject);
     }
+
     Coroutine freezer; 
     float timer; 
     public void Pause(float time)
@@ -144,11 +159,5 @@ public class Projectile : MonoBehaviour, IPausable
             yield return null; 
         }
         Resume(); 
-    }
-
-    IEnumerator ReleaseRoutine(GameObject effect)
-    {
-        yield return particleRes;
-        GameManager.Resource.Destroy(effect);
     }
 }

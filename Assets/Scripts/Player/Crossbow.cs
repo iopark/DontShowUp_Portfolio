@@ -7,27 +7,44 @@ public class Crossbow : Launcher
 {
     [SerializeField] ParticleSystem muzzleEffect;
     [SerializeField] Transform arrowSlot;
-    public UnityAction crossbowReload; 
+    public UnityAction crossbowReload;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start(); 
+    }
+
+    Vector3 rayOrigin; 
     public override void Fire()
     {
         if (nextFire != 0)
         {
             return;
         }
+        else if (currentRounds <= 0)
+        {
+            GameManager.CombatManager.CombatAlert?.Invoke("Reload!");
+            return;
+        }
+        rayOrigin = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         fire = StartCoroutine(FireRoutine());
 
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, targetMask))
         {
             hitDir = (hit.point - transform.position).normalized;
-            projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, Quaternion.identity, true);
+            //projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, Quaternion.identity, true);
             projectile.TrajectoryHit(hit);
         }
         else
         {
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(rayOrigin, camera.transform.forward);
             ray.GetPoint(maxDistance);
-            projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, Quaternion.LookRotation(transform.forward), true);
+            //projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, true);
             projectile.TrajectoryMiss(ray.GetPoint(maxDistance));
         }
     }
@@ -43,11 +60,9 @@ public class Crossbow : Launcher
     }
     IEnumerator BowReload()
     {
-        //TODO: Trigger reload event;
         isReloading = true;
-        //After reload, it should instantiate arrow to the arrow slot. 
         yield return reloadInterval;
-        projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, Quaternion.identity, true);
+        projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, arrowSlot.transform, true);
         isReloading = false;
     }
 }

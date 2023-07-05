@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5542895809945723530}
   - component: {fileID: 5542895809945723531}
   - component: {fileID: 5542895809945723528}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 5632185417469457746, guid: afb9461d5eb10ff4891eeb47e40d676c, type: 3}
-  projectileMoveSpeed: 40
+  explodable:
+    serializedVersion: 2
+    m_Bits: 0
+  projectileMoveSpeed: 100
   pauseMovespeed: 0.1
   launcher: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
   damage: 0

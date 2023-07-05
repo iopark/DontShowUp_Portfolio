@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6427215328338858389}
   - component: {fileID: 3752906266065222619}
   - component: {fileID: 3911815456345104444}
-  m_Layer: 0
+  - component: {fileID: 939146452947911434}
+  m_Layer: 9
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +130,105 @@ MonoBehaviour:
   maxRounds: 0
   nextFire: 0
   muzzleEffect: {fileID: 198234346748616026, guid: 9bd8ff13a14b2d64a9ead6bc5870154e, type: 3}
+--- !u!120 &939146452947911434
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326096475927757939}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.03594154
+        value: 0.052910052
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 0.522618, b: 0, a: 1}
+      key1: {r: 0, g: 0.19309044, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
 --- !u!1 &709558680096073270
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +240,7 @@ GameObject:
   - component: {fileID: 4581610524300690049}
   - component: {fileID: 4212929519022714676}
   - component: {fileID: 3366269503235193939}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Wep_Shotgun_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7960918296029773588}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +354,7 @@ GameObject:
   - component: {fileID: 2326891797897167535}
   - component: {fileID: 6579397570239433637}
   - component: {fileID: 8731922838408673847}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Wep_Shotgun_Pump_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +437,7 @@ GameObject:
   - component: {fileID: 1025272234387977425}
   - component: {fileID: 5697765427216954733}
   - component: {fileID: 4522288308324847101}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Wep_Shotgun_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +520,7 @@ GameObject:
   - component: {fileID: 4788042910934704695}
   - component: {fileID: 3096493103904629059}
   - component: {fileID: 633716878520616601}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Wep_Shotgun_Stock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +604,7 @@ GameObject:
   - component: {fileID: 4819284678281428707}
   - component: {fileID: 2690893712012930150}
   - component: {fileID: 1954840879968910468}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Shoulder Pad
   m_TagString: Untagged
   m_Icon: {fileID: 0}

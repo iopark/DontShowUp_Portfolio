@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5540594173914785524}
   - component: {fileID: 5632185417469457746}
   - component: {fileID: 5633868002524910540}
-  m_Layer: 0
+  - component: {fileID: 5613528727029442698}
+  m_Layer: 9
   m_Name: BulletEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4895,6 +4896,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &5613528727029442698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5543580070319131864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5bd352f7378a342abeb989060763ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5543595390669615320
 GameObject:
   m_ObjectHideFlags: 0
@@ -4906,7 +4919,7 @@ GameObject:
   - component: {fileID: 5547122808843958204}
   - component: {fileID: 5632784336302728342}
   - component: {fileID: 5633768936835506942}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9797,7 +9810,7 @@ GameObject:
   - component: {fileID: 5547158100235984288}
   - component: {fileID: 5632451721742630186}
   - component: {fileID: 5633854915497971876}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14472,7 +14485,7 @@ GameObject:
   - component: {fileID: 5546938368747723164}
   - component: {fileID: 5632823496679689928}
   - component: {fileID: 5631956056346292118}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 760343121443746072}
   - component: {fileID: 594503064810353562}
   - component: {fileID: 596386618405766280}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ArrowEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4848,7 +4848,7 @@ GameObject:
   - component: {fileID: 760431779883167782}
   - component: {fileID: 595332185169437196}
   - component: {fileID: 594863056660365058}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9739,7 +9739,7 @@ GameObject:
   - component: {fileID: 761756556311836050}
   - component: {fileID: 595078446365509490}
   - component: {fileID: 595008884899206110}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ImpactDebris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14401,7 +14401,7 @@ GameObject:
   - component: {fileID: 761892313674458564}
   - component: {fileID: 593817201808707278}
   - component: {fileID: 596409654290013718}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
