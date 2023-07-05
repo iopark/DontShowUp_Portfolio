@@ -16,8 +16,12 @@ public class SoundSensory : MonoBehaviour, IListenable
         EnemyMover = GetComponent<EnemyMover>();
     }
 
-    public virtual void Heard(Vector3 soundPoint)
+    public virtual void Heard(Vector3 soundPoint, bool hasWall)
     {
+        if (hasWall)
+            GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath); 
+        else 
+
         //TODO: Make sure the getter's position is a walkable grid point
         GameManager.PathManager.RequestPath(transform.position, soundPoint, GetPath);
     }

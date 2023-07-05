@@ -38,6 +38,7 @@ public class Crossbow : Launcher
         {
             return;
         }
+        crossbowReload?.Invoke(); 
         reload = StartCoroutine(BowReload()); 
     }
     IEnumerator BowReload()

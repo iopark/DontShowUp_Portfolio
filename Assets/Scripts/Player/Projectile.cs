@@ -114,14 +114,32 @@ public class Projectile : MonoBehaviour, IPausable
         }
         GameManager.Pool.Release(gameObject);
     }
-    public void Pause()
+    Coroutine freezer; 
+    float timer; 
+    public void Pause(float time)
     {
         currentMoveSpeed = pauseMovespeed; 
+        freezer = StartCoroutine(Freeze(time)); 
     }
+    // Either this is called after the coroutine freeze, or during in which pause activity is finished; 
+    // How do you get all the subject with IPausable Interface?
     public void Resume()
     {
+        StopCoroutine(freezer); 
+        timer = 0f; 
         currentMoveSpeed = projectileMoveSpeed; 
     }
+    IEnumerator Freeze(float time) 
+    { 
+        time = 0f; 
+        while (timer < time) 
+        { 
+            timer += Time.deltaTime; 
+            yield return null; 
+        }
+        Resume(); 
+    }
+
     IEnumerator ReleaseRoutine(GameObject effect)
     {
         yield return particleRes;

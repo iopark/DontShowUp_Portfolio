@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IPausable
 {
 
-    public void Pause();
+    public void Pause(float time);
     public void Resume();
 }

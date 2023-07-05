@@ -15,7 +15,9 @@ public class SoundMaker : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
         foreach (Collider collider in colliders)
         {
+
             IListenable listener = collider.GetComponent<IListenable>();
+                        //Check for either distance evaluating path finding, or default a* search. 
             listener?.Heard(transform.position);
 
             //TODO: Make sure the grid is walkable path. 
@@ -28,11 +30,5 @@ public class SoundMaker : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range); 
-    }
-
-    IEnumerator AdjustGridPoint(Vector3 soundPoint)
-    {
-        GameManager.MapManager.CellFromWorldPoint(soundPoint);
-        yield return null; 
     }
 }

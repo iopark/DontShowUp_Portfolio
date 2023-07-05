@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IListenable
 {
-    public void Heard(Vector3 soundPoint);
+    public void Heard(Vector3 soundPoint, bool hasWall);
     public void GetPath(Vector3[] soundPath, bool successs); 
 }

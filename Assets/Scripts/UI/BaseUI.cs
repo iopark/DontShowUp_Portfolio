@@ -17,9 +17,6 @@ public class BaseUI : MonoBehaviour
         BindChildren(); 
     }
 
-    // 매 프레임 별로 동작하는 활동에 대해서 
-    // 캐싱하는 작업이 사실상 정배다. 
-
     private void RecursiveBindingGrandChild(RectTransform child)
     {
         RectTransform[] children = child.GetComponentsInChildren<RectTransform>();
@@ -48,7 +45,6 @@ public class BaseUI : MonoBehaviour
         transforms = new Dictionary<string, RectTransform>();
         buttons = new Dictionary<string, Button>();
         texts = new Dictionary<string, TMP_Text>();
-        //Base UI 를 기준으로 하위 자식들을 찾게 되었을때 
 
         RectTransform[] children = GetComponentsInChildren<RectTransform>(true); 
         foreach (RectTransform child in children)
@@ -57,7 +53,7 @@ public class BaseUI : MonoBehaviour
             {
                 RecursiveBindingGrandChild(child);
             }
-            string key = child.gameObject.name; 
+            string key = child.gameObject.name;
             if (transforms.ContainsKey(key))
                 continue; 
             transforms.Add(key, child);

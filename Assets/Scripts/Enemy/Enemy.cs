@@ -100,10 +100,11 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         target.TakeHit(damage);
     }
 
-    public void Pause()
+    public void Pause(float time)
     {
         enemyMover.CurrentSpeed = 0;
         anim.speed = 0;
+        //Should trigger Resume button after certain interval; 
     }
 
     public void Resume()
@@ -122,6 +123,12 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
     public void UponDeath()
     {
         StartCoroutine(Death()); 
+    }
+    Coroutine Freezer;
+    IEnumerator Freeze(float time) 
+    { 
+        yield return new WaitforSeconds(time); 
+        Resume(); 
     }
     IEnumerator Death()
     {

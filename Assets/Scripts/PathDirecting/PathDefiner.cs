@@ -28,9 +28,15 @@ public class PathDefiner: MonoBehaviour
     /// </summary>
     /// <param name="startPoint"></param>
     /// <param name="endPoint"></param>
-    public void StartDefiningPath(Vector3 startPoint, Vector3 endPoint)
+    public void StartDefiningDefaultPath(Vector3 startPoint, Vector3 endPoint)
     {
         StartCoroutine(FindPath(startPoint, endPoint)); 
+    }
+
+    public void StartdefiningWithWallPath(Vector3 startPoint, Vector3 endPoint) 
+    { 
+        StartCoroutine(SoundPathFinder(startPoint, endPoint)); 
+
     }
 
     IEnumerator SoundPathFinder(Vector3 startPoint, Vector3 endPoint)
@@ -153,14 +159,14 @@ public class PathDefiner: MonoBehaviour
         GameManager.PathManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
-    // ÈÞ¸®½ºÆ½ (Heuristic) : ÃÖ»óÀÇ °æ·Î¸¦ ÃßÁ¤ÇÏ´Â ¼øÀ§°ª, ÈÞ¸®½ºÆ½¿¡ ÀÇÇØ °æ·ÎÅ½»ö È¿À²ÀÌ °áÁ¤µÊ
+    // ï¿½Þ¸ï¿½ï¿½ï¿½Æ½ (Heuristic) : ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¸ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // Implementing Euclidean 
     private int Heuristic(Cell start, Cell end)
     {
-        int xSize = Math.Abs(start.gridX - end.gridX);  // °¡·Î·Î °¡¾ßÇÏ´Â È½¼ö
-        int ySize = Math.Abs(start.gridY - end.gridY);  // ¼¼·Î·Î °¡¾ßÇÏ´Â È½¼ö
+        int xSize = Math.Abs(start.gridX - end.gridX);  // ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ È½ï¿½ï¿½
+        int ySize = Math.Abs(start.gridY - end.gridY);  // ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ È½ï¿½ï¿½
 
-        // Å¸ÀÏ¸Ê¿ë À¯Å¬¸®µå °Å¸® Àû¿ë 
+        // Å¸ï¿½Ï¸Ê¿ï¿½ ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         int straightCount = Math.Abs(xSize - ySize);
         int diagonalCount = Math.Max(xSize, ySize) - straightCount;
         return CostStraight * straightCount + CostDiagonal * diagonalCount;
