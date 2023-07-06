@@ -51,7 +51,9 @@ public class Attack : SkillProperty
     }
     public void Strike()
     {
-        if (Physics.SphereCast(Attacker.transform.position, attackRange, Attacker.transform.forward, out RaycastHit hit, attackRange, targetMask))
+        Vector3 attackDir = Attacker.transform.forward;
+        attackDir.y = 0f; 
+        if (Physics.SphereCast(Attacker.transform.position, Attacker.transform.lossyScale.x/2 , Attacker.transform.forward, out RaycastHit hit, attackRange, targetMask))
         {
             IHittable target = hit.collider.GetComponent<IHittable>();
             target?.TakeHit(attackDamage);

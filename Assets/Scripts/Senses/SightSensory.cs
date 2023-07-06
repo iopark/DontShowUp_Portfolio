@@ -154,7 +154,7 @@ public class SightSensory : MonoBehaviour
             return false;
 
         distanceToTarget = playerLocked.transform.position - transform.position;
-        Debug.DrawRay(transform.position, distanceToTarget.normalized, Color.yellow); 
+        Debug.DrawRay(transform.position, distanceToTarget.normalized, Color.yellow);
         if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
         return true;
@@ -195,8 +195,8 @@ public class SightSensory : MonoBehaviour
     }
     public bool AccessForPursuit()
     {
-        tempDir = PlayerLocked.transform.position - transform.position; 
-        tempDir.y = transform.position.y;
+        tempDir = PlayerLocked.transform.position - transform.position;
+        tempDir.y = 0f;
         tempDir.Normalize();
         if (IsPlayerAtBlindSpot(tempDir))
             return false; 

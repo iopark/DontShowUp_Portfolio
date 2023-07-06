@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_Alert_BasicZombie
   m_EditorClassIdentifier: 
-  noAnimUpdate: 1
+  noAnimUpdate: 0
   animName: AlertState
-  animType: 0
-  animBool: 0
+  animType: 2
+  animBool: 1
   animFloat: 0
-  setBoolAsNull: 1
+  setBoolAsNull: 0
   setFloatAsNull: 1
   preRequisiteActs:
   - {fileID: 11400000, guid: c373a451b604346439673b59040d7d2d, type: 2}

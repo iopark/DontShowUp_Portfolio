@@ -29,36 +29,29 @@ public class EnemyAttacker : MonoBehaviour
     }
     public void FinishedAttacking()
     {
-        isAttacking = false; 
+        isAttacking = false;
+    }
+    public void StopAttack()
+    {
+        isAttacking = false;
     }
     public void StrikePlayer()
     {
         DefaultAttack.Strike(); 
     }
-    public void StopAttack()
-    {
-        if (attackRoutine == null)
-            return;
-        StopCoroutine(attackRoutine); 
-        isAttacking = false;
-    }
-
     public void TryStrike()
     {
-        Debug.Log("TryAttack");
-
         if (isAttacking)
             return;
-        attackRoutine = StartCoroutine(DoAttack());
+        isAttacking = true; // isAttacking is set to finihsed by animation or when player is out of sight. 
+        enemyMover.CurrentSpeed = 0f;
+        Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
+        //attackRoutine = StartCoroutine(DoAttack());
     }
-    IEnumerator DoAttack()
-    {
-        while (true)
-        {
-            enemyMover.CurrentSpeed = 0f; 
-            isAttacking = true; 
-            Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
-            yield return attackInterval; 
-        }
-    }
+    //IEnumerator DoAttack()
+    //{
+    //    isAttacking = true;
+    //    enemyMover.CurrentSpeed = 0f;
+    //    Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
+    //}
 }

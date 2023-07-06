@@ -11,11 +11,6 @@ public class PursuitAction : Action
     [Header("RequiredActs")]
     [SerializeField] Act defaultMove;
     [SerializeField] Act defaultRotate;
-
-    [TextArea]
-    string SequencingActs;
-    [SerializeField] Act postAct;
-
     public override string actionName => typeof(PursuitAction).Name;
 
     public override void Act(StateController controller)

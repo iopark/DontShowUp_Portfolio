@@ -18,7 +18,7 @@ public class CombatManager : MonoBehaviour
 
     //Player Combat: Conditionals
     PlayerAttacker attacker;
-    float flankThreshhold = 0.3f; 
+    float flankThreshhold = -1 * 0.3f; 
     public UnityAction<string> CombatAlert;
     Vector3 enemyLookDir;
     Vector3 playerLookDir;
@@ -72,9 +72,10 @@ public class CombatManager : MonoBehaviour
     {
         playerLookDir = attacker.transform.forward;
         enemyLookDir = target.transform.forward;
-        if (Vector3.Dot(enemyLookDir, playerLookDir) < flankThreshhold)
+        if (Vector3.Dot(enemyLookDir, playerLookDir) > flankThreshhold)
         {
             CombatAlert?.Invoke($"Player has flanked {target.gameObject.name}");
+            Debug.Log($"Player has flanked {target.gameObject.name}"); 
             flankAttempt(target, true);
         }
         CombatAlert?.Invoke($"Player has failed to flanked {target.gameObject.name}");

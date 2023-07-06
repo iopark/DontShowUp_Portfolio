@@ -20,4 +20,4 @@ MonoBehaviour:
   noiseIntensity: 5
   launcher: {fileID: 3594216062829857404, guid: e0842ff2c59d9bd44991d35bd59d6426, type: 3}
   reloadRate: 0
-  roundLimit: 0
+  roundLimit: 1

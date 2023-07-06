@@ -16,8 +16,6 @@ public class TraceSoundAction : Action
 
     public void TraceSound(StateController controller)
     {
-        //TODO: perhaps any obstacles on the way?
-        //TODO: perhaps leave any tracable path to follow?
-        //TODO: perhaps the tracable path can work like a node in which can be determined by higher zombie => priority queue to determine a path to trace unto. 
+
     }
 }

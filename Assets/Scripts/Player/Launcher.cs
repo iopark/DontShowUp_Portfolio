@@ -7,7 +7,7 @@ using TMPro.EditorUtilities;
 public class Launcher : MonoBehaviour
 {
     [Header("Holder Dependent Attribute")]
-    PlayerAttacker player;
+    protected PlayerAttacker player;
     //====================================================================================
     [Header("Launcher attributes")]
     protected SoundMaker soundMaker;

@@ -7,7 +7,7 @@ public class EnterAlertPhaseAct : Act
 {
     public override void Perform(StateController controller)
     {
-        //SetAlertState(controller);
+        SetAlertState(controller);
     }
 
     private void SetAlertState(StateController controller)

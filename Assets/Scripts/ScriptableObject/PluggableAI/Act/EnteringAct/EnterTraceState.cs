@@ -23,12 +23,13 @@ public class EnterTraceState : Act
     {
         if (controller.EnemyMover.TraceSoundPoints.Length <= 0)
             yield break;
-        //controller.EnemyMover.TraceSoundPoints = traceablePath;
+        controller.EnemyMover.IsTracingSound = true;
         int trackingIndex = 0;
         Vector3 currentWaypoint = controller.EnemyMover.TraceSoundPoints[0];
         controller.Sight.SetLookDirToPos(currentWaypoint);
         while (true)
         {
+            controller.Sight.SetLookDirToPos(currentWaypoint);
             defaultRotate.Perform(controller);
             if (Vector3.SqrMagnitude(currentWaypoint - controller.transform.position) < pointOffSet)
             {
@@ -36,6 +37,7 @@ public class EnterTraceState : Act
                 if (trackingIndex >= controller.EnemyMover.TraceSoundPoints.Length)
                 {
                     controller.Auditory.HaveHeard = false;
+                    controller.EnemyMover.IsTracingSound = false;
                     yield break;
                 }
                 currentWaypoint = controller.EnemyMover.TraceSoundPoints[trackingIndex];

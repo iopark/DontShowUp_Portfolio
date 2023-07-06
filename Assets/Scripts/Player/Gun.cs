@@ -56,7 +56,7 @@ public class Gun : Launcher
             Ray ray = new Ray(rayOrigin, camera.transform.forward);
             ray.GetPoint(maxDistance);
             lineRenderer.SetPosition(1, rayOrigin + (camera.transform.forward * maxDistance));
-            GameManager.Pool.Get<Projectile>(projectile, muzzlePoint.transform.position, Quaternion.LookRotation(transform.forward)).TrajectoryMiss(ray.GetPoint(maxDistance));
+            GameManager.Resource.Instantiate<Projectile>(projectile, muzzlePoint.transform.position, Quaternion.LookRotation(transform.forward)).TrajectoryMiss(ray.GetPoint(maxDistance));
         }
     }
 }

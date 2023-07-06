@@ -28,7 +28,7 @@ public class AttackAction : Action
         {
             Debug.Log("FaceTarget"); 
             defaultRotate.Perform(controller);
-            yield return null;
+            yield return null; 
         }
         controller.ResetCoroutine(actionName);
 

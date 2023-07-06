@@ -31,7 +31,8 @@ public class PlayerAttacker : MonoBehaviour, IHittable
         set { meleeDamage = value; }
     }
     private int flankDamage;
-    [SerializeField]private bool isStriking; 
+    [SerializeField]private bool isStriking;
+    WaitForSeconds strikeInterval = new WaitForSeconds(0.5f); 
 #endregion 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
         meleeDamage = GameManager.DataManager.MeleeDamage;
         flankDamage = GameManager.DataManager.MeleeFlank;
@@ -49,6 +51,10 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
         isReloading = false; 
         anim = GetComponent<Animator>();
+    }
+    public void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.Confined; 
     }
     public void SetWeapon()
     {
@@ -87,40 +93,35 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     {
         if (isStriking)
             return;
-        transform.rotation = Quaternion.LookRotation(camera.transform.forward, transform.up); 
+        //transform.rotation = Quaternion.LookRotation(camera.transform.forward, transform.up); 
         //TODO: Melee attempt 
-        rig.weight = 0; 
-        anim.SetTrigger("Melee");
-        isStriking = true;
         gambleStrike = StartCoroutine(GambleStrike()); 
     }
     RaycastHit targetInfo;
-    private void TryStrike()
+    Coroutine gambleStrike;
+    IEnumerator GambleStrike()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out targetInfo, 1.5f, LayerMask.GetMask("Enemy")))
+        anim.SetTrigger("Melee");
+        isStriking = true;
+        //재장전 시작시 weight 재설정 
+        rig.weight = 0f;
+        yield return strikeInterval;
+        isStriking = false;
+        rig.weight = 1;
+        gambleStrike = null; 
+    }
+    Vector3 centrePoint; 
+    private void P_TryStrike()
+    {
+        centrePoint = camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, 0)); 
+        if (Physics.SphereCast(centrePoint, transform.lossyScale.x/2, camera.transform.forward, out targetInfo, 5f, LayerMask.GetMask("Enemy")))
         {
+            Debug.Log("Player Strikes!"); 
+            Debug.DrawRay(transform.position, transform.forward, Color.green); 
             tempTarget = targetInfo.collider.transform;
             GameManager.CombatManager.FlankJudgement(tempTarget, TryFlank);
         }
     }
-    Coroutine gambleStrike; 
-    IEnumerator GambleStrike()
-    {
-        rig.weight = 0;
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 &&
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Melee"))
-        {
-            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f)
-            {
-                TryStrike(); 
-            }
-            yield return null;
-        }
-        isStriking = false; 
-        rig.weight = 1;
-        gambleStrike = null; 
-    }
-
     private void OnReload(InputValue input)
     {
         currentWeapon.Reload();
