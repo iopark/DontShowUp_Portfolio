@@ -12,9 +12,9 @@ public class SceneManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadingUI ui = Resources.Load<LoadingUI>("UI/LoadingUI");
-        loadingUI = Instantiate(ui);
-        loadingUI.transform.SetParent(transform, false); 
+        //LoadingUI ui = Resources.Load<LoadingUI>("UI/LoadingUI");
+        //loadingUI = Instantiate(ui);
+        //loadingUI.transform.SetParent(transform, false); 
         //UI 는 딱히 둘째값은 false해줄 필요가 없다 
     }
     public BaseScene CurrentScene

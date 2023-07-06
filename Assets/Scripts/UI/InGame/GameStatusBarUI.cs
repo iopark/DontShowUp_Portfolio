@@ -26,6 +26,8 @@ public class GameStatusBarUI : SceneUI
     public void Initialize()
     {
         current_rect = buttons["GameStatusBar_Button1"];
+        upScale = StartCoroutine(RescaleButton(current_rect));
+        alerts.Enqueue(current);
     }
 
 
