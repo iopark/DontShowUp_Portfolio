@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef12f6a596aa3cd48956d50cf18ef250, type: 3}
   m_Name: ExitAct_AttackState_BasicZombie
   m_EditorClassIdentifier: 
-  aboutThisAct: 
+  aboutThisAct: 'Quite Literally, Cease the Attack, and ready for the proceeding
+    State''s Actions. '
   animTrigger: 
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
   actionsToStop: []
   stopAllCoroutine: 0
+  skillToStop: {fileID: 11400000, guid: d547c67193894554e81ee47fdf22420d, type: 2}

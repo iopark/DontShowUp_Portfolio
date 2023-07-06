@@ -21,14 +21,14 @@ MonoBehaviour:
   setFloatAsNull: 1
   preRequisiteActs:
   - {fileID: 11400000, guid: 5623326c81a555b40a1fc269cdbc41e4, type: 2}
-  preRequisiteActions: []
   actions: []
   transitions:
   - decision: {fileID: 11400000, guid: cb45578706846794da44e4c05ef61df8, type: 2}
     trueState: {fileID: 11400000, guid: e35380fc7a9234c40937cebd83ae4027, type: 2}
     falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
-  fixedActions: []
-  fixedTransitions: []
+  - decision: {fileID: 11400000, guid: 65dda5b5c85223d4abb55002af01bf8a, type: 2}
+    trueState: {fileID: 11400000, guid: 9515049be64fba34bbbf10c226153af1, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
   exitActs:
   - {fileID: 11400000, guid: e8da8ca158aa87947b601542859ae217, type: 2}
   sceneGizmoColor: {r: 1, g: 1, b: 1, a: 1}

@@ -1,5 +1,5 @@
 {
-    "name": "InputAction",
+    "name": "FPSInputAction",
     "maps": [
         {
             "name": "Player",
@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "SwitchCam",
+                    "name": "QSkill",
                     "type": "Button",
                     "id": "ead86982-18ca-4ff4-b83c-bf9dc058685a",
                     "expectedControlType": "Button",
@@ -63,6 +63,24 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "5c3c48e3-67ff-466b-9a3c-89241aa070c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Melee",
+                    "type": "Button",
+                    "id": "fa1f0a27-1773-4e64-9f14-9e4ac2a94af7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Switch",
+                    "type": "Button",
+                    "id": "296cde0e-bf03-45d6-bd3c-0bd79811d9e9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -205,11 +223,11 @@
                 {
                     "name": "",
                     "id": "358d6133-43b4-479f-af43-7b72a6580a4c",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchCam",
+                    "action": "QSkill",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -243,6 +261,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "266708e0-1574-413b-8183-547e18e7efa0",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d4b207b-7402-43d5-9532-ecbc4a71745d",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

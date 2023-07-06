@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WallScanAction : Action
 {
+    public override string actionName => typeof(WallScanAction).Name;
+
     public override void Act(StateController controller)
     {
         throw new System.NotImplementedException();

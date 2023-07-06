@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f981c996ed18ba94aa00c250f7a234cf, type: 3}
   m_Name: Action_Attack_BasicZombie
   m_EditorClassIdentifier: 
+  actionName: AttackAction
   RequiredProceedingAct: 'Based on the Combat Decision, '
   RequiredPreceedingAction: "1. Pursuit action, which determines LookDir to the Player's
     most recent postion, \n2. preAttackAct, "

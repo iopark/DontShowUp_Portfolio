@@ -9,11 +9,11 @@ public class EnemyAttacker : MonoBehaviour
     EnemyMover enemyMover; 
     public Attack DefaultAttack
     {
-        get; set;
+        get { return defaultAttack; }
     }
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;
-    bool isAttacking; 
+    [SerializeField] bool isAttacking; 
     public bool IsAttacking {  get { return isAttacking; } }
     Vector3 attackDir; 
     public Vector3 AttackDir { get { return attackDir; } set{ attackDir = value; } }
@@ -23,18 +23,18 @@ public class EnemyAttacker : MonoBehaviour
     {
         Enemy = GetComponent<Enemy>();
         enemyMover = GetComponent<EnemyMover>();
-        DefaultAttack = Instantiate(defaultAttack);
-        attackInterval = new WaitForSeconds(DefaultAttack.AttackInterval);
-        DefaultAttack.Attacker = this;
+        defaultAttack = GameManager.Resource.Instantiate(defaultAttack, "Data/Zombie/FSM/Act/Act_Attack_BasicZombie");
+        attackInterval = new WaitForSeconds(defaultAttack.AttackInterval);
+        defaultAttack.Attacker = this;
     }
-
+    public void FinishedAttacking()
+    {
+        isAttacking = false; 
+    }
     public void StrikePlayer()
     {
-        //Called by the Animator Event 
-        DefaultAttack.Strike();
-        enemyMover.CurrentSpeed = Mathf.Lerp(0, enemyMover.AlertMoveSpeed, 0.4f); 
+        DefaultAttack.Strike(); 
     }
-
     public void StopAttack()
     {
         if (attackRoutine == null)
@@ -45,6 +45,8 @@ public class EnemyAttacker : MonoBehaviour
 
     public void TryStrike()
     {
+        Debug.Log("TryAttack");
+
         if (isAttacking)
             return;
         attackRoutine = StartCoroutine(DoAttack());
@@ -53,10 +55,9 @@ public class EnemyAttacker : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("Attack"); 
-            //enemyMover.CurrentSpeed = 0f; 
+            enemyMover.CurrentSpeed = 0f; 
             isAttacking = true; 
-            Enemy.anim.SetTrigger(DefaultAttack.AnimTrigger);
+            Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
             yield return attackInterval; 
         }
     }

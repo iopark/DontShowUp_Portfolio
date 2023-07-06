@@ -13,6 +13,8 @@ TagManager:
   - UI
   - Walkable
   - Unwalkable
+  - Enemy
+  - Weaponry
   - 
   - 
   - 
@@ -23,9 +25,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - PostProcessing
   - 
   - 
   - 

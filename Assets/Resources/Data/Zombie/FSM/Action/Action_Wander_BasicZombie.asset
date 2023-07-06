@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff3a13fd7175654ba350c8027c14416, type: 3}
   m_Name: Action_Wander_BasicZombie
   m_EditorClassIdentifier: 
+  actionName: IdleWanderAction
   RequiredProceedingAct: 
   RequiredPreceedingAction: 
   coroutineKey: wander

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a23a541ae5ef349afcddc7ee3333c2, type: 3}
+  m_Name: Ranged_Shotgun
+  m_EditorClassIdentifier: 
+  type: 1
+  weaponName: ShotGun
+  damage: 51
+  weaponRange: 20
+  attackRate: 1
+  noiseIntensity: 100
+  launcher: {fileID: 3911815456345104444, guid: 66e5a6128b80b5b4984a5d1fd831eac1, type: 3}
+  reloadRate: 2
+  roundLimit: 2

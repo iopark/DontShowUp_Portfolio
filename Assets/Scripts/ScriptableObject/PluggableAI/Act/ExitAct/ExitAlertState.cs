@@ -9,17 +9,18 @@ public class ExitAlertState : Act
     {
         if (stopAllCoroutine)
             controller.ResetAllCoroutines();
-        else
-            foreach(string actionToStop in actionsToStop)
-            {
-                controller.StopCoroutine(actionToStop);
-            }
+        if (actionsToStop.Length <= 0)
+            return;
+        foreach (Action actionToStop in actionsToStop)
+        {
+            controller.StopCoroutine(actionToStop.GetType().Name);
+        }
         AlertExitState(controller); 
     }
     private void AlertExitState(StateController controller)
     {
         AnimRequestSlip animRequestSlip = new AnimRequestSlip(AnimType, animTrigger, animBoolValue);
         controller.Enemy.AnimationUpdate(animRequestSlip);
-        controller.EnemyMover.ChangeMovementSpeed(controller.EnemyMover.NormalMoveSpeed);
+        controller.EnemyMover.ChangeMovementSpeed(MoveState.Normal);
     }
 }

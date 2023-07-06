@@ -26,11 +26,9 @@ public class EnemyMoverSound : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-
-    
-
     public virtual void ReactToSound(Vector3[] newPath)
     {
+        Vector2 randomPoint = Random.insideUnitCircle; 
         StopAllCoroutines();
         StartCoroutine(FollowSound(newPath));
     }
@@ -51,7 +49,6 @@ public class EnemyMoverSound : MonoBehaviour
                 }
                 currentWaypoint = traceablePath[trackingIndex];
             }
-
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * moveSpeed);
             yield return null;
         }

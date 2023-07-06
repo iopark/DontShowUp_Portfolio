@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Act_Move_BasicZombie
   m_EditorClassIdentifier: 
   aboutThisAct: 'Activates CharacterController.Move based on the Player''s CurrentSpeed. '
+  actName: Move
   animTrigger: 
   animType: 0
   animFloatValue: 0
   animBoolValue: 0
-  actionstoStop: []
+  actionsToStop: []
   stopAllCoroutine: 0

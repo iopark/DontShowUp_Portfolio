@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -7,7 +8,10 @@ using UnityEngine.InputSystem.XR;
 public class AlignOrientationAction : Action
 {
     [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private float dotThreshHold; 
+    [SerializeField] private float dotThreshHold;
+    [SerializeField] Act defaultRotate; 
+
+    public override string actionName => typeof(AlignOrientationAction).Name; 
 
     public override void Act(StateController controller)
     {
@@ -42,19 +46,18 @@ public class AlignOrientationAction : Action
                 controller.EnemyMover.LookDir = targetDir;
                 //controller.Sight.SetDirToLook(-targetDir);
             }
-            controller.RequestMove(MoveType.RotateOnly, targetDir, RotatorMechanism(controller));
+            controller.RunAndSaveForReset(actionName, RotatorMechanism(controller));
+            //controller.RequestMove(MoveType.RotateOnly, targetDir, RotatorMechanism(controller));
         }
     }
 
     IEnumerator RotatorMechanism(StateController controller)
     {
-        Quaternion rotation = Quaternion.LookRotation(controller.EnemyMover.LookDir);
         while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
         {
-            controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, rotation, 0.3f);
+            defaultRotate.Perform(controller); 
             yield return null;
         }
-        //TODO: if the action is to fail? 
-        controller.FinishedAction(true);
+        controller.SignalCoroutineFinish(actionName); 
     }
 }

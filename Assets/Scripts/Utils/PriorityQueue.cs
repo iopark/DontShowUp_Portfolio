@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 public class PriorityQueue<TElement> where TElement : IComparable<TElement>
 {
-    private List<TElement> cells;
+    private List<TElement> nodes;
 
     public PriorityQueue()
     {
-        this.cells = new List<TElement>();
+        this.nodes = new List<TElement>();
     }
 
 
-    public int Count { get { return cells.Count; } }
+    public int Count { get { return nodes.Count; } }
 
     public void Enqueue(TElement element)
     {
@@ -24,136 +24,136 @@ public class PriorityQueue<TElement> where TElement : IComparable<TElement>
 
     public TElement Peek()
     {
-        if (cells.Count == 0)
+        if (nodes.Count == 0)
             throw new InvalidOperationException();
 
-        return cells[0];
+        return nodes[0];
     }
 
     public bool TryPeek(out TElement element)
     {
-        if (cells.Count == 0)
+        if (nodes.Count == 0)
         {
             element = default(TElement);
             return false;
         }
 
-        element = cells[0];
+        element = nodes[0];
         return true;
     }
 
     public bool Contains(TElement element)
     {
-        return cells.Contains(element);
+        return nodes.Contains(element);
     }
 
     public TElement Dequeue()
     {
-        if (cells.Count == 0)
+        if (nodes.Count == 0)
             throw new InvalidOperationException();
 
-        TElement rootNode = cells[0];
+        TElement rootNode = nodes[0];
         PopHeap();
         return rootNode;
     }
 
     public bool TryDequeue(out TElement element)
     {
-        if (cells.Count == 0)
+        if (nodes.Count == 0)
         {
             element = default(TElement);
             return false;
         }
-        TElement rootNode = cells[0];
+        TElement rootNode = nodes[0];
         element = rootNode; 
         PopHeap();
         return true;
     }
     public void UpdateHeap(TElement element)
     {
-        int currentIndex = cells.IndexOf(element);
+        int currentIndex = nodes.IndexOf(element);
         
         while (true)
         {
             int parentIndex = GetParentIndex(currentIndex);
-            TElement parent = cells[parentIndex];
-            if (cells[currentIndex].CompareTo(parent) < 0)
+            TElement parent = nodes[parentIndex];
+            if (nodes[currentIndex].CompareTo(parent) < 0)
             {
-                cells[currentIndex] = parent; //swap parent to the newCell's index 
+                nodes[currentIndex] = parent; //swap parent to the newCell's index 
                 currentIndex = parentIndex;
             }
             else
                 break;
         }
-        cells[currentIndex] = element;
+        nodes[currentIndex] = element;
     }
     private void PushHeap(TElement newCell)
     {
-        cells.Add(newCell);
-        int newCellIndex = cells.Count - 1;
-        while (newCellIndex > 0)
+        nodes.Add(newCell);
+        int newNodeIndex = nodes.Count - 1;
+        while (newNodeIndex > 0)
         {
-            int parentIndex = GetParentIndex(newCellIndex);
-            TElement parentNode = cells[parentIndex];
+            int parentIndex = GetParentIndex(newNodeIndex);
+            TElement parentNode = nodes[parentIndex];
 
             // if newCell priority is higher than the parent, 
             if (newCell.CompareTo(parentNode) < 0)
             {
-                cells[newCellIndex] = parentNode; //swap parent to the newCell's index 
-                newCellIndex = parentIndex;
+                nodes[newNodeIndex] = parentNode; //swap parent to the newCell's index 
+                newNodeIndex = parentIndex;
             }
             else
             {
                 break;
             }
         }
-        cells[newCellIndex] = newCell;
+        nodes[newNodeIndex] = newCell;
     }
 
     private void PopHeap()
     {
-        TElement lastNode = cells[cells.Count - 1];
-        cells.RemoveAt(cells.Count - 1);
+        TElement lastNode = nodes[nodes.Count - 1];
+        nodes.RemoveAt(nodes.Count - 1);
 
         int index = 0;
-        while (index < cells.Count)
+        while (index < nodes.Count)
         {
             int leftChildIndex = GetLeftChildIndex(index);
             int rightChildIndex = GetRightChildIndex(index);
 
-            if (rightChildIndex < cells.Count)
+            if (rightChildIndex < nodes.Count)
             {
-                int compareIndex = cells[leftChildIndex].CompareTo(cells[rightChildIndex]) < 0 ?
+                int compareIndex = nodes[leftChildIndex].CompareTo(nodes[rightChildIndex]) < 0 ?
                 leftChildIndex : rightChildIndex;
 
-                if (cells[compareIndex].CompareTo(lastNode) < 0)
+                if (nodes[compareIndex].CompareTo(lastNode) < 0)
                 {
-                    cells[index] = cells[compareIndex];
+                    nodes[index] = nodes[compareIndex];
                     index = compareIndex;
                 }
                 else
                 {
-                    cells[index] = lastNode;
+                    nodes[index] = lastNode;
                     break;
                 }
             }
-            else if (leftChildIndex < cells.Count)
+            else if (leftChildIndex < nodes.Count)
             {
                 //There could be a case where there's only leftchildindex remaining
-                if (cells[leftChildIndex].CompareTo(lastNode) < 0)
+                if (nodes[leftChildIndex].CompareTo(lastNode) < 0)
                 {
-                    cells[index] = cells[leftChildIndex];
+                    nodes[index] = nodes[leftChildIndex];
                     index = leftChildIndex;
                 }
                 else
                 {
-                    cells[index] = lastNode;
+                    nodes[index] = lastNode;
                     break;
                 }
             }
             else
             {
-                cells[index] = lastNode;
+                nodes[index] = lastNode;
                 break;
             }
         }
@@ -174,4 +174,3 @@ public class PriorityQueue<TElement> where TElement : IComparable<TElement>
         return parentIndex * 2 + 2;
     }
 }
-

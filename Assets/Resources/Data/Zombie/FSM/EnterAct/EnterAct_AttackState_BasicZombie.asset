@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ece75fb173577f4db3e326fc227a060, type: 3}
   m_Name: EnterAct_AttackState_BasicZombie
   m_EditorClassIdentifier: 
-  aboutThisAct: 'Must Proceed from the Pursuit State, thus, put puase to the pursuit
-    state. '
+  aboutThisAct: Must Proceed from the Pursuit State
   animTrigger: 
   animType: 0
   animFloatValue: 0

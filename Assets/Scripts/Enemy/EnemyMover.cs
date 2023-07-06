@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.InputSystem.XR.Haptics;
 
+public enum MoveState
+{
+    Idle,
+    Normal, 
+    Alert, 
+    Attack
+}
 public class EnemyMover : MonoBehaviour
 {
     [Header("Debugging Purposes")]
@@ -18,8 +26,6 @@ public class EnemyMover : MonoBehaviour
     Animator animator;
     Enemy Enemy { get; set; }
     StateController stateController; 
-    [SerializeField] Act defaultMove; //Scriptable Object to Instantiate and put to use. 
-    public Act DefaultMove { get; private set; }
     #region Pertaining to Move 
     //Moving Abilities 
     private float currentSpeed;
@@ -47,7 +53,7 @@ public class EnemyMover : MonoBehaviour
         get { return rotationSpeed; }
         set { rotationSpeed = value; }
     }
-    private Vector3[] traceSoundPoints;
+    [SerializeField] private Vector3[] traceSoundPoints;
     public Vector3[] TraceSoundPoints { get { return traceSoundPoints; } set { traceSoundPoints = value; } }
     Vector3 ForwardVector
     {
@@ -56,10 +62,13 @@ public class EnemyMover : MonoBehaviour
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
-    private float distanceToTarget; 
+    private float distanceToTarget;
 
     #endregion
     #region 유한상태 머신 관련 
+    [SerializeField] private int patrolCount;
+    public int PatrolCount { get { return patrolCount; } set { patrolCount = value; } }
+
     private float pinIntervalTimer;
     public float PinIntervalTimer { get { return pinIntervalTimer; } set { pinIntervalTimer = value; } }
     private List<PatrolPoint> patrolPoints;
@@ -71,8 +80,12 @@ public class EnemyMover : MonoBehaviour
         get { return patrolIndex; }
         set { patrolIndex = value; }
     }
-
-    public Queue <MoveRequestSlip> MoveList = new Queue<MoveRequestSlip> ();
+    private bool isTracingSound; 
+    public bool IsTracingSound
+    {
+        get { return isTracingSound; }
+        set { isTracingSound = value; }
+    }
     #endregion
 
     #region 움직임 계산 관련 
@@ -82,7 +95,6 @@ public class EnemyMover : MonoBehaviour
     private void Start()
     {
         patrolIndex = 0;        
-        DefaultMove = Instantiate(defaultMove);
         characterController = GetComponent<CharacterController> ();
         Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
@@ -97,7 +109,6 @@ public class EnemyMover : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-        DefaultMove = Instantiate(defaultMove);
         trail = GetComponent<TrailRenderer>();
     }
 
@@ -105,6 +116,26 @@ public class EnemyMover : MonoBehaviour
     {
         CurrentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
     }
+
+    float nextSpeed; 
+    /// <summary>
+    /// Insert Movement Type, 
+    /// Normal, 
+    /// Alert, 
+    /// and Attack using MoveState 
+    /// </summary>
+    /// <param name="speed"></param>
+    public void ChangeMovementSpeed(MoveState mState) 
+    {
+        switch (mState)
+        {
+            case MoveState.Normal: nextSpeed = normalMoveSpeed; break;
+            case MoveState.Alert: nextSpeed = alertMoveSpeed; break;
+            default: nextSpeed = 0f; break;
+        }
+        CurrentSpeed = Mathf.Lerp(currentSpeed, nextSpeed, 0.4f);
+    }
+
     public void Rotator(Vector3 alignDir)
     {
         rotation = Quaternion.LookRotation(alignDir);
@@ -143,12 +174,12 @@ public class EnemyMover : MonoBehaviour
         LookDir = toPlayer;
         Chase(); 
     }
-    public virtual void ReactToSound(Vector3[] newPath)
-    {
-        StopAllCoroutines();
-        StartCoroutine(FollowSound(newPath));
-    }
-
+    //public virtual void ReactToSound(Vector3[] newPath)
+    //{
+    //    StopAllCoroutines();
+    //    StartCoroutine(FollowSound(newPath));
+    //}
+    
     public bool CheckElapsedTime(float time)
     {
         PinIntervalTimer += Time.deltaTime;
@@ -159,105 +190,48 @@ public class EnemyMover : MonoBehaviour
         }
         return false;
     }
-    Coroutine RotationRoutine;
-    Coroutine MovingRoutine;
-    public void StartRotationOnly(Vector3 alignDir)
-    {
-        if (RotationRoutine != null)
-            UnityEngine.Debug.Log("StateController failed to manage jobs"); 
-
-        RotationRoutine = StartCoroutine(RotatorMechanism(alignDir));
-    }
-
-    public void StartMoveRequest(Vector3 destination)
-    {
-        if (MovingRoutine != null)
-            UnityEngine.Debug.Log("StateController failed to manage job allocation");
-
-        MovingRoutine = StartCoroutine(MoveToDestination(destination));
-    }
-
-    IEnumerator RotatorMechanism(Vector3 alignDir)
-    {
-        rotation = Quaternion.LookRotation(alignDir);
-        while (Vector3.Dot(transform.forward, alignDir) < dotThreshold)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
-            yield return null;
-        }
-        stateController.FinishedAction(true);
-        RotationRoutine = null;
-    }
-
-    IEnumerator MoveToDestination(Vector3 destination)
-    {
-        distanceToTarget = Vector3.SqrMagnitude(destination - transform.position);
-        while (distanceToTarget > 0.1f)
-        {
-            lookDir = destination - transform.position; 
-            lookDir.y = transform.position.y;
-            lookDir.Normalize(); 
-            rotation  = Quaternion.LookRotation(lookDir);
-            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f); 
-                yield return null;
-            }
-            characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
-            yield return null;
-        }
-        stateController.FinishedAction(true); 
-    }
-
-    IEnumerator ChaseTarget()
-    {
-        while (Sight.PlayerLocked != null)
-        {
-            distanceToTarget = Vector3.SqrMagnitude(Sight.PlayerLocked.position - transform.position);
-            lookDir = Sight.PlayerLocked.position - transform.position;
-            lookDir.y = transform.position.y;
-            lookDir.Normalize();
-            rotation = Quaternion.LookRotation(lookDir);
-            while (Vector3.Dot(transform.forward, lookDir) < dotThreshold)
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 0.3f);
-                yield return null;
-            }
-            while (distanceToTarget > distanceThreshhold)
-            {
-                characterController.Move(lookDir * CurrentSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-        }
-        stateController.FinishedAction(true); 
-    }
     #endregion
-    IEnumerator FollowSound(Vector3[] traceablePath)
-    {
-        traceSoundPoints = traceablePath;
-        int trackingIndex = 0;
-        Vector3 currentWaypoint = traceablePath[0];
-        while (true)
-        {
-            if (transform.position == currentWaypoint)
-            {
-                trackingIndex++;
-                if (trackingIndex >= traceablePath.Length)
-                {
-                    Auditory.HaveHeard = false;
-                    yield break;
-                }
-                currentWaypoint = traceablePath[trackingIndex];
-            }
-
-            characterController.Move(currentWaypoint * currentSpeed * Time.deltaTime);
-            yield return null;
-        }
-    }
-
+    //IEnumerator FollowSound(Vector3[] traceablePath)
+    //{
+    //    traceSoundPoints = traceablePath;
+    //    int trackingIndex = 0;
+    //    Vector3 currentWaypoint = traceablePath[0];
+    //    while (true)
+    //    {
+    //        if (transform.position == currentWaypoint)
+    //        {
+    //            trackingIndex++;
+    //            if (trackingIndex >= traceablePath.Length)
+    //            {
+    //                Auditory.HaveHeard = false;
+    //                yield break;
+    //            }
+    //            currentWaypoint = traceablePath[trackingIndex];
+    //        }
+    //        characterController.Move(currentWaypoint * currentSpeed * Time.deltaTime);
+    //        yield return null;
+    //    }
+    //}
     protected virtual void OnDrawGizmos()
     {
+        if (!debug && traceSoundPoints.Length > 0)
+        {
+            for (int i = 0; i < traceSoundPoints.Length; i++)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawCube(traceSoundPoints[i], Vector3.one);
+
+                if (i == 0)
+                {
+                    Gizmos.DrawLine(transform.position, traceSoundPoints[i]);
+                }
+                else
+                {
+                    Gizmos.DrawLine(traceSoundPoints[i - 1], traceSoundPoints[i]);
+                }
+            }
+        }
+
         if (!debug && patrolPoints.Count >= 1)
         {
             for (int i = 0; i < patrolPoints.Count; i++)
@@ -276,4 +250,6 @@ public class EnemyMover : MonoBehaviour
             }
         }
     }
+
+
 }

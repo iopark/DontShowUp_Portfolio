@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f8ebce64d5a0c469152545a5704c74, type: 3}
+  m_Name: Action_TraceSound_BasicZombie
+  m_EditorClassIdentifier: 
+  RequiredProceedingAct: EnteringAct predominates this state
+  RequiredPreceedingAction: "Exit Condition: \n1. Scan Decision \n2. Reached Destination "

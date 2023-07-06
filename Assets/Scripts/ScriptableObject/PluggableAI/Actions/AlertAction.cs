@@ -6,7 +6,10 @@ using UnityEngine;
 public class AlertAction : Action
 {
     [SerializeField] Act defaultWander; 
-    [SerializeField] Act defaultMove; 
+    [SerializeField] Act defaultMove;
+
+    public override string actionName => typeof(AlertAction).Name;
+
     public override void Act(StateController controller)
     {
         throw new System.NotImplementedException();

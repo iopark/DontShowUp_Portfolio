@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92d473df038c60468ae4fa1b48e9b2d, type: 3}
   m_Name: Action_Pursuit_BasicZombie
   m_EditorClassIdentifier: 
-  actionName: 
+  actionName: PursuitAction
   RequiredProceedingAct: 
   RequiredPreceedingAction: 
+  actionName: 
   coroutineKey: pursuit
   dotThreshold: 0.98
   distanceThreshhold: 1

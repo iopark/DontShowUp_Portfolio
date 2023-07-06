@@ -19,9 +19,9 @@ public class PathManager : MonoBehaviour
     {
         pathDefiner = gameObject.AddComponent<PathDefiner>();
     }
-    public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
+    public void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback, bool hasWall)
     {
-        PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);
+        PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback, hasWall);
         pathRequests.Enqueue(newRequest);
         TryProcessNext();
     }
@@ -32,16 +32,17 @@ public class PathManager : MonoBehaviour
         {
             currentPath = pathRequests.Dequeue();
             isProcessing = true;
-            pathDefiner.StartDefiningPath(currentPath.pathStart, currentPath.pathEnd);
+            if (!currentPath.hasWall)
+                pathDefiner.StartDefiningDefaultPath(currentPath.pathStart, currentPath.pathEnd);
+            else
+                pathDefiner.StartdefiningWithWallPath(currentPath.pathStart, currentPath.pathEnd); 
         }
     }
 
     public void FinishedProcessingPath(Vector3[] path, bool success)
     {
-        if (success) // path 를 찾았을때만 해당 Path 를 전달한다. 
+        if (success) 
             currentPath.callback(path, success);
-        //How do we Deliever this path to the Requestee? 
-
         isProcessing = false;
         TryProcessNext();
     }
@@ -51,12 +52,14 @@ public class PathManager : MonoBehaviour
         public Vector3 pathStart;
         public Vector3 pathEnd;
         public Action<Vector3[], bool> callback;
+        public bool hasWall; 
 
-        public PathRequest(Vector3 _start, Vector3 _end, Action<Vector3[], bool> _callback)
+        public PathRequest(Vector3 _start, Vector3 _end, Action<Vector3[], bool> _callback, bool hasWall)
         {
             pathStart = _start;
             pathEnd = _end;
             callback = _callback;
+            this.hasWall = hasWall; 
         }
     }
 }

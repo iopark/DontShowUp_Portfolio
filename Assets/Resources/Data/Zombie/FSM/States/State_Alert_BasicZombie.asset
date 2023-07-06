@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_Alert_BasicZombie
   m_EditorClassIdentifier: 
-  noAnimUpdate: 0
+  noAnimUpdate: 1
   animName: AlertState
   animType: 0
   animBool: 0
@@ -35,5 +35,9 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: 763d10554d05e4747ba76c4947009a8d, type: 2}
     trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
     falseState: {fileID: 11400000, guid: 52cf571d9e52a774ea7e71073e9e63f8, type: 2}
-  exitActs: []
+  - decision: {fileID: 11400000, guid: 65dda5b5c85223d4abb55002af01bf8a, type: 2}
+    trueState: {fileID: 11400000, guid: 9515049be64fba34bbbf10c226153af1, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: badbddf4bd82a0d46909c00793384e64, type: 2}
   sceneGizmoColor: {r: 1, g: 0.5276336, b: 0, a: 1}

@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78409b07656ef1548a7154c8889ceea7, type: 3}
   m_Name: Action_SetPin_BasicZombie
   m_EditorClassIdentifier: 
+  actionName: SetPinAction
+  RequiredProceedingAct: 
+  RequiredPreceedingAction: 
   setPinInterval: 3.5
   defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}

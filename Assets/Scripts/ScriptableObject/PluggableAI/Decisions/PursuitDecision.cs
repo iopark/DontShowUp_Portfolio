@@ -16,22 +16,29 @@ public class PursuitDecision : Decision
 
     private bool Pursuiting(StateController controller)
     {
-        //// if player has been temporarily gone out of the sight, run the timer, 
-        //if (controller.Sight.PlayerInSight == Vector3.zero) // the Scanner has lost to identify the target. 
-        //{
-        //    if (controller.Sight.CheckElapsedTime(resetTimer))
-        //    {
-        //        controller.Sight.PlayerLocked = null; // uncheck the locked state. would also stop the Coroutine of Pursuiting behaviour. 
-        //        return false; // if time has elapsed and no player is no longer found, 
-        //    }
-        //    return true; // until the timer has set, keep tracking the locked target. 
-        //}
-        //return true; //controller.Sight.PlayerInSight != Vector3.zero;
+        // As this is being tracked by the AlertstateDecision maker 
         if (controller.Sight.PlayerLocked == null)
         {
             return false;
         }
 
+        if (controller.Sight.PlayerInSight == null)
+        {
+            controller.RunAndSaveForReset(nameof(CountdownPlayerMissingTime), CountdownPlayerMissingTime(controller)); 
+        }
+        else 
+            controller.SignalCoroutineFinish(nameof(CountdownPlayerMissingTime));
         return true; 
+    }
+
+    IEnumerator CountdownPlayerMissingTime(StateController controller)
+    {
+        float time = 0f;
+        while (time < resetTimer)
+        {
+            time += Time.deltaTime;
+            yield return null; 
+        }
+        controller.Sight.PlayerLocked = null; 
     }
 }

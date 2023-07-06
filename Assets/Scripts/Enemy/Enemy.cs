@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
-public class Enemy : MonoBehaviour, IHittable, IStrikable
+public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 {
     //Data in which should be clicked and dragged || shared through ResourceManager. 
     [SerializeField] protected EnemyData data;
-    [SerializeField] protected SightSensory sight;
-    [SerializeField] protected SoundSensory auditory;
     [SerializeField] public StateController controller;
-    [SerializeField] public CharacterController characterController;
+    [SerializeField] public EnemyAttacker enemyAttacker;
+    [SerializeField] public EnemyMover enemyMover;
     [SerializeField] public Animator anim;
 
     [Header("Debug Purposes")]
@@ -25,7 +23,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
 
     #region Default Enemy Stats: Requires Refactoring 
     //TODO: Others to Refactor 
-    private int health;
+    [SerializeField] private int health;
     public int Health
     {
         get { return health; }
@@ -45,15 +43,15 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
     public EnemyStat CurrentStat { get { return currentStat; } set { currentStat = value; } }
     #endregion
 
+    WaitForSeconds returnToPool = new WaitForSeconds(5f); 
+
     protected virtual void Awake()
     {
         data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
-        sight = GetComponent<SightSensory>();
-        auditory = GetComponent<SoundSensory>();
         controller = GetComponent<StateController>();
-        characterController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         CurrentStat = data.AccessLevelData();
+        enemyAttacker = GetComponent<EnemyAttacker>();
         GetCoreStat(); 
     }
 
@@ -65,6 +63,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
 
     public void GetCoreStat()
     {
+
         CurrentStat.SyncCoreData(this);
     }
     protected virtual void ImportEnemyData()
@@ -87,44 +86,12 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
                 break;
         }
     }
-    //Can be upgraded for the AdvancedZombie, able to take in weighted value of the graph to search for the other paths to attack the player (if possible)
-    //For now, 소리가 들릴때마다 코루틴을 정지하고 입력받은 새로운 리스트 대로 이동하기 시작합니다. 
-    //protected virtual void OnDrawGizmos()
-    //{
-    //    if (!debug && tracingStatus)
-    //    {
-    //        for (int i = 0; i < tracePath.Length; i++)
-    //        {
-    //            Gizmos.color = Color.black;
-    //            Gizmos.DrawCube(tracePath[i], Vector3.one);
 
-    //            if (i == trackingIndex)
-    //            {
-    //                Gizmos.DrawLine(transform.position, tracePath[i]);
-    //            }
-    //            else
-    //            {
-    //                Gizmos.DrawLine(tracePath[i - 1], tracePath[i]);
-    //            }
-    //        }
-    //    }
-    //}
-
-
-    public void DoAction<T>(T bodyComponent, float timeInterval)
-    {
-        if (bodyComponent is EnemyMover)
-        {
-            //Try Following 
-        }
-        else if (bodyComponent is EnemyAttacker)
-        {
-            //Try this instead 
-        }
-    }
     public void TakeHit(int damage)
     {
-        throw new System.NotImplementedException();
+        health -= damage;
+        // stop the attack simulation, play the take hit anim trigger; 
+        AfterStrike(); 
     }
 
     public void GiveDamage(IHittable target, int damage)
@@ -133,4 +100,43 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable
             return;
         target.TakeHit(damage);
     }
+
+    public void Pause(float time)
+    {
+        enemyMover.CurrentSpeed = 0;
+        anim.speed = 0;
+        //Should trigger Resume button after certain interval; 
+    }
+
+    public void Resume()
+    {
+        enemyMover.CurrentSpeed = enemyMover.AlertMoveSpeed;
+        anim.speed = 1;
+    }
+
+    public void AfterStrike()
+    {
+        // stop the attack simulation, play the take hit anim trigger; 
+        enemyAttacker.StopAttack();
+        anim.SetTrigger("TakeHit"); 
+    }
+
+    public void UponDeath()
+    {
+        StartCoroutine(Death()); 
+    }
+    Coroutine Freezer;
+    IEnumerator Freeze(float time) 
+    { 
+        yield return new WaitForSeconds(time); 
+        Resume(); 
+    }
+    IEnumerator Death()
+    {
+        yield return returnToPool;
+        anim.SetBool("Death", false); 
+        GameManager.Resource.Destroy(this.gameObject); 
+    }
+
+    //Any resets upon death?
 }
