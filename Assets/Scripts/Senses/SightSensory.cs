@@ -152,7 +152,9 @@ public class SightSensory : MonoBehaviour
     {
         if (playerLocked == null)
             return false;
+
         distanceToTarget = playerLocked.transform.position - transform.position;
+        Debug.DrawRay(transform.position, distanceToTarget.normalized, Color.yellow); 
         if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
         return true;

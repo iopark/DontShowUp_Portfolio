@@ -107,7 +107,6 @@ public class Projectile : MonoBehaviour, IPausable
             endPoint = hitLoc.point;
             delta = endPoint - transform.position;
             distance = Vector3.SqrMagnitude(delta);
-            Debug.Log(distance); 
             transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null;
         }
@@ -128,7 +127,6 @@ public class Projectile : MonoBehaviour, IPausable
         {
             delta = endPoint - transform.position;
             distance = Vector3.Dot(delta, delta);
-            Debug.Log(distance); 
             transform.position = Vector3.MoveTowards(transform.position, endPoint, currentMoveSpeed * Time.deltaTime);
             yield return null; 
         }

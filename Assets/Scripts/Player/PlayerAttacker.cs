@@ -16,8 +16,9 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     [SerializeField]
     Launcher primary;
     [SerializeField]
-    Launcher secondary; 
+    Launcher secondary;
 
+    Camera camera; 
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
 
@@ -29,10 +30,12 @@ public class PlayerAttacker : MonoBehaviour, IHittable
         get { return meleeDamage; }
         set { meleeDamage = value; }
     }
-    private int flankDamage; 
+    private int flankDamage;
+    [SerializeField]private bool isStriking; 
 #endregion 
     private void Awake()
     {
+        camera = Camera.main; 
         rig = GetComponentInChildren<Rig>();
         GameManager.CombatManager.weaponHolder = weaponHolder;
     }
@@ -82,17 +85,42 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     Transform tempTarget; 
     private void OnMelee(InputValue input)
     {
+        if (isStriking)
+            return;
+        transform.rotation = Quaternion.LookRotation(camera.transform.forward, transform.up); 
         //TODO: Melee attempt 
         rig.weight = 0; 
         anim.SetTrigger("Melee");
-        RaycastHit targetInfo;
+        isStriking = true;
+        gambleStrike = StartCoroutine(GambleStrike()); 
+    }
+    RaycastHit targetInfo;
+    private void TryStrike()
+    {
         if (Physics.Raycast(transform.position, transform.forward, out targetInfo, 1.5f, LayerMask.GetMask("Enemy")))
         {
             tempTarget = targetInfo.collider.transform;
-            GameManager.CombatManager.FlankJudgement(tempTarget, TryFlank); 
+            GameManager.CombatManager.FlankJudgement(tempTarget, TryFlank);
         }
-        rig.weight = 1; 
     }
+    Coroutine gambleStrike; 
+    IEnumerator GambleStrike()
+    {
+        rig.weight = 0;
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 &&
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Melee"))
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f)
+            {
+                TryStrike(); 
+            }
+            yield return null;
+        }
+        isStriking = false; 
+        rig.weight = 1;
+        gambleStrike = null; 
+    }
+
     private void OnReload(InputValue input)
     {
         currentWeapon.Reload();
@@ -100,6 +128,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     public void TakeHit(int damage)
     {
+        Debug.Log("Player Hit"); 
         GameManager.DataManager.Health -= damage;  
         AfterStrike(); 
     }
