@@ -77,8 +77,27 @@ public class DataManager : MonoBehaviour
             stage = value; 
         }
     }
-    public event UnityAction<int> StageChange; 
-    public event UnityAction<int> OnKills;
+    private int diamond; 
+    public int Diamond
+    {
+        get { return diamond; } 
+        set
+        {
+            diamond = value;
+            Harvested?.Invoke(diamond);
+        }
+    }
+
+
+    public void ResetStatusData()
+    {
+
+    }
+
+    public UnityAction<int> Harvested; 
+    public UnityAction<int> StageChange;
+    public UnityAction<int> NextStage; 
+    public UnityAction<int> OnKills;
 
     private void Awake()
     {

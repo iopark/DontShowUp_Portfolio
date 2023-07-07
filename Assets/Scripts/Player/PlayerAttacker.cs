@@ -39,11 +39,12 @@ public class PlayerAttacker : MonoBehaviour, IHittable
         camera = Camera.main; 
         rig = GetComponentInChildren<Rig>();
         GameManager.CombatManager.weaponHolder = weaponHolder;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+
         currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
         meleeDamage = GameManager.DataManager.MeleeDamage;
         flankDamage = GameManager.DataManager.MeleeFlank;

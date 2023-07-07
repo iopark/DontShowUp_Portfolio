@@ -24,6 +24,10 @@ public class CombatManager : MonoBehaviour
     Vector3 playerLookDir;
 
     Launcher tempContainer;
+    public void Init()
+    {
+
+    }
     private void Awake()
     {
         weaponList = Resources.Load<WeaponList>("Data/Weapon/Player_WeaponList");

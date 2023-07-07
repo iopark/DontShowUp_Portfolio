@@ -8,6 +8,7 @@ public class FPSCameraController : MonoBehaviour
     [SerializeField] float mouseSensitivity;
     [SerializeField] Transform cameraRoot;
     [SerializeField] Transform aimTarget;
+
     Camera camera; 
     
 
@@ -36,7 +37,8 @@ public class FPSCameraController : MonoBehaviour
     {
         Look(); 
     }
-    Vector3 centrePoint; 
+
+    Vector3 centrePoint;
     private void Look()
     {
         yRotation += lookDelta.x * mouseSensitivity * Time.deltaTime; // y축 기준으로의 회전은 x 값을 기준으로 회전 시킨다. 
@@ -46,7 +48,7 @@ public class FPSCameraController : MonoBehaviour
         cameraRoot.localRotation = Quaternion.Euler(xRotation,0,0);
         transform.localRotation = Quaternion.Euler(0,yRotation,0);
 
-        centrePoint = camera.ScreenToViewportPoint(new Vector3(0.5f, 0.5f, 0)); 
+        //centrePoint = camera.ScreenToViewportPoint(new Vector3(0.5f, 0.5f, 0)); 
         Vector3 setAimTarget = camera.transform.position + camera.transform.forward * 50;
         aimTarget.position = setAimTarget;
     }

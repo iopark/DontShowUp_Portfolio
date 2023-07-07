@@ -19,7 +19,7 @@ public class Gun : Launcher
 
     private void OnDisable()
     {
-        GameManager.Pool.Release(this.gameObject);
+        GameManager.Resource.Destroy(this.gameObject);
     }
     Vector3 rayOrigin;
     //DEBUGGING

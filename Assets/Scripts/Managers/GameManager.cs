@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
         sceneObj.transform.SetParent(transform);
         sceneManager = sceneObj.AddComponent<SceneManager>();
 
-        GameObject combatObj = new GameObject() { name = "Particle Manager" };
+        GameObject combatObj = new GameObject() { name = "Combat Manager" };
         combatObj.transform.SetParent(transform);
         combatManager = combatObj.AddComponent<CombatManager>();
     }
