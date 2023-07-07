@@ -353,7 +353,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 24095515}
   m_OnClick:
     m_PersistentCalls:
@@ -405,6 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151551777}
+  - component: {fileID: 151551778}
   m_Layer: 5
   m_Name: CrossHair
   m_TagString: Untagged
@@ -434,6 +435,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &151551778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151551776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3e7501fa09c8a44a01abd9fe975bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSize: 1.3
+  totalscaletime: 0.1
 --- !u!1001 &182288818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -858,7 +873,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 343214589}
   m_OnClick:
     m_PersistentCalls:
@@ -1212,7 +1227,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 581322109}
   m_OnClick:
     m_PersistentCalls:
@@ -3683,7 +3698,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1650549960}
   m_OnClick:
     m_PersistentCalls:
@@ -4113,7 +4128,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1894043587}
   m_OnClick:
     m_PersistentCalls:
@@ -4618,7 +4633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853267673925512961, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -146.8
+      value: -88.2
       objectReference: {fileID: 0}
     - target: {fileID: 7853267673925512961, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4626,7 +4641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853267673925512961, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -208.2
+      value: 19.7
       objectReference: {fileID: 0}
     - target: {fileID: 7853267673925512961, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_LocalRotation.w

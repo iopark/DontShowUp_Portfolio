@@ -35,7 +35,7 @@ public class GameStatusBarUI : SceneUI
     {
         GameManager.CombatManager.CombatAlert += BroadCastMessage;
         base.Awake();
-        Initialize(); 
+        //Initialize(); 
     }
 
 
@@ -51,23 +51,25 @@ public class GameStatusBarUI : SceneUI
         button_key = $"GameStatusBar_Button{messageCount}"; 
         current = texts[text_key]; 
         current_rect = buttons[button_key];
-        alerts.Enqueue(current);
         current_rect.transform.SetAsFirstSibling();
         upScale = StartCoroutine(RescaleButton(current_rect)); 
-        if (alerts.Count == 1)
+        if (alerts.Count == 0)
         {
             current.text = value;
             current.color = Color.red;
+            MessageCount++;
+            alerts.Enqueue(current);
             return;
         }
         else
         {
             current.text = value;
             current.color = Color.red;
+            alerts.Enqueue(current);
             previous_rect = transform.GetChild(1).GetComponent<Button>();
             previous = alerts.Dequeue();
             previous.color = Color.white;
-            alerts.Enqueue(current);
+            //alerts.Enqueue(previous);
             downScale = StartCoroutine(DownscaleButton(previous_rect)); 
         }
         MessageCount++; 
