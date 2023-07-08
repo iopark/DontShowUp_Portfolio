@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3378898311448689730}
   - component: {fileID: 3356220754443479908}
   - component: {fileID: 3366540097590703394}
-  - component: {fileID: 3318686497049179050}
   - component: {fileID: 1091031731}
+  - component: {fileID: 275253671}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -27,15 +27,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3381579467457863430}
-  m_LocalRotation: {x: 0, y: 0.6821004, z: 0, w: 0.7312585}
-  m_LocalPosition: {x: 2.078, y: 0.24741769, z: -7.482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8846405214595553730}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 86.016, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3356220754443479908
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,20 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3318686497049179050
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3381579467457863430}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43379037408405576, guid: e4f84bbac6d7d8a48a9fa3b730a667d9, type: 2}
 --- !u!114 &1091031731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,12 +99,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openable: {fileID: 3378898311448689730}
-  picket: {fileID: 0}
-  openVector: {x: 0, y: 0, z: 0}
+  picket: {fileID: 8846405214595553730}
+  picketCanvas: {fileID: 9134518813920045790}
+  openVector: {x: 0, y: 120, z: 0}
   closeVector: {x: 0, y: 0, z: 0}
   isOpened: 0
   openingTime: 0.5
   initialTime: 0
+--- !u!65 &275253671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3381579467457863430}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.025298, y: 2.2243478, z: 0.23995608}
+  m_Center: {x: -0.512649, y: 1.1121739, z: 0.005319823}
 --- !u!1001 &3991166806441611658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126,22 +126,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3378898311448689730}
     m_Modifications:
-    - target: {fileID: 4432747322520997811, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432747322520997811, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432747322520997811, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 960
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432747322520997811, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -593.48755
-      objectReference: {fileID: 0}
     - target: {fileID: 5595660673815791688, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -230,30 +214,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractorBillboard
       objectReference: {fileID: 0}
-    - target: {fileID: 5595660673815791692, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 7368369875437658502, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
+      propertyPath: m_Transition
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7891599365589983449, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7891599365589983449, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7891599365589983449, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 960
-      objectReference: {fileID: 0}
-    - target: {fileID: 7891599365589983449, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -461.5125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
 --- !u!224 &8846405214595553730 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5595660673815791688, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
+  m_PrefabInstance: {fileID: 3991166806441611658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &9134518813920045790 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 5307260604415474516, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
   m_PrefabInstance: {fileID: 3991166806441611658}
   m_PrefabAsset: {fileID: 0}

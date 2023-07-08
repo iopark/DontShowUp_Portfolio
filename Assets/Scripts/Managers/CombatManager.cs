@@ -34,7 +34,8 @@ public class CombatManager : MonoBehaviour
         for (int i = 0; i < weaponList.RangedLists.Length; i++)
         {
             tempContainer = GameManager.Resource.Instantiate(weaponList.RangedLists[i].weapon.launcher, transform.position,
-                weaponList.RangedLists[i].weapon.launcher.transform.localRotation, transform, true); 
+                weaponList.RangedLists[i].weapon.launcher.transform.localRotation, transform, true);
+            tempContainer.transform.localScale = Vector3.one;
             weapons.Enqueue(tempContainer); 
         }
         WeaponSwitch += NewWeapon;
@@ -50,6 +51,7 @@ public class CombatManager : MonoBehaviour
             weapons.Enqueue(GameManager.Resource.Instantiate(weaponList.RangedLists[0].weapon.launcher, true));
         tempContainer = weapons.Dequeue();
         tempContainer.transform.position = weaponHolder.transform.position;
+        tempContainer.transform.localScale = Vector3.one; 
         tempContainer.transform.rotation = weaponHolder.transform.rotation;
         tempContainer.transform.SetParent(weaponHolder.transform);
         currentWeapon = tempContainer; 
@@ -60,13 +62,13 @@ public class CombatManager : MonoBehaviour
 
     private void NewWeapon()
     {
-        currentWeapon.transform.SetParent(transform, false); 
-        
+        currentWeapon.transform.SetParent(transform, false);
         //GameManager.Resource.Destroy(currentWeapon.gameObject); currentWeapon = null;
         tempContainer = weapons.Dequeue();
         tempContainer.transform.position = weaponHolder.transform.position;
         tempContainer.transform.rotation = weaponHolder.transform.rotation;
         tempContainer.transform.SetParent(weaponHolder.transform);
+        tempContainer.transform.localScale = Vector3.one;
         currentWeapon = tempContainer;
             //currentWeapon = GameManager.Resource.Instantiate(tempContainer, weaponHolder.position, weaponHolder.rotation, weaponHolder, true);
         attacker.SetWeapon();

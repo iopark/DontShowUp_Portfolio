@@ -7,10 +7,10 @@ using UnityEngine.EventSystems;
 public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IInteractable
 {
     #region Interaction Required Variables
-    float distanceToPlayer;
+    float distanceToPlayer = default;
     float scaleRatio = default;
     float newRatio;
-    const float minDistance = 2.5f;
+    const float minDistance = 5f;
     const float maxScale = 2f;
     const float minScale = 1f;
     public bool isOpened = false; 
@@ -22,10 +22,12 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (eventData.pointerCurrentRaycast.distance > minDistance)
+            return;
         picket.gameObject.SetActive(true);
         picket.position = eventData.pointerCurrentRaycast.worldPosition;
         distanceToPlayer = eventData.pointerCurrentRaycast.distance;
-        newRatio = minDistance / distanceToPlayer;
+        newRatio = distanceToPlayer / minDistance;
         AdjustPicketSize(newRatio);
         picket.localScale = Vector3.one * scaleRatio;
     }
@@ -33,12 +35,19 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
     public void AdjustPicketSize(float ratio)
     {
         if (ratio < minScale)
-            scaleRatio = minScale;
+        {
+            picketCanvas.transform.localScale = Vector3.one; 
+        }
         else if (ratio > maxScale)
-            scaleRatio = maxScale;
-        else
+        {
+            picketCanvas.transform.localScale = Vector3.one * 2;
+        }
+        else 
+        {
             scaleRatio = ratio;
-        picket.localScale *= scaleRatio;
+            picketCanvas.transform.localScale = Vector3.one * scaleRatio;
+        }
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -60,6 +69,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
             openable.rotation = Quaternion.Lerp(closeAngle, openAngle, initialTime / openingTime);
             yield return null;
         }
+        initialTime = 0; 
         isOpened = true;
         openRoutine = null;
     }
@@ -72,6 +82,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
             openable.rotation = Quaternion.Lerp(openAngle, closeAngle, initialTime / openingTime);
             yield return null;
         }
+        initialTime = 0;
         isOpened = false;
         closeRoutine = null;
     }
@@ -87,10 +98,15 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
     }
     public void Interact()
     {
-        if (ContestInteraction(distanceToPlayer))
+        if (!ContestInteraction(distanceToPlayer))
+            return;
         if (!isOpened)
+        {
             OpenDoor();
-        CloseDoor();
+            return;
+        }
+        else 
+            CloseDoor();
     }
 
     public bool ContestInteraction(float givenDist)

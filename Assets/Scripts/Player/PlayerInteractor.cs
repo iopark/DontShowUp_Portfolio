@@ -6,45 +6,36 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteractor : MonoBehaviour
 {
-    [SerializeField] LayerMask interactMask; 
     Camera camera;
+    [SerializeField] PhysicsRaycaster raycaster; 
     Vector3 centrePoint;
+    [SerializeField] LayerMask targetMask; 
     Vector3 middlePoint = new Vector3(0.5f, 0.5f, 0);
-    [SerializeField] float checkDistance; 
-    [SerializeField] GameObject interactableItem; 
+    [SerializeField] float maxInteractDist; 
     [SerializeField] IInteractable interactable;
 
     private void Awake()
     {
         camera = Camera.main;
+        raycaster = camera.gameObject.GetComponent<PhysicsRaycaster>();
     }
 
-    private void Update()
-    {
-        CheckInteraction(); 
-    }
-
-    private void CheckInteraction()
-    {
-        centrePoint = camera.ScreenToWorldPoint(middlePoint);
-        Debug.DrawRay(centrePoint, camera.transform.forward, Color.gray);
-        if (Physics.Raycast(centrePoint, camera.transform.forward, out RaycastHit hitInfo, checkDistance, interactMask))
-        { 
-            interactable = hitInfo.collider.GetComponent<IInteractable>();
-            interactableItem = hitInfo.collider.gameObject; 
-        }
-    }
+    RaycastHit[] hitList = null;
     private void TryToInteract()
     {
-        // only enable Interaction when the distance is less or equal to 2.5f; 
-        interactable = interactableItem.GetComponent<IInteractable>();
-        interactable?.Interact();
+        centrePoint = camera.ScreenToWorldPoint(middlePoint);
+        Debug.DrawRay(centrePoint, camera.transform.forward, Color.blue, 10f);
+        hitList = Physics.RaycastAll(centrePoint, camera.transform.forward, maxInteractDist, targetMask);
+        if (hitList == null)
+            return; 
+        foreach (RaycastHit hit in hitList)
+        {
+            interactable = hit.collider.GetComponent<IInteractable>();
+            interactable?.Interact();
+        }
     }
-
     private void OnInteract(InputValue value)
     {
-        if (interactableItem == null)
-            return;
-        TryToInteract();
+        TryToInteract(); 
     }
 }

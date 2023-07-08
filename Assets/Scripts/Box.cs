@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInteractable
 {
-    float distanceToPlayer = default; 
+    [SerializeField] float distanceToPlayer = default; 
     float scaleRatio = default;
     float newRatio; 
     const float minDistance = 5f;
@@ -15,25 +15,33 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (eventData.pointerCurrentRaycast.distance > 5)
+        Debug.Log("Touched");
+        Debug.Log(eventData.pointerCurrentRaycast.distance); 
+        if (eventData.pointerCurrentRaycast.distance > minDistance)
             return;
         picket.gameObject.SetActive(true); 
         picket.position = eventData.pointerCurrentRaycast.worldPosition;
         distanceToPlayer = eventData.pointerCurrentRaycast.distance;
-        newRatio = minDistance / distanceToPlayer;
+        newRatio = distanceToPlayer/ minDistance;
         AdjustPicketSize(newRatio); 
-        picket.localScale = Vector3.one * scaleRatio;
+        picket.transform.localScale = Vector3.one * scaleRatio;
     }
 
     public void AdjustPicketSize(float ratio)
     {
         if (ratio < minScale)
-            scaleRatio = minScale;
+        {
+            picketCanvas.transform.localScale = Vector3.one;
+        }
         else if (ratio > maxScale)
-            scaleRatio = maxScale;
+        {
+            picketCanvas.transform.localScale = Vector3.one * 2;
+        }
         else
-            scaleRatio = ratio; 
-        picket.localScale *= scaleRatio;
+        {
+            scaleRatio = ratio;
+            picketCanvas.transform.localScale = Vector3.one * scaleRatio;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
