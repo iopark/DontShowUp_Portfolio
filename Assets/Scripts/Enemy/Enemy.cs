@@ -117,8 +117,8 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
     public void AfterStrike()
     {
         // stop the attack simulation, play the take hit anim trigger; 
+        anim.SetTrigger("TakeHit");
         enemyAttacker.StopAttack();
-        anim.SetTrigger("TakeHit"); 
     }
 
     public void UponDeath()

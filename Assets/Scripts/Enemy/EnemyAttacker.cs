@@ -14,7 +14,7 @@ public class EnemyAttacker : MonoBehaviour
     [SerializeField] private Attack defaultAttack;
     WaitForSeconds attackInterval;
     [SerializeField] bool isAttacking; 
-    public bool IsAttacking {  get { return isAttacking; } }
+    public bool IsAttacking {  get { return isAttacking; } set { isAttacking = value; } }
     Vector3 attackDir; 
     public Vector3 AttackDir { get { return attackDir; } set{ attackDir = value; } }
     Coroutine attackRoutine; 
@@ -43,7 +43,7 @@ public class EnemyAttacker : MonoBehaviour
     {
         if (isAttacking)
             return;
-        isAttacking = true; // isAttacking is set to finihsed by animation or when player is out of sight. 
+        isAttacking = true; // isAttacking is set to finished by animation or when player is out of sight. 
         enemyMover.CurrentSpeed = 0f;
         Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
         //attackRoutine = StartCoroutine(DoAttack());

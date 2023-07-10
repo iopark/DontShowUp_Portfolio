@@ -8,9 +8,9 @@ public class ConfigPopUpUI : PopUpUI
     protected override void Awake()
     {
         base.Awake();
-        buttons["SoundButton"].onClick.AddListener(() => { ConfigureSound(); });
-        buttons["CancelButton"].onClick.AddListener(() => { GameManager.UIManager.ClosePopUpUI(); });
-        buttons["ExitToMenu"].onClick.AddListener(() => { GameManager.UIManager.ClosePopUpUI(); });
+        buttons["Buttons_Sound"].onClick.AddListener(() => { ConfigureSound(); });
+        buttons["Buttons_Continue"].onClick.AddListener(() => { GameManager.UIManager.ClosePopUpUI(); });
+        buttons["Buttons_Exit"].onClick.AddListener(() => { ExitToMenu(); });
     }
 
     private void OnPause(InputValue value)

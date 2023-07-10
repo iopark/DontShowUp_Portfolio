@@ -26,8 +26,13 @@ public class GameScene : BaseScene
         progress = 1f; 
     }
 
-    public void InitializePlayerPosition(Transform spawnPoint)
+    public void InitilaizeGeneralSetting()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
+    public void UpdateInGameData()
+    {
+        //TODO: Link up InGameUI with each stage
     }
 }

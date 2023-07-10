@@ -93,7 +93,8 @@ public class DataManager : MonoBehaviour
     {
 
     }
-
+    //Update InGames 
+    public UnityAction PauseGame; 
     public UnityAction<int> Harvested; 
     public UnityAction<int> StageChange;
     public UnityAction<int> NextStage; 

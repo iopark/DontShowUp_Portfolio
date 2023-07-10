@@ -11,7 +11,8 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 # region Attacker Essential Properties. 
     //[SerializeField] float attackSoundIntensity;
     [SerializeField] Launcher currentWeapon;
-    [SerializeField] Transform weaponHolder; 
+    [SerializeField] Transform weaponHolder;
+    PlayerInput playerInput; 
 
     [SerializeField]
     Launcher primary;
@@ -36,6 +37,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 #endregion 
     private void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         camera = Camera.main; 
         rig = GetComponentInChildren<Rig>();
         GameManager.CombatManager.weaponHolder = weaponHolder;

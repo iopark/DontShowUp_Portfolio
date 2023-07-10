@@ -100,9 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openable: {fileID: 3378898311448689730}
   picket: {fileID: 8846405214595553730}
-  picketCanvas: {fileID: 9134518813920045790}
-  openVector: {x: 0, y: 120, z: 0}
-  closeVector: {x: 0, y: 0, z: 0}
+  picketCanvas: {fileID: 5846459896264847372}
+  openVector: {x: 0, y: 0, z: 0}
+  closeVector: {x: 0, y: -90, z: 0}
   isOpened: 0
   openingTime: 0.5
   initialTime: 0
@@ -220,13 +220,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
+--- !u!114 &5846459896264847372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7368369875437658502, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
+  m_PrefabInstance: {fileID: 3991166806441611658}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8846405214595553730 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5595660673815791688, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
-  m_PrefabInstance: {fileID: 3991166806441611658}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &9134518813920045790 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 5307260604415474516, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
   m_PrefabInstance: {fileID: 3991166806441611658}
   m_PrefabAsset: {fileID: 0}

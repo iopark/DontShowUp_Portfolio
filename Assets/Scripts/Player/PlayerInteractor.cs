@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -7,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : MonoBehaviour
 {
     Camera camera;
-    [SerializeField] PhysicsRaycaster raycaster; 
+    PlayerInput playerInput; 
     Vector3 centrePoint;
     [SerializeField] LayerMask targetMask; 
     Vector3 middlePoint = new Vector3(0.5f, 0.5f, 0);
@@ -16,9 +17,15 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         camera = Camera.main;
-        raycaster = camera.gameObject.GetComponent<PhysicsRaycaster>();
     }
+
+    private void Start()
+    {
+        GameManager.DataManager.PauseGame += PausePlayer; 
+    }
+
 
     RaycastHit[] hitList = null;
     private void TryToInteract()
@@ -37,5 +44,17 @@ public class PlayerInteractor : MonoBehaviour
     private void OnInteract(InputValue value)
     {
         TryToInteract(); 
+    }
+
+    private void PausePlayer()
+    {
+        if (playerInput.inputIsActive)
+            playerInput.enabled = false;
+        else 
+            playerInput.enabled = true;
+    }
+    private void OnPause(InputValue value)
+    {
+        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/PauseMenu"); 
     }
 }

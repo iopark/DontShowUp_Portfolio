@@ -6,6 +6,9 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     //Embodies characteristic of the Director AI 
+    public float timer;
+    public Transform playerSpawningSpot; 
+    public Transform[] spawnSpots; 
     MapManager mapManager;
     CombatManager combatManager; 
     Vector3 playerLoc; 
