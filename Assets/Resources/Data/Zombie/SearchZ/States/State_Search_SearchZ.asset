@@ -22,7 +22,7 @@ MonoBehaviour:
   preRequisiteActs:
   - {fileID: 11400000, guid: bc83db8665ec71d4ca587a762edf1d2b, type: 2}
   actions:
-  - {fileID: 11400000, guid: dfab258f6c5e2714282ff7c3142e474e, type: 2}
+  - {fileID: 11400000, guid: 6c13495006160d44182eb9dc717c83a7, type: 2}
   transitions:
   - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
     trueState: {fileID: 11400000, guid: caccc7364e61b4645a49ab10bcd2864c, type: 2}

@@ -16,16 +16,12 @@ public class EnemyMover : MonoBehaviour
 {
     [Header("Debugging Purposes")]
     public Vector3 currentDestination;
-    TrailRenderer trail; 
     public bool debug; 
 
     CharacterController characterController;
-    public CharacterController CharacterController { get { return characterController; } }
-    SoundSensory Auditory { get; set; }
     SightSensory Sight { get; set; }
     Animator animator;
     Enemy Enemy { get; set; }
-    StateController stateController; 
     #region Pertaining to Move 
     //Moving Abilities 
     private float currentSpeed;
@@ -55,10 +51,7 @@ public class EnemyMover : MonoBehaviour
     }
     [SerializeField] private Vector3[] traceSoundPoints;
     public Vector3[] TraceSoundPoints { get { return traceSoundPoints; } set { traceSoundPoints = value; } }
-    Vector3 ForwardVector
-    {
-        get { return Enemy.transform.forward; }
-    }
+
     private Vector3 lookDir;
     public Vector3 LookDir { get { return lookDir; } set { lookDir = value; } }
 
@@ -89,18 +82,16 @@ public class EnemyMover : MonoBehaviour
     #endregion
 
     #region 움직임 계산 관련 
-    public const float dotThreshold = 0.99f;
+    public const float dotThreshold = 0.98f;
     public const float distanceThreshhold = 0.1f; 
     Quaternion rotation; 
     private void Start()
     {
         patrolIndex = 0;        
         characterController = GetComponent<CharacterController> ();
-        Auditory = GetComponent<SoundSensory>();
         Sight = GetComponent<SightSensory>();
         animator = GetComponent<Animator>();
         Enemy = GetComponent<Enemy>();
-        stateController = GetComponent<StateController>();
         patrolPoints = new List<PatrolPoint>();
         Enemy.CurrentStat.SyncMovementData(this); 
     }
@@ -109,12 +100,6 @@ public class EnemyMover : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-        trail = GetComponent<TrailRenderer>();
-    }
-
-    public void ChangeMovementSpeed(float speed)
-    {
-        CurrentSpeed = Mathf.Lerp(currentSpeed, speed, Time.deltaTime);
     }
 
     float nextSpeed; 
@@ -191,27 +176,6 @@ public class EnemyMover : MonoBehaviour
         return false;
     }
     #endregion
-    //IEnumerator FollowSound(Vector3[] traceablePath)
-    //{
-    //    traceSoundPoints = traceablePath;
-    //    int trackingIndex = 0;
-    //    Vector3 currentWaypoint = traceablePath[0];
-    //    while (true)
-    //    {
-    //        if (transform.position == currentWaypoint)
-    //        {
-    //            trackingIndex++;
-    //            if (trackingIndex >= traceablePath.Length)
-    //            {
-    //                Auditory.HaveHeard = false;
-    //                yield break;
-    //            }
-    //            currentWaypoint = traceablePath[trackingIndex];
-    //        }
-    //        characterController.Move(currentWaypoint * currentSpeed * Time.deltaTime);
-    //        yield return null;
-    //    }
-    //}
     protected virtual void OnDrawGizmos()
     {
         if (!debug && traceSoundPoints.Length > 0)

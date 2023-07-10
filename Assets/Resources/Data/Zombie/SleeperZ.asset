@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Sleeper
   health: 100
-  normalMoveSpeed: 4
-  alertMoveSpeed: 5
+  normalMoveSpeed: 2.5
+  alertMoveSpeed: 3.5
   rotationSpeed: 5
   damage: 10
   thisLevel: 0
   maxLevel: 0
   attackRange: 2
-  sightAngle: 100
-  sightDepth: 8
-  maxDepth: 12
-  alertSightDepth: 120
-  alertSightAngle: 10
+  sightAngle: 70
+  sightDepth: 5
+  maxDepth: 10
+  enemySightDepth: 8
+  enemySightAngle: 100
   stateSize: 0
   patrolSize: 0
   obstacleMask:

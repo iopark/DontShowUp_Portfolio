@@ -61,6 +61,11 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         CurrentStat = data.AccessLevelData(CurrentLevel); 
     }
 
+    private void OnDisable()
+    {
+        anim.Rebind();
+        Health = 100; 
+    }
     public void GetCoreStat()
     {
 

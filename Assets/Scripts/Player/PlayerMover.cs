@@ -31,6 +31,7 @@ public class PlayerMover : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        soundMaker = GetComponent<SoundMaker>();
     }
     private void Start()
     {

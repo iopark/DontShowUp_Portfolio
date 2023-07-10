@@ -27,6 +27,7 @@ public class EnterTraceState : Act
         int trackingIndex = 0;
         Vector3 currentWaypoint = controller.EnemyMover.TraceSoundPoints[0];
         controller.Sight.SetLookDirToPos(currentWaypoint);
+        defaultRotate.Perform(controller);
         while (true)
         {
             controller.Sight.SetLookDirToPos(currentWaypoint);

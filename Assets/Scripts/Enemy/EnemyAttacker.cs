@@ -23,8 +23,8 @@ public class EnemyAttacker : MonoBehaviour
     {
         Enemy = GetComponent<Enemy>();
         enemyMover = GetComponent<EnemyMover>();
-        defaultAttack = GameManager.Resource.Instantiate(defaultAttack, "Data/Zombie/FSM/Act/Act_Attack_BasicZombie");
-        attackInterval = new WaitForSeconds(defaultAttack.AttackInterval);
+        defaultAttack = GameManager.Resource.Instantiate(defaultAttack, $"Data/Zombie/FSM/Act/Act_Attack_{gameObject.name}");
+        //attackInterval = new WaitForSeconds(defaultAttack.AttackInterval);
         defaultAttack.Attacker = this;
     }
     public void FinishedAttacking()

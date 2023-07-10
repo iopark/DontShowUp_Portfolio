@@ -117,9 +117,8 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     private void P_TryStrike()
     {
         centrePoint = camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, 0)); 
-        if (Physics.SphereCast(centrePoint, transform.lossyScale.x/2, camera.transform.forward, out targetInfo, 5f, LayerMask.GetMask("Enemy")))
+        if (Physics.SphereCast(transform.position, transform.lossyScale.x/2, camera.transform.forward, out targetInfo, 3.5f, LayerMask.GetMask("Enemy")))
         {
-            Debug.Log("Player Strikes!"); 
             Debug.DrawRay(transform.position, transform.forward, Color.green); 
             tempTarget = targetInfo.collider.transform;
             GameManager.CombatManager.FlankJudgement(tempTarget, TryFlank);

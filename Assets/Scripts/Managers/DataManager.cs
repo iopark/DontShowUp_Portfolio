@@ -16,7 +16,7 @@ public class DataManager : MonoBehaviour
     {
         get { return maxHealth; }   
     }
-    private int health;
+    [SerializeField] private int health;
     public int Health
     {
         get { return health; }

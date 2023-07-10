@@ -11,6 +11,8 @@ public class SightSensory : MonoBehaviour
     [SerializeField] bool debug;
     [SerializeField] float range;
     [SerializeField, Range(0, 360f)] float angle;
+    protected float enemyDetectRange;
+    protected float enemyDetectAngle; 
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstacleMask;
 
@@ -31,18 +33,6 @@ public class SightSensory : MonoBehaviour
         get { return playerLocked; }
         set { playerLocked = value; }
     }
-    Vector3 DirToLockedTarget
-    {
-        get
-        {
-            if (playerLocked == null)
-                return Vector3.zero;
-            Vector3 toLockedTarget = playerLocked.position - transform.position;
-            toLockedTarget.y = transform.position.y;
-            toLockedTarget.Normalize();
-            return toLockedTarget;
-        }
-    }
 
     Vector3 distanceToTarget; 
     private float pinIntervalTimer;
@@ -58,6 +48,9 @@ public class SightSensory : MonoBehaviour
         return false;
     }
     #endregion
+    public float EnemyDetectRange {  get { return enemyDetectRange; }  set { enemyDetectRange = value; } }
+    public float EnemyDetectAngle { get { return enemyDetectAngle; } set { enemyDetectAngle = value; } }
+
     public float Range { get { return range; }
         set { range = value; } }
 
@@ -65,7 +58,7 @@ public class SightSensory : MonoBehaviour
         set { angle = value; } }
 
     private Vector3 LookDir { set { EnemyMover.LookDir = value; } }
-    Vector3 tempDir; 
+    Vector3 tempDir = Vector3.zero; 
     #endregion
     private void Awake()
     {
@@ -207,17 +200,6 @@ public class SightSensory : MonoBehaviour
         }
         return false; 
     }
-
-    //private void Trace(Vector3 target)
-    //{
-    //    //This can transfer into TraceState 
-    //    lookDir = (target - body.transform.position).normalized;
-    //    lookDir.y = body.transform.position.y;
-    //    body.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up); 
-    //    body.Move(lookDir * speed *Time.deltaTime);
-    //    anim.SetBool("Walk Forward", true); 
-    //}
-
     private void OnDrawGizmos()
     {
         if (!debug) return;

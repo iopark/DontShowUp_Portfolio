@@ -416,7 +416,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   projectile: {fileID: 6084407711687487850, guid: 801a6981d9a7c634b9f9d968287b4bf2, type: 3}
-  maxDistance: 0
+  maxDistance: 20
   fireRate: 0
   damage: 0
   muzzlePoint: {fileID: 0}

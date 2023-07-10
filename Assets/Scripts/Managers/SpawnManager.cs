@@ -25,4 +25,10 @@ public class SpawnManager : MonoBehaviour
     //    //TODO: Should retrieve location where player cannot see. 
     //    //TODO: Apply Shyball Project for this matter. 
     //}
+
+    public void Resize()
+    {
+        //TODO: Regather transform points for spawning 
+
+    }
 }
