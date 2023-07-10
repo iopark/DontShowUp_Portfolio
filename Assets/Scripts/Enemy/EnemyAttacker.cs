@@ -46,12 +46,5 @@ public class EnemyAttacker : MonoBehaviour
         isAttacking = true; // isAttacking is set to finished by animation or when player is out of sight. 
         enemyMover.CurrentSpeed = 0f;
         Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
-        //attackRoutine = StartCoroutine(DoAttack());
     }
-    //IEnumerator DoAttack()
-    //{
-    //    isAttacking = true;
-    //    enemyMover.CurrentSpeed = 0f;
-    //    Enemy.anim.SetTrigger(defaultAttack.AnimTrigger);
-    //}
 }

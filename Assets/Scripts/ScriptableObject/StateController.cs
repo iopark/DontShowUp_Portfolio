@@ -17,12 +17,14 @@ public class StateController : MonoBehaviour
     #endregion
 
     [Header("Unit State")]
+    public State initialState; 
     public State currentState;
     public State remainState;
     public State previousState;
 
     private void Awake()
     {
+        initialState = currentState;
         Enemy = GetComponent<Enemy>();
         EnemyAttacker = GetComponent<EnemyAttacker>();
         EnemyMover = GetComponent<EnemyMover>();
@@ -147,7 +149,6 @@ public class StateController : MonoBehaviour
                 StopCoroutine(coroutines[i].routine);
                 coroutines[i] = tempSlip;
                 return;
-                //toDestroy = name.routine;
             }
         }
     }
@@ -185,6 +186,7 @@ public class StateController : MonoBehaviour
         currentState = GameManager.Resource.Load<State>("State_Idle_BasicZombie");
         previousState = null; 
     }
+
     protected void OnDrawGizmos()
     {
         Gizmos.color = currentState.sceneGizmoColor;

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78409b07656ef1548a7154c8889ceea7, type: 3}
+  m_Name: Action_SetPin_PatrolZ
+  m_EditorClassIdentifier: 
+  RequiredProceedingAct: 
+  RequiredPreceedingAction: 
+  setPinInterval: 3.5
+  defaultRotate: {fileID: 11400000, guid: 699ff2e45b1285d4b890a540ebea849b, type: 2}
+  defaultMove: {fileID: 11400000, guid: 203103b3a7fc51c48a1436198b493987, type: 2}

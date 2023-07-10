@@ -8,7 +8,6 @@ public class ExitAttackState : Act
     //[SerializeField] Action actionToResume; 
     public override void Perform(StateController controller)
     {
-        //controller.ResetCoroutine(skillToStop.GetType().Name);
         controller.EnemyAttacker.StopAttack(); 
         if (actionsToStop.Length > 0)
             foreach (Action action in actionsToStop)

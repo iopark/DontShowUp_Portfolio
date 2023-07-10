@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
 
     protected virtual void Awake()
     {
-        data = GameManager.Resource.Load<EnemyData>("Data/Zombie/BasicZombie");
+        data = GameManager.Resource.Load<EnemyData>($"Data/Zombie/{gameObject.name}Data");
         controller = GetComponent<StateController>();
         anim = GetComponent<Animator>();
         CurrentStat = data.AccessLevelData();

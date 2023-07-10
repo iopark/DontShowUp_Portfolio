@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
+  m_Name: State_Idle_SearchZ
+  m_EditorClassIdentifier: 
+  noAnimUpdate: 0
+  animName: IdleState
+  animType: 0
+  animBool: 0
+  animFloat: 0
+  setBoolAsNull: 1
+  setFloatAsNull: 1
+  preRequisiteActs:
+  - {fileID: 11400000, guid: 5623326c81a555b40a1fc269cdbc41e4, type: 2}
+  actions: []
+  transitions:
+  - decision: {fileID: 11400000, guid: cb45578706846794da44e4c05ef61df8, type: 2}
+    trueState: {fileID: 11400000, guid: 07961fd80cd1ea2449a299f81f1656a9, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 65dda5b5c85223d4abb55002af01bf8a, type: 2}
+    trueState: {fileID: 11400000, guid: f7a14df7f4868464298b3d990a8b3034, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: e8da8ca158aa87947b601542859ae217, type: 2}
+  sceneGizmoColor: {r: 1, g: 1, b: 1, a: 1}
