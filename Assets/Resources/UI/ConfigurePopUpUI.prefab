@@ -1074,9 +1074,9 @@ GameObject:
   - component: {fileID: 8681360060235012989}
   - component: {fileID: 8978255902691356462}
   m_Layer: 5
-  m_Name: InGame_SettingPopUpUI
+  m_Name: ConfigurePopUpUI
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 530d80e02c13f6848b42f40d99730498, type: 3}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

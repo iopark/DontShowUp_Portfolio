@@ -25,7 +25,7 @@ public class HpBarUI : SceneUI
     {
         
         slider.maxValue = GameManager.DataManager.MaxHealth;
-        slider.value = GameManager.DataManager.Health; 
+        //slider.value = GameManager.DataManager.Health; 
         slider.minValue = 0;
     }
 

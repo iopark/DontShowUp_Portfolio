@@ -63,7 +63,7 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
         while (initialTime < openingTime)
         {
             initialTime += Time.deltaTime;
-            openable.rotation = Quaternion.Lerp(closeAngle, openAngle, initialTime / openingTime);
+            openable.localRotation = Quaternion.Lerp(closeAngle, openAngle, initialTime / openingTime);
             yield return null;
         }
         isOpened = true;

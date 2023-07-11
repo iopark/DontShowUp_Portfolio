@@ -66,7 +66,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
         while (initialTime < openingTime)
         {
             initialTime += Time.deltaTime;
-            openable.rotation = Quaternion.Lerp(closeAngle, openAngle, initialTime / openingTime);
+            openable.localRotation = Quaternion.Lerp(closeAngle, openAngle, initialTime / openingTime);
             yield return null;
         }
         initialTime = 0; 
@@ -79,7 +79,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
         while (initialTime < openingTime)
         {
             initialTime += Time.deltaTime;
-            openable.rotation = Quaternion.Lerp(openAngle, closeAngle, initialTime / openingTime);
+            openable.localRotation = Quaternion.Lerp(openAngle, closeAngle, initialTime / openingTime);
             yield return null;
         }
         initialTime = 0;

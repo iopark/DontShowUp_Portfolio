@@ -1389,7 +1389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5593610215290640847, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.58
+      value: 54.9
       objectReference: {fileID: 0}
     - target: {fileID: 5593610215290640847, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1397,7 +1397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5593610215290640847, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.77
+      value: -58.3
       objectReference: {fileID: 0}
     - target: {fileID: 5593610215290640847, guid: 0174f090a3b5614488f8cc3bc0af1531, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1482,7 +1482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3402362513548524609, guid: 8904096891c677d43bf17e806419ac82, type: 3}
       propertyPath: m_Name
-      value: HomeOffice
+      value: CheckPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8904096891c677d43bf17e806419ac82, type: 3}
@@ -1664,6 +1664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1632499775765227500, guid: 5490e800766bd9c47a7b16fd184e1a57, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3402362513548524608, guid: 5490e800766bd9c47a7b16fd184e1a57, type: 3}
       propertyPath: m_RootOrder
       value: 1

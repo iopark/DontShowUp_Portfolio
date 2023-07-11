@@ -22,16 +22,16 @@ public class DataManager : MonoBehaviour
         get { return health; }
         set
         {
-            health -= value;
-            OnHealthChange?.Invoke(health); 
+            health = value;
+            OnHealthChange?.Invoke(health);     
             if (health <= 0)
             {
-                OnPlayerDeath?.Invoke(); 
+                GameEnd?.Invoke(false); 
             }
         }
     }
     public event UnityAction<int> OnHealthChange;
-    public event UnityAction OnPlayerDeath; //TODO: Link up the sound, UI for the player death. 
+    public UnityAction<bool> GameEnd; //TODO: Link up the sound, UI for the player death. 
 
     [Header("WeaponStat")]
     private int currentWeaponIndex; 

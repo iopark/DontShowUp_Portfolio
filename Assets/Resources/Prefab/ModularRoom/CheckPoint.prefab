@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3402362513548524608}
   m_Layer: 0
-  m_Name: HomeOffice
+  m_Name: CheckPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
