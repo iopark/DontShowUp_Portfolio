@@ -60,8 +60,8 @@ public class StateController : MonoBehaviour
     #region attempting to perform request for future path in delegated ways
 
     public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
+    HashSet<CoroutineSlip> coroutineSet = new HashSet<CoroutineSlip>();
     CoroutineSlip tempSlip;
-    IEnumerator toRun;
 
     public void RunAndSaveForReset(string slipKey, IEnumerator _routine)
     {

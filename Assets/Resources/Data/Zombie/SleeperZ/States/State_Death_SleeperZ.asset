@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: State_Death_SleeperZ
   m_EditorClassIdentifier: 
   noAnimUpdate: 0
-  animName: 
-  animType: 0
+  animName: Death
+  animType: 2
   animBool: 0
   animFloat: 0
   setBoolAsNull: 0
-  setFloatAsNull: 0
+  setFloatAsNull: 1
   preRequisiteActs:
   - {fileID: 11400000, guid: 2c75c34e3bb3ca546b97cbbdb32f8e27, type: 2}
   actions: []

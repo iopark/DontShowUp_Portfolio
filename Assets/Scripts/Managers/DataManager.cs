@@ -26,12 +26,12 @@ public class DataManager : MonoBehaviour
             OnHealthChange?.Invoke(health);     
             if (health <= 0)
             {
-                GameEnd?.Invoke(false); 
+                StageEnd?.Invoke(stage, false); 
             }
         }
     }
     public event UnityAction<int> OnHealthChange;
-    public UnityAction<bool> GameEnd; //TODO: Link up the sound, UI for the player death. 
+    public UnityAction GameEnd; //TODO: Link up the sound, UI for the player death. 
 
     [Header("WeaponStat")]
     private int currentWeaponIndex; 
@@ -75,7 +75,19 @@ public class DataManager : MonoBehaviour
         set 
         { 
             stage = value; 
+            if (stage >= maxStage)
+            {
+                GameEnd?.Invoke(); 
+            }
+            else
+                StageEnd?.Invoke(stage, true);
         }
+    }
+    private int maxStage; 
+    public int MaxStage
+    {
+        get { return maxStage; }
+        set { maxStage = value; }
     }
     private int diamond; 
     public int Diamond
@@ -87,7 +99,7 @@ public class DataManager : MonoBehaviour
             Harvested?.Invoke(diamond);
         }
     }
-
+    public UnityAction<int, bool> StageEnd;
 
     public void ResetStatusData()
     {
@@ -96,8 +108,7 @@ public class DataManager : MonoBehaviour
     //Update InGames 
     public UnityAction PauseGame; 
     public UnityAction<int> Harvested; 
-    public UnityAction<int> StageChange;
-    public UnityAction<int> NextStage; 
+    public UnityAction<int> NextStage;
     public UnityAction<int> OnKills;
 
     private void Awake()

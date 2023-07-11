@@ -25,7 +25,7 @@ MonoBehaviour:
   sightDepth: 6.5
   maxDepth: 15
   enemySightDepth: 12
-  enemySightAngle: 100
+  enemySightAngle: 110
   stateSize: 0
   patrolSize: 0
   obstacleMask:

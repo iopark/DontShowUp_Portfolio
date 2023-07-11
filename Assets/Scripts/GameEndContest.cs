@@ -12,7 +12,7 @@ public class GameEndContest : MonoBehaviour
     public void StageClear()
     {
         if (doorClosed && isInEnd)
-            GameManager.DataManager.GameEnd?.Invoke(true); 
+            GameManager.DataManager.GameEnd?.Invoke(); 
     }
 
     private void OnTriggerStay(Collider other)
@@ -22,7 +22,6 @@ public class GameEndContest : MonoBehaviour
             isInEnd = true;
             StageClear(); 
         }
-
     }
 
     private void OnTriggerExit(Collider other)

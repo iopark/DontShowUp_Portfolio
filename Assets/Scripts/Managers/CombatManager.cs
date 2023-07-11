@@ -19,6 +19,7 @@ public class CombatManager : MonoBehaviour
     //Player Combat: Conditionals
     PlayerAttacker attacker;
     float flankThreshhold = -1 * 0.3f; 
+
     public UnityAction<string> CombatAlert;
     Vector3 enemyLookDir;
     Vector3 playerLookDir;

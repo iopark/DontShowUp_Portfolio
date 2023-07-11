@@ -18,7 +18,9 @@ public class Crossbow : Launcher
     protected override void Start()
     {
         base.Start();
-        Reload(); 
+        Reload();
+        Projectile newArrow = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, arrowSlot.transform, true);
+        projectile = newArrow;
     }
 
     Vector3 rayOrigin; 
@@ -40,14 +42,12 @@ public class Crossbow : Launcher
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, targetMask))
         {
             hitDir = (hit.point - transform.position).normalized;
-            //projectile = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, Quaternion.identity, true).TrajectoryHit(hit);
             projectile.TrajectoryHit(hit);
         }
         else
         {
             Ray ray = new Ray(rayOrigin, camera.transform.forward);
             ray.GetPoint(maxDistance);
-            //GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, true);
             projectile.TrajectoryMiss(ray.GetPoint(maxDistance));
         }
     }
@@ -68,8 +68,10 @@ public class Crossbow : Launcher
         player.anim.SetTrigger("Reload");
         isReloading = true;
         yield return reloadInterval;
-        Projectile newArrow = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, arrowSlot.transform, true);
-        projectile = newArrow; //GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, arrowSlot.transform, true);
+        Projectile newArrow = GameManager.Resource.Instantiate<Projectile>(projectile, arrowSlot.position, arrowSlot.rotation, arrowSlot, true);
+        newArrow.transform.rotation = arrowSlot.rotation; 
+        projectile = newArrow; 
+        projectile.transform.rotation = arrowSlot.rotation;
         CurrentRounds = maxRounds; 
         isReloading = false;
         bowReload = null; 
