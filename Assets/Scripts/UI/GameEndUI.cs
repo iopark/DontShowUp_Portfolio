@@ -23,6 +23,7 @@ public class GameEndUI : PopUpUI
 
         transforms["GameFinishedPopUpUI_Content"].gameObject.SetActive(false);
         transforms["GameFinishedPopUpUI_Buttons"].gameObject.SetActive(false);
+        buttons["Buttons_Continue"].onClick.AddListener(() => GameManager.UIManager.ClosePopUpUI()); 
         buttons["Buttons_ExitToMain"].onClick.AddListener(() => GameManager.SceneManager.LoadScene("TitleScene")); 
     }
     public void StageEnd(int stage, bool cleared)

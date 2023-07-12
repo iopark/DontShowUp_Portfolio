@@ -99,20 +99,23 @@ public class DataManager : MonoBehaviour
             Harvested?.Invoke(diamond);
         }
     }
+
+    public int TargetDiamonds { get; set; }
     public UnityAction<int, bool> StageEnd;
 
-    public void ResetStatusData()
-    {
-
-    }
     //Update InGames 
     public UnityAction PauseGame; 
     public UnityAction<int> Harvested; 
     public UnityAction<int> NextStage;
     public UnityAction<int> OnKills;
+    public UnityAction GamePause;
 
+    #region Level Design Related; 
+    //=========================================================
+    StagesData gameData; 
     private void Awake()
     {
+        gameData = Resources.Load<StagesData>("Data/Game/Stages"); 
         stat = Resources.Load<PlayerStat>("Data/Player/Stat_Player"); 
         InitializeDefaultStat(stat);
     }
@@ -127,10 +130,13 @@ public class DataManager : MonoBehaviour
         meleeFlank = stat.meleeFlankDamage; 
         health = maxHealth; 
     }
-    public void InitializeData()
+    public void InitializeLevelData(int stage)
     {
+        int levelData = stage - 1; 
+        this.TargetDiamonds = levelData;
+        this.maxStage = gameData.StageLists.Length; 
         health = maxHealth;
         playerKills = 0; 
     }
-
+    #endregion
 }
