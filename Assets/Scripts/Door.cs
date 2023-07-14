@@ -74,7 +74,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
         openRoutine = null;
     }
 
-    IEnumerator Close()
+    protected IEnumerator Close()
     {
         while (initialTime < openingTime)
         {
@@ -109,7 +109,7 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
             CloseDoor();
     }
 
-    public bool ContestInteraction(float givenDist)
+    public virtual bool ContestInteraction(float givenDist)
     {
         if (minDistance >= givenDist)
             return true;

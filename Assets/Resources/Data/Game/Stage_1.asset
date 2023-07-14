@@ -15,4 +15,5 @@ MonoBehaviour:
   maxZombie: 15
   numberOfRewards: 0
   requiredDiamonds: 1
-  InitialTimer: 5
+  InitialTimer: 0
+  spawnPoints: []

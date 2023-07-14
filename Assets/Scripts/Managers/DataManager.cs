@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
 public class DataManager : MonoBehaviour
 {
     [Header("Player Stat")]
@@ -57,17 +56,7 @@ public class DataManager : MonoBehaviour
         private set { meleeFlank = value; }
     }
 
-    [Header("Game Stat")]
-    private int playerKills;
-    public int PlayerKills
-    {
-        get { return playerKills; }
-        set 
-        { 
-            playerKills = value; 
-            OnKills?.Invoke(playerKills);
-        }
-    }
+    #region Game Stage Related 
     private int stage; 
     public int Stage
     {
@@ -83,6 +72,7 @@ public class DataManager : MonoBehaviour
                 StageEnd?.Invoke(stage, true);
         }
     }
+
     private int maxStage; 
     public int MaxStage
     {
@@ -99,6 +89,19 @@ public class DataManager : MonoBehaviour
             Harvested?.Invoke(diamond);
         }
     }
+    #endregion
+
+    #region spawn Related
+    //========================================================
+    public int MaxZombie
+    {
+        get => CurrentGameData.maxZombie;
+    }
+    public float SpawnInterval
+    {
+        get => CurrentGameData.spawnTimer; 
+    }
+    #endregion
 
     public int TargetDiamonds { get; set; }
     public UnityAction<int, bool> StageEnd;
@@ -107,12 +110,23 @@ public class DataManager : MonoBehaviour
     public UnityAction PauseGame; 
     public UnityAction<int> Harvested; 
     public UnityAction<int> NextStage;
-    public UnityAction<int> OnKills;
     public UnityAction GamePause;
 
     #region Level Design Related; 
     //=========================================================
-    StagesData gameData; 
+
+    public StagesData gameData;
+    public SingleStage CurrentGameData
+    {
+        get
+        {
+            return gameData.StageLists[stage].stage;
+        }
+        set
+        {
+            CurrentGameData = value;
+        }
+    }
     private void Awake()
     {
         gameData = Resources.Load<StagesData>("Data/Game/Stages"); 
@@ -136,7 +150,15 @@ public class DataManager : MonoBehaviour
         this.TargetDiamonds = levelData;
         this.maxStage = gameData.StageLists.Length; 
         health = maxHealth;
-        playerKills = 0; 
+    }
+
+    public void InitializeGameData()
+    {
+        this.stage = 0;
+        this.CurrentGameData = gameData.StageLists[0].stage;
+        this.TargetDiamonds = CurrentGameData.requiredDiamonds; 
+        this.maxStage = gameData.StageLists.Length;
+        health = maxHealth;
     }
     #endregion
 }

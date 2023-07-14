@@ -37,6 +37,11 @@ public class MapManager : MonoBehaviour
         gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
     }
 
+    public void InitializeMap()
+    {
+        gridMapGenerator.GenerateGrid(); 
+    }
+
     //TODO: This is called from the path definer 
     public Cell CellFromWorldPoint(Vector3 worldPosition)
     {
@@ -101,7 +106,6 @@ public class MapManager : MonoBehaviour
             return;
         }
     }
-
 
     public Cell GetShortestDistanceCell(List<Cell> cells, Cell destinationPoint)
     {

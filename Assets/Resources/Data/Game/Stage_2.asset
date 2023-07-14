@@ -15,8 +15,6 @@ MonoBehaviour:
   maxZombie: 25
   numberOfRewards: 0
   requiredDiamonds: 3
-  InitialTimer: 5
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  InitialTimer: 2
+  registeredSpawnPoints:
+  - {x: 0, y: 0, z: 0}

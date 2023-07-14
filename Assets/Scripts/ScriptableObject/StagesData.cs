@@ -9,11 +9,14 @@ public class StagesData : ScriptableObject
     [SerializeField]
     StageList[] stageLists; 
 
-    public StageList[] StageLists { get { return stageLists; } } 
+    public StageList[] StageLists { get => stageLists; } 
     [Serializable]
     public class StageList
     {
-        public string stageName; 
-        public SingleStage stageID;
+        public SingleStage stage;
+        public string StageName
+        {
+            get => stage.stageName; 
+        }
     }
 }

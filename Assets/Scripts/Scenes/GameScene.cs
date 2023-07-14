@@ -7,8 +7,18 @@ public class GameScene : BaseScene
 {
     public GameObject player;
     public Transform playerPosition;
+
+    private void Start()
+    {
+        if (GameManager.CombatManager == null)
+        {
+            //TODO: GameManager InitializeGameData
+        }
+    }
     protected override IEnumerator LoadingRoutine()
     {
+        //TODO: ADD new Data for game object Data like diamonds, kills, Target Diamonds, 
+        // 
         progress = 0; 
         Debug.Log("Random Map Generation"); 
         yield return new WaitForSecondsRealtime(0.5f);

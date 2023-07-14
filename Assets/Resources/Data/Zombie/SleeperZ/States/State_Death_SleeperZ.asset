@@ -15,7 +15,7 @@ MonoBehaviour:
   noAnimUpdate: 0
   animName: Death
   animType: 2
-  animBool: 0
+  animBool: 1
   animFloat: 0
   setBoolAsNull: 0
   setFloatAsNull: 1

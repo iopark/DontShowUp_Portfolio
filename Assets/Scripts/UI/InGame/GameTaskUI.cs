@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameTaskUI : SceneUI
@@ -7,6 +8,15 @@ public class GameTaskUI : SceneUI
     protected override void Awake()
     {
         base.Awake();
+        Initialize(); 
     }
-
+    private void Initialize()
+    {
+        texts["TaskStatus_Current"].text = GameManager.DataManager.Diamond.ToString();
+        texts["TaskStatus_Target"].text = GameManager.DataManager.TargetDiamonds.ToString();
+    }
+    public void UpdateHarvest(int diamond)
+    {
+        texts["TaskStatus_Current"].text = diamond.ToString();
+    }
 }

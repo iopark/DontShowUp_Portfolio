@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     private static PathManager pathManager;
     private static MapManager mapManager; 
     private static SceneManager sceneManager;
+    private static SpawnManager spawnManager;
     private static CombatManager combatManager; 
 
     public static GameManager Instance
@@ -47,6 +49,11 @@ public class GameManager : MonoBehaviour
         get { return mapManager; }
     }
 
+    public static SpawnManager SpawnManager
+    {
+        get { return spawnManager;}
+    }
+
     public static SceneManager SceneManager
     {
         get { return sceneManager; }
@@ -66,7 +73,7 @@ public class GameManager : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(this);
-        InitManagers(); 
+        InitGeneralManagers(); 
     }
 
     private void OnDestroy()
@@ -75,24 +82,31 @@ public class GameManager : MonoBehaviour
             instance = null;
         //확실하게 static 값에 대해서 삭제해주는 최소한의 장치 
     }
-    private void InitManagers()
+    private void InitGeneralManagers()
     {
         GameObject resourceObj = new GameObject() { name = "Resource Manager" };
         resourceObj.transform.SetParent(transform);
         resource = resourceObj.AddComponent<ResourceManager>();
 
-        GameObject dataObj = new GameObject() { name = "Data Manager" }; 
+        GameObject dataObj = new GameObject() { name = "Data Manager" };
         dataObj.transform.SetParent(transform);
         dataManager = dataObj.AddComponent<DataManager>();
 
         GameObject poolObj = new GameObject() { name = "Pool Manager" };
-        poolObj.transform.SetParent(transform); 
+        poolObj.transform.SetParent(transform);
         pool = poolObj.AddComponent<PoolManager>();
 
         GameObject uiObj = new GameObject() { name = "UI Manager" };
         uiObj.transform.SetParent(transform);
         uiManager = uiObj.AddComponent<UIManager>();
+        
+        GameObject sceneObj = new GameObject() { name = "Scene Manager" };
+        sceneObj.transform.SetParent(transform);
+        sceneManager = sceneObj.AddComponent<SceneManager>();
+    }
 
+    public void InitInGameManagers()
+    {
         GameObject pathObj = new GameObject() { name = "Path Manager" };
         pathObj.transform.SetParent(transform);
         pathManager = pathObj.AddComponent<PathManager>();
@@ -101,12 +115,14 @@ public class GameManager : MonoBehaviour
         mapObj.transform.SetParent(transform);
         mapManager = mapObj.AddComponent<MapManager>();
 
-        GameObject sceneObj = new GameObject() { name = "Scene Manager" };
-        sceneObj.transform.SetParent(transform);
-        sceneManager = sceneObj.AddComponent<SceneManager>();
-
         GameObject combatObj = new GameObject() { name = "Combat Manager" };
         combatObj.transform.SetParent(transform);
         combatManager = combatObj.AddComponent<CombatManager>();
+
+        GameObject spawnObj = new GameObject() { name = "Spawn Manager" }; 
+        spawnObj.transform.SetParent(transform);
+        spawnManager = spawnObj.AddComponent<SpawnManager>();
     }
+
+    public UnityAction ResetGame; 
 }

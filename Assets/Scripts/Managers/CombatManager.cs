@@ -89,9 +89,9 @@ public class CombatManager : MonoBehaviour
         flankAttempt(target, false); 
     }
 
-    public bool IsHeadShot()
+    public void ResetCombatData()
     {
-        return true;
+        
     }
     //Simply regards player's combat status. 
     //Flank Attack judgements, 
