@@ -132,6 +132,8 @@ public class DataManager : MonoBehaviour
         gameData = Resources.Load<StagesData>("Data/Game/Stages"); 
         stat = Resources.Load<PlayerStat>("Data/Player/Stat_Player"); 
         InitializeDefaultStat(stat);
+        InitializeGameData();
+        GameManager.Instance.GameSetup += InitializeStageData; 
     }
     public void InitializeDefaultStat(PlayerStat stat)
     {
@@ -144,11 +146,19 @@ public class DataManager : MonoBehaviour
         meleeFlank = stat.meleeFlankDamage; 
         health = maxHealth; 
     }
-    public void InitializeLevelData(int stage)
+    public void InitializeStageData()
     {
-        int levelData = stage - 1; 
-        this.TargetDiamonds = levelData;
-        this.maxStage = gameData.StageLists.Length; 
+        //TODO: Make Sure Stage is incremented eachtime stage is cleared. => Stage value should be increased by the game clear event; 
+        int levelData;
+        if (stage == 0)
+        {
+            levelData = 0; 
+        }
+        else
+            levelData = stage - 1;
+
+        this.CurrentGameData = gameData.StageLists[levelData].stage;
+        this.TargetDiamonds = CurrentGameData.requiredDiamonds;
         health = maxHealth;
     }
 

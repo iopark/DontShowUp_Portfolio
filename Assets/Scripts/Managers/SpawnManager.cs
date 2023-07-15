@@ -19,7 +19,12 @@ public class SpawnManager : MonoBehaviour
 
     public Vector3[] spawnSpots;
     WaitForSeconds spawnInterval;
-    Coroutine Spawnroutine; 
+    Coroutine Spawnroutine;
+
+    private void Awake()
+    {
+        GameManager.Instance.GameSetup += InitializeStageData; 
+    }
     public void InitializeStageData()
     {
         zombies = Resources.Load<ZombieTypes>("Data/Zombie/ZombieList"); 
@@ -33,11 +38,6 @@ public class SpawnManager : MonoBehaviour
         Spawnroutine = StartCoroutine(Spawner());
     }
 
-    public void Resize()
-    {
-        //TODO: Regather transform points for spawning 
-
-    }
     public void SpawnEnemies()
     {
         while (curZombie < maxZombie)
@@ -49,6 +49,7 @@ public class SpawnManager : MonoBehaviour
             GameManager.Pool.Get(zombies.zombieList[randomZombie], spawnPoint, Quaternion.identity, null); 
         }
     }
+
     IEnumerator Spawner()
     {
         while (true)

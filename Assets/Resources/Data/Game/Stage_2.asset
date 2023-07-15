@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63f19c3a5b31c245ac11214c929122f, type: 3}
   m_Name: Stage_2
   m_EditorClassIdentifier: 
+  stageName: Level_2
   maxZombie: 25
   numberOfRewards: 0
   requiredDiamonds: 3
-  InitialTimer: 2
-  registeredSpawnPoints:
-  - {x: 0, y: 0, z: 0}
+  spawnTimer: 0

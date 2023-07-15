@@ -22,7 +22,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     Camera camera; 
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
-
+    [SerializeField] Sound playerPunch; 
     public Animator anim;
     public Rig rig; 
     private int meleeDamage; 
@@ -46,12 +46,10 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 
     private void Start()
     {
-
         currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
         meleeDamage = GameManager.DataManager.MeleeDamage;
         flankDamage = GameManager.DataManager.MeleeFlank;
         SetWeapon(); 
-
         isReloading = false; 
         anim = GetComponent<Animator>();
     }

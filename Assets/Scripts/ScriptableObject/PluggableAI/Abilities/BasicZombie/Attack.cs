@@ -16,6 +16,7 @@ public class Attack : SkillProperty
     [SerializeField] private int attackDamage;
     public int AttackDamage { get { return attackDamage; } }
     [SerializeField] private LayerMask targetMask;
+    [SerializeField] Sound zombiePunch; 
     public LayerMask TargetMask { get { return targetMask; } }
     public EnemyAttacker Attacker { get; set; }
     #endregion

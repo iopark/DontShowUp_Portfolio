@@ -37,6 +37,7 @@ public class Gun : Launcher
             GameManager.CombatManager.CombatAlert?.Invoke("Reload!");
             return;
         }
+        GameManager.AudioManager.PlaySound("GunShot"); 
         rayOrigin = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         CurrentRounds--;
         soundMaker.TriggerSound(weaponInfo.noiseIntensity);

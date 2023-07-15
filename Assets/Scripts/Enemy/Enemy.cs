@@ -4,25 +4,19 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
+public class Enemy : MonoBehaviour, IHittable
 {
     //Data in which should be clicked and dragged || shared through ResourceManager. 
     [SerializeField] protected EnemyData data;
     [SerializeField] public StateController controller;
     [SerializeField] public EnemyAttacker enemyAttacker;
-    [SerializeField] public EnemyMover enemyMover;
     [SerializeField] public Animator anim;
 
     [Header("Debug Purposes")]
     public bool debug;
     public bool tracingStatus;
 
-    [Header("Default Abilities")]
-    public Vector3[] tracePath;
-    public int trackingIndex;
-
-    #region Default Enemy Stats: Requires Refactoring 
-    //TODO: Others to Refactor 
+    #region Default Enemy Stats
     [SerializeField] private int health;
     public int Health
     {
@@ -66,14 +60,11 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         anim.Rebind();
         Health = 100; 
     }
+
     public void GetCoreStat()
     {
 
         CurrentStat.SyncCoreData(this);
-    }
-    protected virtual void ImportEnemyData()
-    {
-
     }
     public void AnimationUpdate(AnimRequestSlip animRequest)
     {
@@ -99,26 +90,6 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
         AfterStrike(); 
     }
 
-    public void GiveDamage(IHittable target, int damage)
-    {
-        if (target == null)
-            return;
-        target.TakeHit(damage);
-    }
-
-    public void Pause(float time)
-    {
-        enemyMover.CurrentSpeed = 0;
-        anim.speed = 0;
-        //Should trigger Resume button after certain interval; 
-    }
-
-    public void Resume()
-    {
-        enemyMover.CurrentSpeed = enemyMover.AlertMoveSpeed;
-        anim.speed = 1;
-    }
-
     public void AfterStrike()
     {
         // stop the attack simulation, play the take hit anim trigger; 
@@ -130,18 +101,33 @@ public class Enemy : MonoBehaviour, IHittable, IStrikable, IPausable
     {
         StartCoroutine(Death()); 
     }
-    Coroutine Freezer;
-    IEnumerator Freeze(float time) 
-    { 
-        yield return new WaitForSeconds(time); 
-        Resume(); 
-    }
+    
     IEnumerator Death()
     {
         yield return returnToPool;
         anim.SetBool("Death", false); 
-        GameManager.Resource.Destroy(this.gameObject); 
+        GameManager.Pool.Release(this.gameObject); 
     }
 
-    //Any resets upon death?
+    #region Stop Freeze System 
+    //Coroutine Freezer;
+    //IEnumerator Freeze(float time)
+    //{
+    //    yield return new WaitForSeconds(time);
+    //    Resume();
+    //}
+
+    //public void Pause(float time)
+    //{
+    //    enemyMover.CurrentSpeed = 0;
+    //    anim.speed = 0;
+    //    //Should trigger Resume button after certain interval; 
+    //}
+
+    //public void Resume()
+    //{
+    //    enemyMover.CurrentSpeed = enemyMover.AlertMoveSpeed;
+    //    anim.speed = 1;
+    //}
+    #endregion
 }

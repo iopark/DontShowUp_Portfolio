@@ -8,7 +8,6 @@ public class GameStatusBarUI : SceneUI
 {
     [SerializeField] float scaleSize = 1.3f;
     [SerializeField] float totalscaletime = 0.1f;
-
     Queue<TMP_Text> alerts = new Queue<TMP_Text>();
     private int messageCount = 1; 
     public int MessageCount
@@ -22,23 +21,27 @@ public class GameStatusBarUI : SceneUI
                 messageCount = value;
         }
     }
-
-    public void Initialize()
+    public void ResetUIMaterial()
     {
-        current_rect = buttons["GameStatusBar_Button1"];
-        upScale = StartCoroutine(RescaleButton(current_rect));
-        alerts.Enqueue(current);
+        TMP_Text reset; 
+        StopAllCoroutines();
+        messageCount = 1;
+        if (!alerts.TryDequeue(out reset))
+            return;
+        for (int i = 0; i < alerts.Count; i++)
+        {
+            reset = alerts.Dequeue();
+            reset.text = ""; 
+        }
     }
-
 
     protected override void Awake()
     {
         GameManager.CombatManager.CombatAlert += BroadCastMessage;
         base.Awake();
+        GameManager.Instance.GameSetup += ResetUIMaterial; 
         //Initialize(); 
     }
-
-
     TMP_Text current; 
     TMP_Text previous;
     Button current_rect;
@@ -113,5 +116,4 @@ public class GameStatusBarUI : SceneUI
         }
     }
     #endregion
-
 }
