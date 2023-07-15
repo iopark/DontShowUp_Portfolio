@@ -87,14 +87,6 @@ public class PoolManager : MonoBehaviour
 
     public T Get<T>(T prefab) where T: Object
     {
-        //if (!poolDic.ContainsKey(prefab.name))
-        //{
-        //    CreatePool(prefab.name, prefab);
-        //}
-
-        //ObjectPool<GameObject> pool = poolDic[prefab.name]; // 해당 string 값을 키값으로 하여 Dict에서 찾는 오브젝트 풀을 찾은 이후에, 
-        //// 
-        //return pool.Get(); // 그중 첫번째 poolable obj 를 반환한다. 
         return Get(prefab, Vector3.zero, Quaternion.identity); // 오버로딩은 이렇게 하는것이 정배다. 
     }
 
@@ -176,9 +168,9 @@ public class PoolManager : MonoBehaviour
             );
         poolDic.Add(key, pool); // 마지막으로 새로 추가된 
     }
-
+    #region UI Pool Region 
     //UI 전용 
-    public T GetUI<T>(T original, Vector3 position) where T : Object
+    public T GetUI<T>(T original, Vector3 position, Transform parent = null) where T : Object
     {
         if (original is GameObject)
         {
@@ -186,7 +178,10 @@ public class PoolManager : MonoBehaviour
             string key = prefab.name;
 
             if (!poolDic.ContainsKey(key))
-                CreateUIPool(key, prefab);
+            {
+                CreateUIPool(key, prefab, parent);
+            }
+
 
             GameObject obj = poolDic[key].Get();
             obj.transform.position = position;
@@ -198,7 +193,7 @@ public class PoolManager : MonoBehaviour
             string key = component.gameObject.name;
 
             if (!poolDic.ContainsKey(key))
-                CreateUIPool(key, component.gameObject);
+                CreateUIPool(key, component.gameObject, parent);
 
             GameObject obj = poolDic[key].Get();
             obj.transform.position = position;
@@ -209,8 +204,7 @@ public class PoolManager : MonoBehaviour
             return null;
         }
     }
-
-    public T GetUI<T>(T original) where T : Object
+    public T GetUI<T>(T original, Transform parent = null) where T : Object
     {
         if (original is GameObject)
         {
@@ -218,7 +212,7 @@ public class PoolManager : MonoBehaviour
             string key = prefab.name;
 
             if (!poolDic.ContainsKey(key))
-                CreateUIPool(key, prefab);
+                CreateUIPool(key, prefab, parent);
 
             GameObject obj = poolDic[key].Get();
             return obj as T;
@@ -229,7 +223,7 @@ public class PoolManager : MonoBehaviour
             string key = component.gameObject.name;
 
             if (!poolDic.ContainsKey(key))
-                CreateUIPool(key, component.gameObject);
+                CreateUIPool(key, component.gameObject, parent);
 
             GameObject obj = poolDic[key].Get();
             return obj.GetComponent<T>();
@@ -268,8 +262,7 @@ public class PoolManager : MonoBehaviour
             return false;
         }
     }
-
-    private void CreateUIPool(string key, GameObject prefab)
+    private void CreateUIPool(string key, GameObject prefab, Transform parent = null)
     {
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
             createFunc: () =>
@@ -285,7 +278,13 @@ public class PoolManager : MonoBehaviour
             actionOnRelease: (GameObject obj) =>
             {
                 obj.gameObject.SetActive(false);
-                obj.transform.SetParent(canvasRoot.transform, false);
+                if (parent == null)
+                {
+                    obj.transform.SetParent(canvasRoot.transform, false);
+                }
+                else
+                    obj.transform.SetParent(parent, false); 
+
             },
             actionOnDestroy: (GameObject obj) =>
             {
@@ -295,3 +294,4 @@ public class PoolManager : MonoBehaviour
         poolDic.Add(key, pool);
     }
 }
+#endregion

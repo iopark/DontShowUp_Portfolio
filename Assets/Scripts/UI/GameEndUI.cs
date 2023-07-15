@@ -41,5 +41,6 @@ public class GameEndUI : PopUpUI
     public void GameEnd()
     {
         StageResult.text = gameWon;
+
     }
 }

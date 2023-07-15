@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     private static DataManager dataManager;
     private static ResourceManager resource;
     private static PoolManager pool;
-    private static UIManager uiManager; 
+    private static UIManager uiManager;
+    private static AudioManager audioManager; 
     private static PathManager pathManager;
     private static MapManager mapManager; 
     private static SceneManager sceneManager;
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
     public static UIManager UIManager
     {
         get { return uiManager; }
+    }
+
+    public static AudioManager AudioManager
+    {
+        get => audioManager; 
     }
 
     public static PathManager PathManager
@@ -73,7 +79,8 @@ public class GameManager : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(this);
-        InitGeneralManagers(); 
+        InitGeneralManagers();
+        ExitToMain += ReturnToMain; 
     }
 
     private void OnDestroy()
@@ -103,14 +110,21 @@ public class GameManager : MonoBehaviour
         GameObject sceneObj = new GameObject() { name = "Scene Manager" };
         sceneObj.transform.SetParent(transform);
         sceneManager = sceneObj.AddComponent<SceneManager>();
-    }
 
-    public void InitInGameManagers()
-    {
         GameObject pathObj = new GameObject() { name = "Path Manager" };
         pathObj.transform.SetParent(transform);
         pathManager = pathObj.AddComponent<PathManager>();
 
+        GameObject audioObj = new GameObject() { name = "Audio Manager" }; 
+        audioObj.transform.SetParent(transform);
+        audioManager = audioObj.AddComponent<AudioManager>();
+        
+    }
+
+    public void InitInGameManagers()
+    {
+        if (mapManager != null || combatManager != null || spawnManager != null)
+            return;
         GameObject mapObj = new GameObject() { name = "Map Manager" };
         mapObj.transform.SetParent(transform);
         mapManager = mapObj.AddComponent<MapManager>();
@@ -124,5 +138,16 @@ public class GameManager : MonoBehaviour
         spawnManager = spawnObj.AddComponent<SpawnManager>();
     }
 
-    public UnityAction ResetGame; 
+    public void ReturnToMain()
+    {
+        Destroy(combatManager.gameObject);
+        combatManager = null;
+        Destroy(spawnManager.gameObject);
+        spawnManager = null;
+        Destroy(mapManager.gameObject);
+        spawnManager = null;
+    }
+
+    public UnityAction ExitToMain; 
+    public UnityAction GameSetup; 
 }

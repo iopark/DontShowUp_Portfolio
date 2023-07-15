@@ -13,6 +13,7 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("Pointer Entered"); 
         highlight = StartCoroutine(PointerHighlighted());
     }
 
@@ -35,7 +36,7 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             button.image.fillAmount = Mathf.Lerp(0, 1, transitionTime / highlightTime); 
             yield return null;
         }
-        highlight = null;
+        //highlight = null;
     }
 
     IEnumerator PointerExiting()
@@ -47,6 +48,6 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             button.image.fillAmount = Mathf.Lerp(1, 0, transitionTime / highlightTime);
             yield return null;
         }
-        highlight = null;
+        //exit = null;
     }
 }

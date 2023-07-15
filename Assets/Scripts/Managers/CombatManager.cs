@@ -9,11 +9,13 @@ public class CombatManager : MonoBehaviour
     public UnityAction WeaponSwitch;
     public UnityAction<int> WeaponFire; 
 
-    public UnityAction<bool> MeleeStrikeAtest; 
+    public UnityAction<bool> MeleeStrikeAtest;
 
+    public GameObject player; 
     public Launcher currentWeapon; 
     public WeaponList weaponList;
     public Transform weaponHolder;
+    public HashSet<Launcher> weaponsLists = new HashSet<Launcher>();
     public Queue<Launcher> weapons = new Queue<Launcher>();
 
     //Player Combat: Conditionals
@@ -25,10 +27,6 @@ public class CombatManager : MonoBehaviour
     Vector3 playerLookDir;
 
     Launcher tempContainer;
-    public void Init()
-    {
-
-    }
     private void Awake()
     {
         weaponList = Resources.Load<WeaponList>("Data/Weapon/Player_WeaponList");
@@ -37,14 +35,36 @@ public class CombatManager : MonoBehaviour
             tempContainer = GameManager.Resource.Instantiate(weaponList.RangedLists[i].weapon.launcher, transform.position,
                 weaponList.RangedLists[i].weapon.launcher.transform.localRotation, transform, true);
             tempContainer.transform.localScale = Vector3.one;
+            weaponsLists.Add(tempContainer);
             weapons.Enqueue(tempContainer); 
         }
         WeaponSwitch += NewWeapon;
+        InitializeCombatMaterials(); 
+        GameManager.Instance.GameSetup += InitializeCombatMaterials;
     }
-    private void Start()
+    private void InitializeCombatMaterials()
     {
-        attacker = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAttacker>();
-        SetWeapon();
+        if (player == null)
+        {
+            player = Resources.Load("Prefab/Player") as GameObject;
+        }
+        attacker = player.GetComponent<PlayerAttacker>();
+        if (currentWeapon == null)
+        {
+            SetWeapon();
+            return;
+        }
+    }
+
+    /// <summary>
+    /// must precede from the InitializeFunctionCall 
+    /// </summary>
+    public void SetPlayerLoc()
+    {
+        Transform playerSpawnPos = GameObject.FindGameObjectWithTag("PlayerSpawner").transform;
+        player.transform.position = playerSpawnPos.position;
+        player.transform.rotation = Quaternion.identity;
+        player.transform.localScale = Vector3.one; 
     }
     public void SetWeapon()
     {
@@ -88,13 +108,4 @@ public class CombatManager : MonoBehaviour
         CombatAlert?.Invoke($"Player has failed to flanked {target.gameObject.name}");
         flankAttempt(target, false); 
     }
-
-    public void ResetCombatData()
-    {
-        
-    }
-    //Simply regards player's combat status. 
-    //Flank Attack judgements, 
-    //Account for any headshots.
-    //Account for any playerget hit; 
 }

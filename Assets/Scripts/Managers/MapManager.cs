@@ -34,11 +34,12 @@ public class MapManager : MonoBehaviour
     }
     private void Start()
     {
-        gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
+        GameManager.Instance.GameSetup += InitializeMap; 
     }
 
     public void InitializeMap()
     {
+        gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
         gridMapGenerator.GenerateGrid(); 
     }
 

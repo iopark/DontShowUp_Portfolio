@@ -11,21 +11,25 @@ public class MenuUI : SceneUI
     {
         base.Awake();
         buttons["Menu_Start"].onClick.AddListener(() => { StartGame(); });
-        buttons["Menu_Configure"].onClick.AddListener(() => { ConfigureGame(); });
+        buttons["Menu_Configure"].onClick.AddListener(() => { ConfigureSound(); });
         buttons["Menu_End"].onClick.AddListener(() => { EndGame(); });
     }
 
     private void StartGame()
     {
-        GameManager.SceneManager.LoadScene("Level1"); 
+        string gameKey = GameManager.DataManager.CurrentGameData.stageName; 
+        GameManager.SceneManager.LoadScene(gameKey); 
     }
-    public void ConfigureGame()
+    public void ConfigureSound()
     {
-        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/ConfigurePopUpUI"); 
+        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/SoundPopUpUI"); 
     }
-
     public void EndGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit(); 
+#endif
     }
 }
