@@ -149,5 +149,6 @@ public class GameManager : MonoBehaviour
     }
 
     public UnityAction ExitToMain; 
-    public UnityAction GameSetup; 
+    public UnityAction GameSetup;
+    public UnityAction GameSetUpUI; 
 }

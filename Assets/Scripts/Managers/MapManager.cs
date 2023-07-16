@@ -32,7 +32,7 @@ public class MapManager : MonoBehaviour
         get { return gridSizeY; }
         set { gridSizeY = value; }
     }
-    private void Start()
+    private void Awake()
     {
         GameManager.Instance.GameSetup += InitializeMap; 
     }

@@ -410,6 +410,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponInfo: {fileID: 11400000, guid: 0fa1eaa737c97f0489e0ffd81780d380, type: 2}
+  launcherSound:
+    soundName: CrossbowSound
+    soundtype: 1
+    audioClip: {fileID: 0}
+  weaponName: 
   camera: {fileID: 0}
   targetMask:
     serializedVersion: 2

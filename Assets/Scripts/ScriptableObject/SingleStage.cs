@@ -16,7 +16,7 @@ public class SingleStage : ScriptableObject
         GameObject[] SpawningLists = GameObject.FindGameObjectsWithTag("EnemySpawner"); 
         if (SpawningLists.Length == 0)
         {
-            Debug.Log("List is null");
+            //Debug.Log("List is null");
             spawnPoints = null; 
             return false; 
         }

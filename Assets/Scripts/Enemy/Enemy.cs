@@ -12,9 +12,6 @@ public class Enemy : MonoBehaviour, IHittable
     [SerializeField] public EnemyAttacker enemyAttacker;
     [SerializeField] public Animator anim;
 
-    [Header("Debug Purposes")]
-    public bool debug;
-    public bool tracingStatus;
 
     #region Default Enemy Stats
     [SerializeField] private int health;
@@ -26,10 +23,9 @@ public class Enemy : MonoBehaviour, IHittable
             health = value;
         }
     }
-    private int damage;
+
     private int currentLevel; 
     private int maxLevel;
-    public int Damage { get { return damage; } set { damage = value; } }
     public int MaxLevel { get { return maxLevel; } set { maxLevel = value; } }
     public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
 
@@ -108,6 +104,12 @@ public class Enemy : MonoBehaviour, IHittable
         anim.SetBool("Death", false); 
         GameManager.Pool.Release(this.gameObject); 
     }
+
+    #region DEBUGGING PURPOSES
+    [Header("Debug Purposes")]
+    public bool debug;
+    public bool tracingStatus;
+    #endregion
 
     #region Stop Freeze System 
     //Coroutine Freezer;

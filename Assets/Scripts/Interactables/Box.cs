@@ -11,8 +11,12 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
     const float minDistance = 5f;
     const float maxScale = 2f;
     const float minScale = 1f;
-    public bool isOpened; 
-
+    public bool isOpened;
+    protected override void Awake()
+    {
+        base.Awake();
+        //TODO: Declare sound here, openingSound = OpeningSound, Soundtype = SFX 
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Touched");
@@ -26,7 +30,6 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
         AdjustPicketSize(newRatio); 
         picket.transform.localScale = Vector3.one * scaleRatio;
     }
-
     public void AdjustPicketSize(float ratio)
     {
         if (ratio < minScale)
@@ -43,17 +46,10 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
             picketCanvas.transform.localScale = Vector3.one * scaleRatio;
         }
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         if (picket.gameObject.IsValid())
             picket.gameObject.SetActive(false);
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        //GameManager.SceneManager.introScene += Dangling; 
     }
     Coroutine openRoutine; 
     float openingTime = 0.5f;
@@ -67,9 +63,9 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
             yield return null;
         }
         isOpened = true;
+        GameManager.AudioManager.PlayEffect(openingSound); 
         GameManager.DataManager.Diamond++; 
     }
-
     public void Interact()
     {
         if (distanceToPlayer == default || !ContestInteraction(distanceToPlayer))
@@ -79,12 +75,10 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
         picket.gameObject.SetActive(false); 
         openRoutine = StartCoroutine(OpenBox());
     }
-
     public void GiveDiamond()
     {
         GameManager.DataManager.Diamond++; 
     }
-
     public bool ContestInteraction(float givenDist)
     {
         if (minDistance >= givenDist)

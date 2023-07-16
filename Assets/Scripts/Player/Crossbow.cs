@@ -35,6 +35,8 @@ public class Crossbow : Launcher
             GameManager.CombatManager.CombatAlert?.Invoke("Reload!");
             return;
         }
+
+        GameManager.AudioManager.PlayEffect(launcherSound);
         currentRounds--; 
         rayOrigin = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         fire = StartCoroutine(FireRoutine());

@@ -41,6 +41,7 @@ public class PlayerInteractor : MonoBehaviour
             interactable?.Interact();
         }
     }
+
     private void OnInteract(InputValue value)
     {
         TryToInteract(); 

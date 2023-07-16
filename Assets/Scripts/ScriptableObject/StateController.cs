@@ -31,6 +31,12 @@ public class StateController : MonoBehaviour
         Sight = GetComponent<SightSensory>();
         Auditory = GetComponent<SoundSensory>();
     }
+    private void OnDisable()
+    {
+        StopAllCoroutines(); 
+        currentState = initialState; 
+    }
+
     private void Update()
     {
         currentState.UpdateState(this);
@@ -58,9 +64,10 @@ public class StateController : MonoBehaviour
     }
 
     #region attempting to perform request for future path in delegated ways
+    // Presumably, a HashSet would be an better option, given that more actions are introduced, faster in searching or accessing, although its memory usage would be increased.
+    // HashSet<CoroutineSlip> coroutineSet = new HashSet<CoroutineSlip>();
 
     public List<CoroutineSlip> coroutines = new List<CoroutineSlip>();
-    HashSet<CoroutineSlip> coroutineSet = new HashSet<CoroutineSlip>();
     CoroutineSlip tempSlip;
 
     public void RunAndSaveForReset(string slipKey, IEnumerator _routine)
@@ -186,10 +193,11 @@ public class StateController : MonoBehaviour
         currentState = GameManager.Resource.Load<State>("State_Idle_BasicZombie");
         previousState = null; 
     }
-
-    protected void OnDrawGizmos()
-    {
-        Gizmos.color = currentState.sceneGizmoColor;
-        Gizmos.DrawSphere(transform.position, 1f);
-    }
+    #region DEBUGGING PURPOSES
+    //protected void OnDrawGizmos()
+    //{
+    //    Gizmos.color = currentState.sceneGizmoColor;
+    //    Gizmos.DrawSphere(transform.position, 1f);
+    //}
+    #endregion
 }

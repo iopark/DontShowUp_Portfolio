@@ -13,15 +13,12 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer Entered"); 
         highlight = StartCoroutine(PointerHighlighted());
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         exit = StartCoroutine(PointerExiting());
     }
-
     float transitionTime; 
     const float highlightTime = 0.2f;
 

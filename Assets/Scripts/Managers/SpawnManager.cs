@@ -25,9 +25,13 @@ public class SpawnManager : MonoBehaviour
     {
         GameManager.Instance.GameSetup += InitializeStageData; 
     }
+
+
     public void InitializeStageData()
     {
-        zombies = Resources.Load<ZombieTypes>("Data/Zombie/ZombieList"); 
+        StopAllCoroutines();
+        if (zombies == null)
+            zombies = Resources.Load<ZombieTypes>("Data/Zombie/ZombieList"); 
         float timer = GameManager.DataManager.CurrentGameData.spawnTimer;
         spawnInterval = new WaitForSeconds(timer);
         maxZombie = GameManager.DataManager.MaxZombie;

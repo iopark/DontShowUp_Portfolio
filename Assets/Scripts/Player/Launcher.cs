@@ -13,6 +13,7 @@ public class Launcher : MonoBehaviour, IEquatable<Launcher>
     [Header("Launcher attributes")]
     protected SoundMaker soundMaker;
     [SerializeField] public RangedWeapon weaponInfo;
+    [SerializeField] protected Sound launcherSound; 
     public string weaponName; 
     [SerializeField] protected Camera camera;
     [SerializeField] protected LayerMask targetMask; 

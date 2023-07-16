@@ -5,25 +5,32 @@ using UnityEngine;
 
 public class GameEndContest : MonoBehaviour
 {
+    [SerializeField] Sound StageClearSound; 
     public bool isInEnd;
     public bool doorClosed;
     [SerializeField] Door door; 
 
     public void StageClear()
     {
-        if (doorClosed && isInEnd)
-            GameManager.DataManager.GameEnd?.Invoke(); 
+        if (!door.isOpened && isInEnd)
+        {
+            GameManager.DataManager.Stage++;
+            GameManager.AudioManager.PlayBGM(StageClearSound); 
+        }
+
     }
 
+    private void Update()
+    {
+        StageClear();
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
             isInEnd = true;
-            StageClear(); 
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")

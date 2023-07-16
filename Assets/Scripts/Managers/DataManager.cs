@@ -102,7 +102,6 @@ public class DataManager : MonoBehaviour
         get => CurrentGameData.spawnTimer; 
     }
     #endregion
-
     public int TargetDiamonds { get; set; }
     public UnityAction<int, bool> StageEnd;
 
@@ -148,6 +147,7 @@ public class DataManager : MonoBehaviour
     }
     public void InitializeStageData()
     {
+        // How do we make sure certain function is called upfront more than others do? 
         //TODO: Make Sure Stage is incremented eachtime stage is cleared. => Stage value should be increased by the game clear event; 
         int levelData;
         if (stage == 0)
@@ -156,7 +156,6 @@ public class DataManager : MonoBehaviour
         }
         else
             levelData = stage - 1;
-
         this.CurrentGameData = gameData.StageLists[levelData].stage;
         this.TargetDiamonds = CurrentGameData.requiredDiamonds;
         health = maxHealth;
@@ -166,6 +165,7 @@ public class DataManager : MonoBehaviour
     {
         this.stage = 0;
         this.CurrentGameData = gameData.StageLists[0].stage;
+        this.diamond = 0; 
         this.TargetDiamonds = CurrentGameData.requiredDiamonds; 
         this.maxStage = gameData.StageLists.Length;
         health = maxHealth;

@@ -5,13 +5,14 @@ using UnityEngine;
 public class EnemyAttacker : MonoBehaviour
 {
     #region 꼭 필요한 구성요소 
-    Enemy Enemy { get; set; }
+    Enemy Enemy; 
     EnemyMover enemyMover; 
     public Attack DefaultAttack
     {
         get { return defaultAttack; }
     }
     [SerializeField] private Attack defaultAttack;
+    [SerializeField] Sound attackSound; 
     WaitForSeconds attackInterval;
     [SerializeField] bool isAttacking; 
     public bool IsAttacking {  get { return isAttacking; } set { isAttacking = value; } }
@@ -24,7 +25,6 @@ public class EnemyAttacker : MonoBehaviour
         Enemy = GetComponent<Enemy>();
         enemyMover = GetComponent<EnemyMover>();
         defaultAttack = GameManager.Resource.Instantiate(defaultAttack, $"Data/Zombie/FSM/Act/Act_Attack_{gameObject.name}");
-        //attackInterval = new WaitForSeconds(defaultAttack.AttackInterval);
         defaultAttack.Attacker = this;
     }
     public void FinishedAttacking()
@@ -37,6 +37,7 @@ public class EnemyAttacker : MonoBehaviour
     }
     public void StrikePlayer()
     {
+        GameManager.AudioManager.PlayEffect(attackSound); 
         DefaultAttack.Strike(); 
     }
     public void TryStrike()

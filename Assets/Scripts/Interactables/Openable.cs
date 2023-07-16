@@ -14,14 +14,13 @@ public class Openable : MonoBehaviour
     [SerializeField] protected Vector3 closeVector;
     protected Quaternion closeAngle;
     protected Quaternion openAngle;
-
+    //==============================================
+    [SerializeField] protected Sound openingSound;
     protected virtual void Awake()
     {
         closeAngle = Quaternion.Euler(closeVector);
         openAngle = Quaternion.Euler(openVector);
     }
-
-
     protected virtual void OpeningActivity()
     {
 

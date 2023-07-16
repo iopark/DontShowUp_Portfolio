@@ -7,19 +7,21 @@ using UnityEngine.EventSystems;
 public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IInteractable
 {
     #region Interaction Required Variables
+    [SerializeField] protected Sound closingSound;
     float distanceToPlayer = default;
     float scaleRatio = default;
     float newRatio;
     const float minDistance = 5f;
     const float maxScale = 2f;
     const float minScale = 1f;
-    public bool isOpened = false; 
+    public bool isOpened = false;
     #endregion
     protected override void Awake()
     {
         base.Awake();
+        //TODO: Declare sound here, openingSound = OpeningSound, Soundtype = SFX
+        //TODO: Declare sound here, closingSound = ClosingSound, Soundtype = SFX
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerCurrentRaycast.distance > minDistance)
@@ -31,7 +33,6 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
         AdjustPicketSize(newRatio);
         picket.localScale = Vector3.one * scaleRatio;
     }
-
     public void AdjustPicketSize(float ratio)
     {
         if (ratio < minScale)
@@ -47,20 +48,15 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
             scaleRatio = ratio;
             picketCanvas.transform.localScale = Vector3.one * scaleRatio;
         }
-
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         if (picket.gameObject.IsValid())
             picket.gameObject.SetActive(false);
     }
-
     [SerializeField] float openingTime = 0.5f;
     [SerializeField] float initialTime;
-
-    // Start is called before the first frame update
-
+    #region Opening and Closing
     protected IEnumerator Open()
     {
         while (initialTime < openingTime)
@@ -120,3 +116,4 @@ public class Door : Openable, IPointerEnterHandler, IPointerExitHandler, IIntera
         }
     }
 }
+#endregion

@@ -12,6 +12,7 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     //[SerializeField] float attackSoundIntensity;
     [SerializeField] Launcher currentWeapon;
     [SerializeField] Transform weaponHolder;
+    [SerializeField] Sound meleeStrike; 
     PlayerInput playerInput; 
 
     [SerializeField]

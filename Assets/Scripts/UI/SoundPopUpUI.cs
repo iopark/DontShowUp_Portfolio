@@ -23,6 +23,16 @@ public class SoundPopUpUI : PopUpUI
         GameManager.AudioManager.SetMasterVolume(value); 
     }
 
+    private void ChangeSFXVolume(float value)
+    {
+
+    }
+
+    private void ChangeBGMVolume(float value)
+    {
+
+    }
+
     private void CloseThisUI()
     {
         GameManager.UIManager.ClosePopUpUI(); 

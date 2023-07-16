@@ -12,7 +12,7 @@ public class EndDoor : Door
 
     public bool ContestForGameEnd()
     {
-        if (GameManager.DataManager.Diamond == GameManager.DataManager.TargetDiamonds)
+        if (GameManager.DataManager.Diamond < GameManager.DataManager.TargetDiamonds)
         {
             GameManager.CombatManager.CombatAlert(requireDiamonds);
             return false;
