@@ -30,6 +30,17 @@ public class SoundPopUpUI : PopUpUI
         sfxSlider.onValueChanged.AddListener(ChangeSFXVolume);
         buttons["Buttons_Return"].onClick.AddListener(CloseThisUI); 
     }
+
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Confined; 
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.Confined; 
+    }
+
     private void ChangeMasterVolume(float value)
     {
         GameManager.AudioManager.SetMasterVolume(value); 

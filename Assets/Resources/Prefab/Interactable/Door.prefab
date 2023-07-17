@@ -32,8 +32,8 @@ Transform:
   m_LocalScale: {x: 0.43806225, y: 0.40818864, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8846405214595553730}
   - {fileID: 2011222257022109263}
+  - {fileID: 8846405214595553730}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -104,6 +104,14 @@ MonoBehaviour:
   picketCanvas: {fileID: 5846459896264847372}
   openVector: {x: 0, y: 0, z: 0}
   closeVector: {x: 0, y: -90, z: 0}
+  openingSound:
+    soundName: 
+    soundtype: 0
+    audioClip: {fileID: 0}
+  closingSound:
+    soundName: 
+    soundtype: 0
+    audioClip: {fileID: 0}
   isOpened: 0
   openingTime: 0.5
   initialTime: 0
@@ -137,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4869578166836086, guid: fe81ed542aa9fae47b4a95373407a1e6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4869578166836086, guid: fe81ed542aa9fae47b4a95373407a1e6, type: 3}
       propertyPath: m_LocalScale.x
@@ -215,7 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5595660673815791688, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5595660673815791688, guid: 10ae5912096f89249bed2c9428a5354b, type: 3}
       propertyPath: m_AnchorMax.x

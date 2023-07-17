@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
   m_Name: State_Idle_SleeperZ
   m_EditorClassIdentifier: 
-  noAnimUpdate: 0
-  animName: IdleState
+  noAnimUpdate: 1
+  animName: 
   animType: 0
   animBool: 0
   animFloat: 0

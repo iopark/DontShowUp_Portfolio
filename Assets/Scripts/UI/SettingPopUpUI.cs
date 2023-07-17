@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class SettingPopUpUI : PopUpUI
@@ -9,10 +10,25 @@ public class SettingPopUpUI : PopUpUI
     {
         base.Awake();
         buttons["Buttons_Sound"].onClick.AddListener(() => { ConfigureSound(); });
-        buttons["Buttons_Continue"].onClick.AddListener(() => { GameManager.UIManager.ClosePopUpUI(); });
+        buttons["Buttons_BackToGame"].onClick.AddListener(() => { ReturnToGame(); });
         buttons["Buttons_ExitToMain"].onClick.AddListener(() => { ExitToMenu(); });
     }
 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Confined; 
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.Locked; 
+    }
+    
+    void ReturnToGame()
+    {
+        GameManager.DataManager.PauseGame?.Invoke(); 
+        GameManager.UIManager.ClosePopUpUI();
+    }
     void ConfigureSound()
     {
         GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/SoundPopUpUI");

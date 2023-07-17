@@ -120,7 +120,7 @@ MonoBehaviour:
   isInEnd: 0
   doorClosed: 0
   stageCleared: 0
-  door: {fileID: 0}
+  door: {fileID: 1494426652}
 --- !u!1001 &2015631269077745615
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -51,6 +51,7 @@ public class CombatManager : MonoBehaviour
             playerHolder = playerInstance; 
             playerHolder.transform.SetParent(transform, false);
             player = playerInstance.transform.GetChild(1).gameObject; 
+            player.transform.SetParent(transform, false);
         }
         SetPlayerLoc(); 
         attacker = player.GetComponent<PlayerAttacker>();
@@ -68,7 +69,8 @@ public class CombatManager : MonoBehaviour
     public void SetPlayerLoc()
     {
         Transform playerSpawnPos = GameObject.FindGameObjectWithTag("PlayerSpawner").transform;
-        player.transform.position = playerSpawnPos.position;
+        Vector3 spawnPos = transform.localToWorldMatrix * playerSpawnPos.position;
+        player.transform.position = spawnPos; 
         player.transform.rotation = Quaternion.identity;
         player.transform.localScale = Vector3.one; 
     }

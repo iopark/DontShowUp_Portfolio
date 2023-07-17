@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.GameSetUpUI += InitializeGameUI;
+        GameManager.Instance.GameSetup += InitializeGameUI;
         GameManager.Instance.ExitToMain += EraseUponExit; 
         InitializeUI(); 
     }
@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
 
     public void EraseUponExit()
     {
-        Destroy(inGameCanvas.gameObject); 
+        Destroy(inGameCanvas); 
     }
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
     {
@@ -83,12 +83,14 @@ public class UIManager : MonoBehaviour
         {
             PopUpUI curUI = popUpStack.Peek();
             curUI.gameObject.SetActive(true); // 그 이전창을 다시 보이게 한다. 
+            return;
         }
 
         if (popUpStack.Count <= 0)
         {
             Time.timeScale = 1f;
         }
+        Time.timeScale = 1f;
     }
     public void ShowWindowUI(WindowUI windowUI)
     {

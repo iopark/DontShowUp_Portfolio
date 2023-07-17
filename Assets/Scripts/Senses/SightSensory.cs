@@ -188,6 +188,9 @@ public class SightSensory : MonoBehaviour
     }
     public bool AccessForPursuit()
     {
+        if (playerLocked == null)
+            return false;
+
         tempDir = PlayerLocked.transform.position - transform.position;
         tempDir.y = 0f;
         tempDir.Normalize();

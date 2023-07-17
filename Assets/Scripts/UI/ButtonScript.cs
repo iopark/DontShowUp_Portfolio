@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     protected Button button;
+    public const float deltTime = 0.0167f; 
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -23,6 +25,11 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     float transitionTime; 
     const float highlightTime = 0.2f;
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     Coroutine highlight;
     Coroutine exit; 
     IEnumerator PointerHighlighted()
@@ -30,11 +37,10 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         transitionTime = 0;
         while (transitionTime < highlightTime)
         {
-            transitionTime += Time.deltaTime;
+            transitionTime += deltTime; 
             button.image.fillAmount = Mathf.Lerp(0, 1, transitionTime / highlightTime); 
             yield return null;
         }
-        //highlight = null;
     }
 
     IEnumerator PointerExiting()
@@ -42,10 +48,9 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         transitionTime = 0;
         while (transitionTime < highlightTime)
         {
-            transitionTime += Time.deltaTime;
+            transitionTime += deltTime; 
             button.image.fillAmount = Mathf.Lerp(1, 0, transitionTime / highlightTime);
             yield return null;
         }
-        //exit = null;
     }
 }

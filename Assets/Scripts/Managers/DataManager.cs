@@ -143,10 +143,7 @@ public class DataManager : MonoBehaviour
     }
     public void InitializeStageData()
     {
-        // How do we make sure certain function is called upfront more than others do? 
-        //TODO: Make Sure Stage is incremented eachtime stage is cleared. => Stage value should be increased by the game clear event; 
         this.TargetDiamonds = CurrentGameData.requiredDiamonds;
-        //health = maxHealth;
     }
 
     public void InitializeGameData()

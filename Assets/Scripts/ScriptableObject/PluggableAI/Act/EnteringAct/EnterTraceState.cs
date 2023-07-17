@@ -16,14 +16,19 @@ public class EnterTraceState : Act
     private void InitializeTraceState(StateController controller)
     {
         controller.EnemyMover.ChangeMovementSpeed(MoveState.Alert);
+        controller.EnemyMover.IsTracingSound = true;
         controller.RestartCoroutine(retracePath.GetType().Name, FollowSound(controller)); 
     }
 
     IEnumerator FollowSound(StateController controller)
     {
         if (controller.EnemyMover.TraceSoundPoints.Length <= 0)
+        {
+            controller.EnemyMover.IsTracingSound = false;
             yield break;
-        controller.EnemyMover.IsTracingSound = true;
+        }
+
+
         int trackingIndex = 0;
         Vector3 currentWaypoint = controller.EnemyMover.TraceSoundPoints[0];
         controller.Sight.SetLookDirToPos(currentWaypoint);

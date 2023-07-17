@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour, IHittable
     {
         yield return returnToPool;
         anim.SetBool("Death", false); 
-        GameManager.Pool.Release(this.gameObject); 
+        GameManager.Resource.Destroy(this.gameObject); 
     }
 
     #region DEBUGGING PURPOSES

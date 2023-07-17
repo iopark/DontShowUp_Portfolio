@@ -20,9 +20,9 @@ public class GameEndContest : MonoBehaviour
     {
         if (!door.isOpened && isInEnd)
         {
+            stageCleared = true;
             GameManager.DataManager.Stage++;
             GameManager.AudioManager.PlayBGM(StageClearSound); 
-            stageCleared = true;
         }
     }
 

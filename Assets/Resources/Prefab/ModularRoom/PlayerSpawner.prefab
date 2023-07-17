@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 1529758964765810932}
   m_Layer: 0
   m_Name: PlayerSpawner
-  m_TagString: Untagged
+  m_TagString: PlayerSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1578,6 +1578,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3402362513548524608}
     m_Modifications:
+    - target: {fileID: 2016401058087432693, guid: 51eaa0666202de14cb96b6a4d343cb26, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3378898311448689730, guid: 51eaa0666202de14cb96b6a4d343cb26, type: 3}
       propertyPath: m_RootOrder
       value: 17
