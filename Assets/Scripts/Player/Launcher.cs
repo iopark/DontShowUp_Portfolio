@@ -34,7 +34,7 @@ public class Launcher : MonoBehaviour, IEquatable<Launcher>
             currentRounds = value;
             if (currentRounds == 0)
                 GameManager.CombatManager.CombatAlert?.Invoke("Out of Ammo"); 
-            GameManager.CombatManager.WeaponFire.Invoke(currentRounds);
+            GameManager.CombatManager.WeaponFire?.Invoke(currentRounds);
         }
     }
 

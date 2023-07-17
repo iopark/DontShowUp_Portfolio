@@ -121,10 +121,6 @@ public class DataManager : MonoBehaviour
         {
             return gameData.StageLists[stage].stage;
         }
-        set
-        {
-            CurrentGameData = value;
-        }
     }
     private void Awake()
     {
@@ -149,22 +145,13 @@ public class DataManager : MonoBehaviour
     {
         // How do we make sure certain function is called upfront more than others do? 
         //TODO: Make Sure Stage is incremented eachtime stage is cleared. => Stage value should be increased by the game clear event; 
-        int levelData;
-        if (stage == 0)
-        {
-            levelData = 0; 
-        }
-        else
-            levelData = stage - 1;
-        this.CurrentGameData = gameData.StageLists[levelData].stage;
         this.TargetDiamonds = CurrentGameData.requiredDiamonds;
-        health = maxHealth;
+        //health = maxHealth;
     }
 
     public void InitializeGameData()
     {
         this.stage = 0;
-        this.CurrentGameData = gameData.StageLists[0].stage;
         this.diamond = 0; 
         this.TargetDiamonds = CurrentGameData.requiredDiamonds; 
         this.maxStage = gameData.StageLists.Length;

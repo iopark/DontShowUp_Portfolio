@@ -20,6 +20,7 @@ public class FPSCameraController : MonoBehaviour
     private void Awake()
     {
         camera = Camera.main;
+        camera.transform.SetParent(cameraRoot); 
         //cameraRoot = GetComponent<Transform>(); 
     }
 

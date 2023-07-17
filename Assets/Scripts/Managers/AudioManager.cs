@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
 {
     public enum Soundtype
     {
+        Master, 
         BGM, 
         SFX,
         Size
@@ -17,9 +18,10 @@ public class AudioManager : MonoBehaviour
     public AudioMixer audioMixer;
     AudioSource bgmSource;
     AudioSource sfxSource; 
-    AudioMixerGroup[] audioMixerGroup;
+    [SerializeField] AudioMixerGroup[] audioMixerGroup;
     HashSet<Sound> audioList = new HashSet<Sound>();
 
+    #region getset for volumes
     public float CurrentMasterVolume
     {
         get
@@ -30,26 +32,53 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public float CurrentBGMVolume
+    {
+        get
+        {
+            float volume;
+            audioMixer.GetFloat("BGM", out volume);
+            return volume;
+        }
+    }
+
+    public float CurrentSFXVolume
+    {
+        get
+        {
+            float volume;
+            audioMixer.GetFloat("SFX", out volume);
+            return volume;
+        }
+    }
+    #endregion
+
     private void Awake()
     {
         audioMixer = Resources.Load<AudioMixer>("Sound/GameMasterMixer");
         audioMixerGroup = audioMixer.FindMatchingGroups("Master");
         bgmSource = this.AddComponent<AudioSource>();
+        bgmSource.outputAudioMixerGroup = audioMixerGroup[(int)Soundtype.BGM]; 
         sfxSource = this.AddComponent<AudioSource>();
+        sfxSource.outputAudioMixerGroup = audioMixerGroup[(int)Soundtype.SFX];
         GameManager.Instance.GameSetup += ResetAllMusic; 
         SetMasterVolume(-10f);
-        AudioClip themeBGM = Resources.Load<AudioClip>("Sound/IntroductionBGM");
-        mainThemeSong = new Sound("IntroductionBGM", Soundtype.BGM, themeBGM);
+        mainThemeSong = new Sound("IntroductionBGM", Soundtype.BGM);
+        RegisterSound(mainThemeSong); 
         PlayBGM(mainThemeSong); 
     }
 
     public void PlayEffect(Sound sound)
     {
-        //if (!audioList.Contains(sound))
-        AudioClip sfx; 
-        if (!audioList.Contains(sound)) { }
-        sfxSource.PlayOneShot(sound.audioClip);
+        if (!audioList.Contains(sound))
+        {
+            RegisterSound(sound);
+        }
+        Sound sfxSound;
+        audioList.TryGetValue(sound, out sfxSound); 
+        sfxSource.PlayOneShot(sfxSound.audioClip);
     }
+
     private void RegisterSound(Sound sound)
     {
         string audioKey = $"Sound/{sound.soundName}"; 
@@ -60,7 +89,16 @@ public class AudioManager : MonoBehaviour
     
     public void PlayBGM(Sound sound)
     {
-        AudioClip bgm;
+        if (!audioList.Contains(sound))
+        {
+            RegisterSound(sound);
+        }
+        Sound sfxSound;
+        audioList.TryGetValue(sound, out sfxSound);
+        bgmSource.clip = sfxSound.audioClip;
+        
+        bgmSource.Play();
+        bgmSource.loop = true; 
     }
 
     public void PlaySound(Sound sound)

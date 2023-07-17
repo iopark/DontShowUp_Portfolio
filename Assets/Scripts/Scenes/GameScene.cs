@@ -21,6 +21,7 @@ public class GameScene : BaseScene
         // 
         GameManager.Instance.InitInGameManagers();
         GameManager.Instance.GameSetup?.Invoke(); 
+        GameManager.Instance.GameSetUpUI?.Invoke();
         progress = 0; 
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.3f;

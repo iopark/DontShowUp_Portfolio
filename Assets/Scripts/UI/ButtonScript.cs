@@ -10,6 +10,7 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private void Awake()
     {
         button = GetComponent<Button>();
+        button.onClick.AddListener(() => StopAllCoroutines());
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

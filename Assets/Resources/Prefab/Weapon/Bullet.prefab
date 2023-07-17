@@ -128,7 +128,7 @@ MonoBehaviour:
   hitEffect: {fileID: 5632185417469457746, guid: afb9461d5eb10ff4891eeb47e40d676c, type: 3}
   explodable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   projectileMoveSpeed: 100
   pauseMovespeed: 0.1
   launcher: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}

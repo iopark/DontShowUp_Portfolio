@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.GameSetup += InitializeGameUI;
+        GameManager.Instance.GameSetUpUI += InitializeGameUI;
         GameManager.Instance.ExitToMain += EraseUponExit; 
         InitializeUI(); 
     }
@@ -42,7 +42,8 @@ public class UIManager : MonoBehaviour
     {
         if (inGameCanvas != null)
             return; 
-        inGameCanvas = Resources.Load<Canvas>("UI/InGameUI");
+        Canvas inGame = GameManager.Resource.Instantiate<Canvas>("UI/InGameUI");
+        inGameCanvas = inGame; 
         inGameCanvas.gameObject.name = "InGameUI";
         inGameCanvas.sortingOrder = 0;
     }

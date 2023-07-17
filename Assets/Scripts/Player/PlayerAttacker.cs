@@ -38,21 +38,35 @@ public class PlayerAttacker : MonoBehaviour, IHittable
 #endregion 
     private void Awake()
     {
+        //playerInput = GetComponent<PlayerInput>();
+        //camera = Camera.main; 
+        //rig = GetComponentInChildren<Rig>();
+        //GameManager.CombatManager.weaponHolder = weaponHolder;
+        //Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void InitializePlayer()
+    {
         playerInput = GetComponent<PlayerInput>();
-        camera = Camera.main; 
+        camera = Camera.main;
         rig = GetComponentInChildren<Rig>();
         GameManager.CombatManager.weaponHolder = weaponHolder;
         Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    private void Start()
-    {
         currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
         meleeDamage = GameManager.DataManager.MeleeDamage;
         flankDamage = GameManager.DataManager.MeleeFlank;
-        SetWeapon(); 
-        isReloading = false; 
+        SetWeapon();
+        isReloading = false;
         anim = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        //currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
+        //meleeDamage = GameManager.DataManager.MeleeDamage;
+        //flankDamage = GameManager.DataManager.MeleeFlank;
+        //SetWeapon(); 
+        //isReloading = false; 
+        //anim = GetComponent<Animator>();
     }
     public void OnDisable()
     {

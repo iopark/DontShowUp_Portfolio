@@ -11,6 +11,7 @@ public class CombatManager : MonoBehaviour
 
     public UnityAction<bool> MeleeStrikeAtest;
 
+    public GameObject playerHolder; 
     public GameObject player; 
     public Launcher currentWeapon; 
     public WeaponList weaponList;
@@ -39,16 +40,21 @@ public class CombatManager : MonoBehaviour
             weapons.Enqueue(tempContainer); 
         }
         WeaponSwitch += NewWeapon;
-        InitializeCombatMaterials(); 
-        GameManager.Instance.GameSetup += InitializeCombatMaterials;
+        GameManager.Instance.GameSetup += InitializeCombatMaterials; 
+        //GameManager.Instance.GameSetup += InitializeCombatMaterials;
     }
     private void InitializeCombatMaterials()
     {
         if (player == null)
         {
-            player = Resources.Load("Prefab/Player") as GameObject;
+            GameObject playerInstance = GameManager.Resource.Instantiate<GameObject>("Prefab/PlayerSetUp");
+            playerHolder = playerInstance; 
+            playerHolder.transform.SetParent(transform, false);
+            player = playerInstance.transform.GetChild(1).gameObject; 
         }
+        SetPlayerLoc(); 
         attacker = player.GetComponent<PlayerAttacker>();
+        attacker.InitializePlayer(); 
         if (currentWeapon == null)
         {
             SetWeapon();

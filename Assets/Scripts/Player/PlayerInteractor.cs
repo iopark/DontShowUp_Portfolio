@@ -57,6 +57,6 @@ public class PlayerInteractor : MonoBehaviour
     private void OnPause(InputValue value)
     {
         GameManager.DataManager.PauseGame?.Invoke(); 
-        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/PauseMenu"); 
+        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/PauseSettingPopUpUI"); 
     }
 }

@@ -14,7 +14,6 @@ public class Gun : Launcher
     protected override void Start()
     {
         base.Start();
-        lineRenderer = GetComponent<LineRenderer>();
     }
 
     private void OnDisable()
@@ -23,10 +22,8 @@ public class Gun : Launcher
     }
     Vector3 rayOrigin;
     //DEBUGGING
-    LineRenderer lineRenderer; 
     public override void Fire()
     {
-        lineRenderer.SetPosition(0, muzzlePoint.position); 
         if (nextFire != 0)
         {
             GameManager.CombatManager.CombatAlert?.Invoke("Not yet");
@@ -46,7 +43,6 @@ public class Gun : Launcher
         muzzleEffect.Play(); // 총구불빛 
         if (Physics.Raycast(rayOrigin, camera.transform.forward, out hit, maxDistance, targetMask))
         {
-            lineRenderer.SetPosition(1, hit.point);
             hitDir = (hit.point - transform.position).normalized;
             Debug.DrawRay(transform.position, hitDir, Color.blue);
             //이펙트에 대해서 오브젝트 풀링으로 구현 
@@ -57,7 +53,6 @@ public class Gun : Launcher
         {
             Ray ray = new Ray(rayOrigin, camera.transform.forward);
             ray.GetPoint(maxDistance);
-            lineRenderer.SetPosition(1, rayOrigin + (camera.transform.forward * maxDistance));
             GameManager.Resource.Instantiate<Projectile>(projectile, muzzlePoint.transform.position, Quaternion.LookRotation(transform.forward)).TrajectoryMiss(ray.GetPoint(maxDistance));
         }
     }
