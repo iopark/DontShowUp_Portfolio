@@ -2,28 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameEndUI : PopUpUI
 {
-    string cleared = "Stage Cleared";
-    string failed = "Stage Failed";
-    string gameWon = "You Won!"; 
-
+    const string cleared = "Stage Cleared";
+    const string failed = "Stage Failed";
+    const string gameWon = "You Won!";
     TMP_Text StageResult;
+    Button intoNext;
+    Button intoMenu; 
     protected override void Awake()
     {
         base.Awake();
+        GameManager.DataManager.StageEnd += StageEnd; 
     }
 
     private void Start()
     {
         GameManager.DataManager.GameEnd += GameEnd;
         GameManager.DataManager.StageEnd += StageEnd;
-        StageResult = texts["Content_GameResult"]; 
+        StageResult = texts["Content_GameResult"];
 
         transforms["GameFinishedPopUpUI_Content"].gameObject.SetActive(false);
         transforms["GameFinishedPopUpUI_Buttons"].gameObject.SetActive(false);
-        buttons["Buttons_Continue"].onClick.AddListener(() => GameManager.UIManager.ClosePopUpUI()); 
+        intoNext = buttons["Buttons_Continue"];
+        buttons["Buttons_Continue"].onClick.AddListener(UntoNext);
+
+        intoMenu = buttons["Buttons_ExitToMain"];
         buttons["Buttons_ExitToMain"].onClick.AddListener(() => GameManager.SceneManager.LoadScene("TitleScene")); 
     }
     public void StageEnd(int stage, bool cleared)
@@ -36,6 +42,11 @@ public class GameEndUI : PopUpUI
         {
             
         }
+    }
+
+    public void UntoNext()
+    {
+        
     }
 
     public void GameEnd()

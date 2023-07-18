@@ -3908,35 +3908,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1022056001093082366, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1022056001093082366, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1022056001093082366, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 500
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1022056001093082366, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -86.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1468196342791454346, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1468196342791454346, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1468196342791454346, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 500
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1468196342791454346, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8681360060235012988, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_Name
@@ -4032,9 +4032,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8681360061063128443, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6477007769837002118, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0729d23b5524a0d40b2361629914a92f, type: 3}
 --- !u!224 &1790545115302608067 stripped
 RectTransform:

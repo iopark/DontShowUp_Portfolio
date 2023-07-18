@@ -26,10 +26,10 @@ public class GameScene : BaseScene
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.3f;
         yield return new WaitForSecondsRealtime(1f);
-        progress = 0.6f; 
-
+        progress = 0.6f;
+        InitilaizeGeneralSetting(); 
+        GameManager.CombatManager.SetPlayerLoc();
         yield return new WaitForSecondsRealtime(1f);
-        GameManager.CombatManager.SetPlayerLoc(); 
         progress = 1f; 
     }
 
