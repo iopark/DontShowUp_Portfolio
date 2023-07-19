@@ -51,6 +51,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 randomPos = Random.insideUnitCircle;
             Vector3 spawnPoint = new Vector3(spawnSpots[randomSpot].x + randomPos.x, 0, spawnSpots[randomSpot].z + randomPos.y);
             GameManager.Pool.Get(zombies.zombieList[randomZombie], spawnPoint, Quaternion.identity, null); 
+
         }
     }
 
@@ -60,6 +61,7 @@ public class SpawnManager : MonoBehaviour
         {
             yield return spawnInterval;
             SpawnEnemies(); 
+            yield return null;
         }
     }
 }

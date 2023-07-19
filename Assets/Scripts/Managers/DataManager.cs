@@ -146,6 +146,11 @@ public class DataManager : MonoBehaviour
         this.TargetDiamonds = CurrentGameData.requiredDiamonds;
     }
 
+    public void InitializeNextStage()
+    {
+        GameManager.SceneManager.LoadScene(CurrentGameData.stageName);
+    }
+
     public void InitializeGameData()
     {
         this.stage = 0;

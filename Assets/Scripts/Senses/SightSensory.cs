@@ -99,7 +99,7 @@ public class SightSensory : MonoBehaviour
     }
     public bool FindTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, enemyDetectRange, targetMask);
         if (colliders.Length == 0)
         {
             PlayerInSight = Vector3.zero;
@@ -110,44 +110,35 @@ public class SightSensory : MonoBehaviour
             Vector3 dirTarget = collider.transform.position - transform.position;
             dirTarget.y = 0f; 
             dirTarget.Normalize();
-
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
             {
                 PlayerInSight = Vector3.zero;
                 continue;
             }
-
             Vector2 distToTarget = (Vector2)collider.transform.position - (Vector2)transform.position; 
             float distance = Vector2.SqrMagnitude(distToTarget);
-            Debug.DrawRay(transform.position, dirTarget, Color.red); 
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
             {
                 PlayerInSight = Vector3.zero;
                 continue;
             }
-
             SetTarget(collider.transform); 
             return true;
         }
         return false;
     }
-
-
-
     private void SetTarget(Transform transform)
     {
         PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
         playerInSight = transform.position;
         playerLocked = transform;
     }
-    //Based on the Locked Target State 
     public bool AccessForAttackRange()
     {
         if (playerLocked == null)
             return false;
 
         distanceToTarget = playerLocked.transform.position - transform.position;
-        Debug.DrawRay(transform.position, distanceToTarget.normalized, Color.yellow);
         if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
         return true;
@@ -169,14 +160,12 @@ public class SightSensory : MonoBehaviour
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
             Vector3 dir = (collider.transform.position - transform.position).normalized; 
-            Debug.DrawRay(transform.position, dir, Color.red); 
             playerInSight = collider.transform.position;
             SetLookDirToPos(playerInSight);
             return true;
         }
         return false;
     }
-
     /// <summary>
     /// Returns true if player is at the blindspot. 
     /// </summary>
@@ -218,20 +207,17 @@ public class SightSensory : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, leftDir * range);
     }
-
     private Vector3 AngleToDir(float angle)
     {
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
     }
-
     public Vector3[] SightEdgesInDir(int interval)
     {
         Vector3[] dirs = new Vector3[interval];
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + angle * 0.5f);
         dirs[0] = rightDir;
         dirs[1] = (AngleToDir(transform.eulerAngles.y - angle * 0.5f));
-
         return dirs;
     }
 }

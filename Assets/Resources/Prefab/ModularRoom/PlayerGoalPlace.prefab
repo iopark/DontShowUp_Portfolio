@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageClearSound:
-    soundName: 
-    soundtype: 0
+    soundName: StageClearedMusic
+    soundtype: 2
     audioClip: {fileID: 0}
   isInEnd: 0
   doorClosed: 0

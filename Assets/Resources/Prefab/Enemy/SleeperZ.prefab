@@ -1496,13 +1496,10 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: b3a46838a6f54d5488a5e9f033ecafdb, type: 2}
   controller: {fileID: 0}
   enemyAttacker: {fileID: 0}
-  enemyMover: {fileID: 0}
   anim: {fileID: 0}
+  health: 0
   debug: 0
   tracingStatus: 0
-  tracePath: []
-  trackingIndex: 0
-  health: 0
 --- !u!114 &788143375743184803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,6 +1513,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAttack: {fileID: 11400000, guid: dc4fe71802826224da82673d5d92bf98, type: 2}
+  attackSound:
+    soundName: 
+    soundtype: 0
+    audioClip: {fileID: 0}
   isAttacking: 0
 --- !u!114 &788143375743184796
 MonoBehaviour:

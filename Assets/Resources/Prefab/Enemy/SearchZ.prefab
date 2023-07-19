@@ -212,13 +212,10 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: abb9e506be1a9a74b813468c56702024, type: 2}
   controller: {fileID: 0}
   enemyAttacker: {fileID: 0}
-  enemyMover: {fileID: 0}
   anim: {fileID: 0}
+  health: 0
   debug: 0
   tracingStatus: 0
-  tracePath: []
-  trackingIndex: 0
-  health: 0
 --- !u!114 &4749172303212984621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +229,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAttack: {fileID: 11400000, guid: 39c83029e6727f34495ea6b3bfea8e2d, type: 2}
+  attackSound:
+    soundName: ZombiePunch
+    soundtype: 2
+    audioClip: {fileID: 0}
   isAttacking: 0
 --- !u!114 &4749172303212984594
 MonoBehaviour:

@@ -10,8 +10,10 @@ public class GameEndUI : PopUpUI
     const string failed = "Stage Failed";
     const string gameWon = "You Won!";
     TMP_Text StageResult;
-    Button intoNext;
-    Button intoMenu; 
+    RectTransform StageResult_Rect;
+    RectTransform buttonCollection; 
+    Button untoNext_Button;
+    Button untoMain_Button; 
     protected override void Awake()
     {
         base.Awake();
@@ -24,34 +26,38 @@ public class GameEndUI : PopUpUI
         GameManager.DataManager.StageEnd += StageEnd;
         StageResult = texts["Content_GameResult"];
 
-        transforms["GameFinishedPopUpUI_Content"].gameObject.SetActive(false);
-        transforms["GameFinishedPopUpUI_Buttons"].gameObject.SetActive(false);
-        intoNext = buttons["Buttons_Continue"];
-        buttons["Buttons_Continue"].onClick.AddListener(UntoNext);
+        StageResult_Rect = transforms["GameFinishedPopUpUI_Content"];
+        StageResult_Rect.gameObject.SetActive(false);
+        buttonCollection = transforms["GameFinishedPopUpUI_Buttons"];
 
-        intoMenu = buttons["Buttons_ExitToMain"];
-        buttons["Buttons_ExitToMain"].onClick.AddListener(() => GameManager.SceneManager.LoadScene("TitleScene")); 
+        //Button Initialization. 
+        untoNext_Button = buttons["Buttons_Continue"];
+        buttons["Buttons_Continue"].onClick.AddListener(UntoNext);
+        untoMain_Button = buttons["Buttons_ExitToMain"];
+        buttons["Buttons_ExitToMain"].onClick.AddListener(() => GameManager.SceneManager.LoadScene("TitleScene"));
+        buttonCollection.gameObject.SetActive(false);
     }
     public void StageEnd(int stage, bool cleared)
     {
         if (cleared)
         {
-            //Buttons to clear out
+            StageResult.text = $"{cleared}: Stage {stage}"; 
         }
         else
         {
-            
+            StageResult.text = failed;
+            untoNext_Button.gameObject.SetActive(false);
         }
     }
 
     public void UntoNext()
     {
-        
+        GameManager.DataManager.InitializeStageData();
+        GameManager.UIManager.ClosePopUpUI(); 
     }
 
     public void GameEnd()
     {
-        StageResult.text = gameWon;
-
+        StageResult.text = $"{cleared}: {gameWon}";
     }
 }

@@ -63,11 +63,19 @@ public class UIManager : MonoBehaviour
         T ui = GameManager.Pool.GetUI<T>(popUpUI, popUpCanvas.transform); // 없다면 새로 생성, 아니라면 그냥 꺼내올것 
         ui.transform.SetParent(popUpCanvas.transform, false);
         popUpStack.Push(ui);
-
         Time.timeScale = 0;
 
         return ui;
     }
+
+    public void CloaseAllPopUps()
+    {
+        while (popUpStack.TryPop(out PopUpUI result))
+        {
+            ClosePopUpUI(); 
+        }
+    }
+
     public T ShowPopUpUI<T>(string path) where T : PopUpUI
     {
         T ui = GameManager.Resource.Load<T>(path);
@@ -121,7 +129,6 @@ public class UIManager : MonoBehaviour
     public T ShowInGameUI<T>(string path) where T : InGameUI
     {
         T ui = GameManager.Resource.Load<T>(path);
-
         return ShowInGameUI(ui);
     }
     public void CloseInGameUI<T>(T inGameUI) where T : InGameUI
