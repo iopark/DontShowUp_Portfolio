@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stage_2
   m_EditorClassIdentifier: 
   stageName: Level_2
-  maxZombie: 25
+  maxZombie: 20
   numberOfRewards: 0
   requiredDiamonds: 3
-  spawnTimer: 0
+  spawnTimer: 2

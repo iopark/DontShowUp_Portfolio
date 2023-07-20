@@ -48,7 +48,7 @@ public class StateController : MonoBehaviour
             currentState.ExitState(this);
             previousState = currentState;
             currentState = nextState;
-            name = currentState.name;
+            //name = currentState.name;
             AnimationUpdate(); 
             currentState.EnterStateAct(this);
         }
