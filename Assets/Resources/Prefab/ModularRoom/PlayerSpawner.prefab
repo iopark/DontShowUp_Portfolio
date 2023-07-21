@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4534675463063647448}
   m_Layer: 0
   m_Name: PlayerSpawner
-  m_TagString: PlayerSpawner
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -71,7 +71,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22812095b4ad997478f8226fe8d2372c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPosition: {fileID: 0}
 --- !u!1 &7124058501755125322
 GameObject:
   m_ObjectHideFlags: 0

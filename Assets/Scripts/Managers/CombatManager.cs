@@ -53,7 +53,7 @@ public class CombatManager : MonoBehaviour
             player = playerInstance.transform.GetChild(1).gameObject; 
             player.transform.SetParent(transform, false);
         }
-        SetPlayerLoc(); 
+        //SetPlayerLoc(); 
         attacker = player.GetComponent<PlayerAttacker>();
         attacker.InitializePlayer(); 
         if (currentWeapon == null)
@@ -69,12 +69,12 @@ public class CombatManager : MonoBehaviour
     public void SetPlayerLoc()
     {
         Transform playerSpawnPos = GameObject.FindGameObjectWithTag("PlayerSpawner").transform;
-        //Vector3 spawnPos = transform.localToWorldMatrix * playerSpawnPos.position;
-        Vector3 spawnPos = playerSpawnPos.TransformPoint(player.transform.position);
-        player.transform.position = spawnPos; 
+        Vector3 spawnVector = GameObject.FindGameObjectWithTag("PlayerSpawner").transform.position;
+        Vector3 spawnPos = transform.position + playerSpawnPos.localToWorldMatrix.MultiplyPoint3x4(Vector3.one);  // MultiplyPoint3x4(new Vector4(spawnVector.x, spawnVector.y, spawnVector.z, 1));
+        player.transform.position = spawnPos;
+        player.transform.position = spawnVector; 
         player.transform.rotation = Quaternion.identity;
         player.transform.localScale = Vector3.one; 
-
     }
     public void SetWeapon()
     {

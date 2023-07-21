@@ -140,10 +140,13 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMain()
     {
+        if (combatManager != null)
         Destroy(combatManager.gameObject);
         combatManager = null;
+        if (spawnManager != null)
         Destroy(spawnManager.gameObject);
         spawnManager = null;
+        if (mapManager != null)
         Destroy(mapManager.gameObject);
         spawnManager = null;
     }

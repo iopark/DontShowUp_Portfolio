@@ -5,15 +5,11 @@ using UnityEngine.AI;
 
 public class GameScene : BaseScene
 {
-    //public GameObject player;
-    public Transform playerPosition;
-
-    private void Start()
+    public GameObject player;
+    private void SetPlayerPos()
     {
-        if (GameManager.CombatManager == null)
-        {
-            //TODO: GameManager InitializeGameData
-        }
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.localPosition = transform.position; 
     }
     protected override IEnumerator LoadingRoutine()
     {
@@ -22,13 +18,15 @@ public class GameScene : BaseScene
         GameManager.Instance.InitInGameManagers();
         GameManager.Instance.GameSetup?.Invoke(); 
         GameManager.Instance.GameSetUpUI?.Invoke();
+        GameManager.CombatManager.SetPlayerLoc();
+        
         progress = 0; 
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.3f;
         yield return new WaitForSecondsRealtime(1f);
         progress = 0.6f;
-        InitilaizeGeneralSetting(); 
-        GameManager.CombatManager.SetPlayerLoc();
+        InitilaizeGeneralSetting();
+        SetPlayerPos();
         yield return new WaitForSecondsRealtime(1f);
         progress = 1f; 
     }

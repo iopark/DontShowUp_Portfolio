@@ -18,6 +18,7 @@ public class GameEndUI : PopUpUI
     {
         base.Awake();
         GameManager.DataManager.StageEnd += StageEnd; 
+        GameManager.DataManager.GameEnd += GameEnd;
     }
 
     private void Start()
