@@ -17,8 +17,8 @@ MonoBehaviour:
   animType: 0
   animBool: 0
   animFloat: 0
-  setBoolAsNull: 0
-  setFloatAsNull: 0
+  setBoolAsNull: 1
+  setFloatAsNull: 1
   preRequisiteActs: []
   actions:
   - {fileID: 11400000, guid: a8aaa8b634d74dc44899a74d673450e3, type: 2}

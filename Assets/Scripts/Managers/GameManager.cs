@@ -124,7 +124,12 @@ public class GameManager : MonoBehaviour
     public void InitInGameManagers()
     {
         if (mapManager != null || combatManager != null || spawnManager != null)
+        {
+            if (combatManager.gameObject.activeSelf)
+                return;
+            SetActiveGame();
             return;
+        }
         GameObject mapObj = new GameObject() { name = "Map Manager" };
         mapObj.transform.SetParent(transform);
         mapManager = mapObj.AddComponent<MapManager>();
@@ -138,17 +143,17 @@ public class GameManager : MonoBehaviour
         spawnManager = spawnObj.AddComponent<SpawnManager>();
     }
 
+    public void SetActiveGame()
+    {
+        combatManager.gameObject.SetActive(true);
+        spawnManager.gameObject.SetActive(true);
+        mapManager.gameObject.SetActive(true);
+    }
     public void ReturnToMain()
     {
-        if (combatManager != null)
-        Destroy(combatManager.gameObject);
-        combatManager = null;
-        if (spawnManager != null)
-        Destroy(spawnManager.gameObject);
-        spawnManager = null;
-        if (mapManager != null)
-        Destroy(mapManager.gameObject);
-        spawnManager = null;
+        combatManager.gameObject.SetActive(false);
+        spawnManager.gameObject.SetActive(false);
+        mapManager.gameObject.SetActive(false);
     }
 
     public UnityAction ExitToMain; 

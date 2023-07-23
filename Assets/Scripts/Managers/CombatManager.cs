@@ -40,7 +40,8 @@ public class CombatManager : MonoBehaviour
             weapons.Enqueue(tempContainer); 
         }
         WeaponSwitch += NewWeapon;
-        GameManager.Instance.GameSetup += InitializeCombatMaterials; 
+        GameManager.Instance.GameSetup += InitializeCombatMaterials;
+        GameManager.Instance.ExitToMain += Reset; 
         //GameManager.Instance.GameSetup += InitializeCombatMaterials;
     }
     private void InitializeCombatMaterials()
@@ -53,7 +54,7 @@ public class CombatManager : MonoBehaviour
             player = playerInstance.transform.GetChild(1).gameObject; 
             player.transform.SetParent(transform, false);
         }
-        //SetPlayerLoc(); 
+        SetPlayerLoc(); 
         attacker = player.GetComponent<PlayerAttacker>();
         attacker.InitializePlayer(); 
         if (currentWeapon == null)
@@ -71,11 +72,19 @@ public class CombatManager : MonoBehaviour
         Transform playerSpawnPos = GameObject.FindGameObjectWithTag("PlayerSpawner").transform;
         Vector3 spawnVector = GameObject.FindGameObjectWithTag("PlayerSpawner").transform.position;
         Vector3 spawnPos = transform.position + playerSpawnPos.localToWorldMatrix.MultiplyPoint3x4(Vector3.one);  // MultiplyPoint3x4(new Vector4(spawnVector.x, spawnVector.y, spawnVector.z, 1));
-        player.transform.position = spawnPos;
-        player.transform.position = spawnVector; 
-        player.transform.rotation = Quaternion.identity;
+        player.transform.localPosition = spawnVector; 
+        //player.transform.rotation = Quaternion.identity;
         player.transform.localScale = Vector3.one; 
     }
+
+    public void Reset()
+    {
+        Destroy(player.gameObject);
+        Destroy(playerHolder.gameObject); 
+        player = null;
+        playerHolder = null; 
+    }
+
     public void SetWeapon()
     {
         if (weapons.Count <= 0)

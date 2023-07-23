@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas windowCanvas;
     [SerializeField] private Canvas inGameCanvas;
 
-    private void Awake()
+    private void Start()
     {
         GameManager.Instance.GameSetup += InitializeGameUI;
         GameManager.Instance.ExitToMain += EraseUponExit; 
@@ -44,13 +44,15 @@ public class UIManager : MonoBehaviour
             return; 
         Canvas inGame = GameManager.Resource.Instantiate<Canvas>("UI/InGameUI");
         inGameCanvas = inGame; 
+        inGameCanvas.transform.SetParent(transform);
         inGameCanvas.gameObject.name = "InGameUI";
         inGameCanvas.sortingOrder = 0;
     }
 
     public void EraseUponExit()
     {
-        Destroy(inGameCanvas); 
+        Destroy(inGameCanvas);
+        inGameCanvas = null; 
     }
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
     {

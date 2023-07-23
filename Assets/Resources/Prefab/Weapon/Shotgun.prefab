@@ -117,8 +117,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponInfo: {fileID: 11400000, guid: dbd18c2a3e476f0458f3bb372dfd135d, type: 2}
   launcherSound:
-    soundName: ShotgunSound
-    soundtype: 1
+    soundName: ShotgunShot
+    soundtype: 2
+    audioClip: {fileID: 0}
+  reloadSound:
+    soundName: ShotgunReload
+    soundtype: 2
     audioClip: {fileID: 0}
   weaponName: 
   camera: {fileID: 0}

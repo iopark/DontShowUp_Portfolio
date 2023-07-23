@@ -49,7 +49,7 @@ public class SpawnManager : MonoBehaviour
             int randomSpot = UnityEngine.Random.Range(0, spawnSpots.Length);
             Vector3 randomPos = Random.insideUnitCircle;
             Vector3 spawnPoint = new Vector3(spawnSpots[randomSpot].x + randomPos.x, 0, spawnSpots[randomSpot].z + randomPos.y);
-            GameManager.Pool.Get(zombies.zombieList[randomZombie], spawnPoint, Quaternion.identity, null); 
+            GameManager.Resource.Instantiate(zombies.zombieList[randomZombie], spawnPoint, Quaternion.identity, null, true); 
             curZombie++;
         }
     }

@@ -87,6 +87,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6897667664417371585, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: meleeStrike.soundName
+      value: PlayerPunch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6897667664417371585, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: meleeStrike.soundtype
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6897667664417371585, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: playerPunch.soundName
+      value: PlayerPunch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6897667664417371585, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
+      propertyPath: playerPunch.soundtype
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7853267673925512961, guid: 4765d554da4b6244995ff81bdc1f5009, type: 3}
       propertyPath: m_RootOrder
       value: 1

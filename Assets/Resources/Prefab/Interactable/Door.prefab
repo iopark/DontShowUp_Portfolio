@@ -105,12 +105,12 @@ MonoBehaviour:
   openVector: {x: 0, y: 0, z: 0}
   closeVector: {x: 0, y: -90, z: 0}
   openingSound:
-    soundName: 
-    soundtype: 0
+    soundName: OpeningSound
+    soundtype: 2
     audioClip: {fileID: 0}
   closingSound:
-    soundName: 
-    soundtype: 0
+    soundName: ClosingSound
+    soundtype: 2
     audioClip: {fileID: 0}
   isOpened: 0
   openingTime: 0.5

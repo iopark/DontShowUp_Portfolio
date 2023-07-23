@@ -12,7 +12,6 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     //[SerializeField] float attackSoundIntensity;
     [SerializeField] Launcher currentWeapon;
     [SerializeField] Transform weaponHolder;
-    [SerializeField] Sound meleeStrike; 
     PlayerInput playerInput; 
 
     [SerializeField]
@@ -36,14 +35,6 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     [SerializeField]private bool isStriking;
     WaitForSeconds strikeInterval = new WaitForSeconds(0.5f); 
 #endregion 
-    private void Awake()
-    {
-        //playerInput = GetComponent<PlayerInput>();
-        //camera = Camera.main; 
-        //rig = GetComponentInChildren<Rig>();
-        //GameManager.CombatManager.weaponHolder = weaponHolder;
-        //Cursor.lockState = CursorLockMode.Locked;
-    }
 
     public void InitializePlayer()
     {
@@ -58,15 +49,6 @@ public class PlayerAttacker : MonoBehaviour, IHittable
         SetWeapon();
         isReloading = false;
         anim = GetComponent<Animator>();
-    }
-    private void Start()
-    {
-        //currentWeapon = weaponHolder.GetComponentInChildren<Launcher>();
-        //meleeDamage = GameManager.DataManager.MeleeDamage;
-        //flankDamage = GameManager.DataManager.MeleeFlank;
-        //SetWeapon(); 
-        //isReloading = false; 
-        //anim = GetComponent<Animator>();
     }
     public void OnDisable()
     {
@@ -129,7 +111,8 @@ public class PlayerAttacker : MonoBehaviour, IHittable
     Vector3 centrePoint; 
     private void P_TryStrike()
     {
-        centrePoint = camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, 0)); 
+        centrePoint = camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        GameManager.AudioManager.PlayEffect(playerPunch); 
         if (Physics.SphereCast(transform.position, transform.lossyScale.x/2, camera.transform.forward, out targetInfo, 3.5f, LayerMask.GetMask("Enemy")))
         {
             Debug.DrawRay(transform.position, transform.forward, Color.green); 

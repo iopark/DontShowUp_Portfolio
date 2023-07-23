@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
             OnHealthChange?.Invoke(health);     
             if (health <= 0)
             {
-                StageEnd?.Invoke(stage, false); 
+                StageEnd?.Invoke(false); 
             }
         }
     }
@@ -69,7 +69,7 @@ public class DataManager : MonoBehaviour
                 GameEnd?.Invoke(); 
             }
             else
-                StageEnd?.Invoke(stage, true);
+                StageEnd?.Invoke(true);
         }
     }
 
@@ -103,7 +103,7 @@ public class DataManager : MonoBehaviour
     }
     #endregion
     public int TargetDiamonds { get; set; }
-    public UnityAction<int, bool> StageEnd;
+    public UnityAction<bool> StageEnd;
 
     //Update InGames 
     public UnityAction PauseGame; 

@@ -15,12 +15,9 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
     protected override void Awake()
     {
         base.Awake();
-        //TODO: Declare sound here, openingSound = OpeningSound, Soundtype = SFX 
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Touched");
-        Debug.Log(eventData.pointerCurrentRaycast.distance); 
         if (eventData.pointerCurrentRaycast.distance > minDistance)
             return;
         picket.gameObject.SetActive(true); 
@@ -72,6 +69,7 @@ public class Box : Openable, IPointerEnterHandler, IPointerExitHandler, IInterac
             return;
         if (!picket.gameObject.IsValid())
             return;
+        if (isOpened) return;
         picket.gameObject.SetActive(false); 
         openRoutine = StartCoroutine(OpenBox());
     }

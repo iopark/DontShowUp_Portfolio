@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class GameScene : BaseScene
 {
     public GameObject player;
-    private void SetPlayerPos()
+
+    public override void SetPlayerPos()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.localPosition = transform.position; 
+        player.transform.position = transform.position; 
     }
     protected override IEnumerator LoadingRoutine()
     {

@@ -36,6 +36,8 @@ public class SettingPopUpUI : PopUpUI
 
     void ExitToMenu()
     {
+        Time.timeScale = 1f; 
         GameManager.SceneManager.LoadScene("TitleScene");
+        GameManager.UIManager.ClosePopUpUI(); 
     }
 }

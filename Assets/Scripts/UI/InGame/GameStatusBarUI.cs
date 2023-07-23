@@ -39,7 +39,7 @@ public class GameStatusBarUI : SceneUI
     {
         GameManager.CombatManager.CombatAlert += BroadCastMessage;
         base.Awake();
-        GameManager.Instance.GameSetup += ResetUIMaterial; 
+        GameManager.Instance.GameSetUpUI += ResetUIMaterial; 
         //Initialize(); 
     }
     TMP_Text current; 

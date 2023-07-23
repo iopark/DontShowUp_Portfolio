@@ -35,7 +35,6 @@ public class SceneManager : MonoBehaviour
     WaitForSeconds loadingInterval = new WaitForSeconds(0.5f); 
     public void LoadScene(string sceneName)
     {
-        //Scene Loading 
         StartCoroutine(LoadingRoutine(sceneName)); 
     }
 
@@ -43,7 +42,6 @@ public class SceneManager : MonoBehaviour
     {
         loadUI.FadeOut();
         yield return loadingInterval; 
-
         AsyncOperation oper = UnityDeprecatedSceneManager.LoadSceneAsync(sceneName); //3√ 
         while (!oper.isDone)
         {
@@ -59,8 +57,18 @@ public class SceneManager : MonoBehaviour
         }
         Time.timeScale = 1f; 
         oper.allowSceneActivation = true;
-
+        //SetPlayerLocation 
+        
         loadUI.FadeIn();
+        CurrentScene.SetPlayerPos();
         yield return loadingInterval; 
+
+        StartCoroutine(SetPlayerLoc());
+    }
+
+    IEnumerator SetPlayerLoc()
+    {
+        CurrentScene.SetPlayerPos();
+        yield return null; 
     }
 }

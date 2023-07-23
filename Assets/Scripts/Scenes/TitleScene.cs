@@ -6,8 +6,9 @@ public class TitleScene : BaseScene
 {
     protected override IEnumerator LoadingRoutine()
     {
-        GameManager.Instance.ExitToMain?.Invoke();
         progress = 0;
+        GameManager.Instance.ExitToMain?.Invoke();
+        GameManager.Instance.ReturnToMain();
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.3f;
         yield return new WaitForSecondsRealtime(1f);

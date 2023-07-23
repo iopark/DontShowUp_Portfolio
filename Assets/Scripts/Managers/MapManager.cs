@@ -34,9 +34,14 @@ public class MapManager : MonoBehaviour
     }
     private void Awake()
     {
-        GameManager.Instance.GameSetup += InitializeMap; 
+        GameManager.Instance.GameSetup += InitializeMap;
+        GameManager.Instance.ExitToMain += Reset;
     }
 
+    public void Reset()
+    {
+        gridMapGenerator = null; 
+    }
     public void InitializeMap()
     {
         gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 

@@ -22,7 +22,7 @@ public class GameEndContest : MonoBehaviour
         {
             stageCleared = true;
             GameManager.DataManager.Stage++;
-            GameManager.AudioManager.PlayBGM(StageClearSound); 
+            GameManager.AudioManager.PlayEffect(StageClearSound); 
         }
     }
 

@@ -45,6 +45,16 @@ public class Enemy : MonoBehaviour, IHittable
         GetCoreStat(); 
     }
 
+    private void OnEnable()
+    {
+        data = GameManager.Resource.Load<EnemyData>($"Data/Zombie/{gameObject.name}Data");
+        controller = GetComponent<StateController>();
+        anim = GetComponent<Animator>();
+        CurrentStat = data.AccessLevelData();
+        enemyAttacker = GetComponent<EnemyAttacker>();
+        GetCoreStat();
+    }
+
     public void UponLevelUp()
     {
         CurrentLevel++;
