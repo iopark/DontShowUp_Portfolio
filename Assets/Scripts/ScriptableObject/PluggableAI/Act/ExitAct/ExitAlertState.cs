@@ -15,7 +15,7 @@ public class ExitAlertState : Act
         {
             controller.StopCoroutine(actionToStop.GetType().Name);
         }
-        AlertExitState(controller); 
+        //AlertExitState(controller); 
     }
     private void AlertExitState(StateController controller)
     {

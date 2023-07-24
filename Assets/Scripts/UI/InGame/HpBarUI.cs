@@ -4,27 +4,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpBarUI : MonoBehaviour
+public class HpBarUI : SceneUI
 {
     private Slider slider;
-    private TextMeshPro text; 
+    private TMP_Text text; 
 
     private void Awake()
     {
-        slider = GetComponent<Slider>();
-        text = GetComponentInChildren<TextMeshPro>();
+        base.Awake();
+        slider = GetComponentInChildren<Slider>();
+        text = texts["HealthBar_HealthText"]; 
     }
 
     private void OnEnable()
     {
-        GameManager.DataManager.OnHealthChange += UpdateHpBar;
+        slider.maxValue = GameManager.DataManager.MaxHealth;
+        slider.value = GameManager.DataManager.Health;
+        text.text = GameManager.DataManager.Health.ToString();
+        slider.minValue = 0;
     }
     private void Start()
     {
-        
-        slider.maxValue = GameManager.DataManager.MaxHealth;
-        slider.value = GameManager.DataManager.Health; 
-        slider.minValue = 0;
+        GameManager.DataManager.OnHealthChange += UpdateHpBar;
+        GameManager.DataManager.OnHealthChange += UpdateHealthText;
     }
 
     private void UpdateHpBar(int value)

@@ -11,6 +11,9 @@ public class InGameUI : BaseUI
     public Transform followTarget;
     public Vector3 followOffset;
 
+    float maxScale = 2f; 
+
+
     protected virtual void LateUpdate()
     {
         if (followTarget != null)

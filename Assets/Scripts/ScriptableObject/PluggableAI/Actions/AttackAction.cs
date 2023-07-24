@@ -26,9 +26,8 @@ public class AttackAction : Action
         //Debug.Log("Facingtarget"); 
         while (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < dotThreshHold)
         {
-            Debug.Log("FaceTarget"); 
             defaultRotate.Perform(controller);
-            yield return null;
+            yield return null; 
         }
         controller.ResetCoroutine(actionName);
 

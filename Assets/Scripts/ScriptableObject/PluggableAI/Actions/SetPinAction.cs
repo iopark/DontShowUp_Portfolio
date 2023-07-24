@@ -8,6 +8,7 @@ using UnityEngine;
 public class SetPinAction : Action
 {
     [SerializeField] private float setPinInterval;
+    [SerializeField] private Act defaultRotate; 
     [SerializeField] private Act defaultMove; //Move
 
     public override string actionName => typeof(SetPinAction).Name;
@@ -22,6 +23,7 @@ public class SetPinAction : Action
     /// <param name="controller"></param>
     protected virtual void SetPin(StateController controller)
     {
+        defaultRotate.Perform(controller); 
         defaultMove.Perform(controller);
         if (controller.EnemyMover.CheckElapsedTime(setPinInterval))
         {

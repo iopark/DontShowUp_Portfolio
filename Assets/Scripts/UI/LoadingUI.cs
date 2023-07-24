@@ -24,8 +24,6 @@ public class LoadingUI : MonoBehaviour
 
     public void SetProgress(float progress)
     {
-        
         slider.value = progress;
-
     }
 }

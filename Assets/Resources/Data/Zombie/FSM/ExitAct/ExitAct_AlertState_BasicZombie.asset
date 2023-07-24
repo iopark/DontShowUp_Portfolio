@@ -20,4 +20,4 @@ MonoBehaviour:
   actionsToStop:
   - {fileID: 11400000, guid: 4a724f170780a3d4a820f71f1a12b16a, type: 2}
   - {fileID: 11400000, guid: 6800a269d057d274ead3389b7741c734, type: 2}
-  stopAllCoroutine: 1
+  stopAllCoroutine: 0

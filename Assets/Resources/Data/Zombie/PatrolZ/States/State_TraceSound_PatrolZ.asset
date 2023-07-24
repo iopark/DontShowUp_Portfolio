@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d398895157790644daf3e6589ca92f0b, type: 3}
+  m_Name: State_TraceSound_PatrolZ
+  m_EditorClassIdentifier: 
+  noAnimUpdate: 1
+  animName: 
+  animType: 0
+  animBool: 0
+  animFloat: 0
+  setBoolAsNull: 0
+  setFloatAsNull: 0
+  preRequisiteActs:
+  - {fileID: 11400000, guid: 6af3927a06a972f45b5cd74d46e7120e, type: 2}
+  actions:
+  - {fileID: 11400000, guid: 92ea5f103879c584aa2b403b712c25c9, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 661aacfac6e95354b8573f0028894353, type: 2}
+    trueState: {fileID: 11400000}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 9077ee8cb2ad04949997ed04e3f1c5a5, type: 2}
+    trueState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+    falseState: {fileID: 11400000, guid: 52cf571d9e52a774ea7e71073e9e63f8, type: 2}
+  - decision: {fileID: 11400000, guid: 68ea88d3508581e4da85ac0efa4307b3, type: 2}
+    trueState: {fileID: 11400000, guid: 81137b9cd9eec73408e626780d14083f, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  - decision: {fileID: 11400000, guid: 65dda5b5c85223d4abb55002af01bf8a, type: 2}
+    trueState: {fileID: 11400000, guid: 9515049be64fba34bbbf10c226153af1, type: 2}
+    falseState: {fileID: 11400000, guid: e2938b933d2073c4287f6a9c9789313c, type: 2}
+  exitActs:
+  - {fileID: 11400000, guid: 0e7b80d636a308348986afa0ed3bbfcf, type: 2}
+  sceneGizmoColor: {r: 0.97885394, g: 1, b: 0, a: 1}

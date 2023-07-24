@@ -32,9 +32,20 @@ public class MapManager : MonoBehaviour
         get { return gridSizeY; }
         set { gridSizeY = value; }
     }
-    private void Start()
+    private void Awake()
+    {
+        GameManager.Instance.GameSetup += InitializeMap;
+        GameManager.Instance.ExitToMain += Reset;
+    }
+
+    public void Reset()
+    {
+        gridMapGenerator = null; 
+    }
+    public void InitializeMap()
     {
         gridMapGenerator = GameObject.Find("MapGenerator").GetComponent<GridMapGenerator>(); // Each Scene must generate new Map aligning with the scene accordingly. 
+        gridMapGenerator.GenerateGrid(); 
     }
 
     //TODO: This is called from the path definer 
@@ -101,7 +112,6 @@ public class MapManager : MonoBehaviour
             return;
         }
     }
-
 
     public Cell GetShortestDistanceCell(List<Cell> cells, Cell destinationPoint)
     {

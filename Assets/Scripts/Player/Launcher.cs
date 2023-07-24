@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro.EditorUtilities;
+using System;
 
 [RequireComponent(typeof(SoundMaker))]
-public class Launcher : MonoBehaviour
+public class Launcher : MonoBehaviour, IEquatable<Launcher>
 {
     [Header("Holder Dependent Attribute")]
-    PlayerAttacker player;
+    protected PlayerAttacker player;
     //====================================================================================
     [Header("Launcher attributes")]
     protected SoundMaker soundMaker;
     [SerializeField] public RangedWeapon weaponInfo;
+    [SerializeField] protected Sound launcherSound;
+    [SerializeField] protected Sound reloadSound; 
+    public string weaponName; 
     [SerializeField] protected Camera camera;
     [SerializeField] protected LayerMask targetMask; 
     [SerializeField] protected Projectile projectile;
@@ -31,7 +35,7 @@ public class Launcher : MonoBehaviour
             currentRounds = value;
             if (currentRounds == 0)
                 GameManager.CombatManager.CombatAlert?.Invoke("Out of Ammo"); 
-            GameManager.CombatManager.WeaponFire.Invoke(currentRounds);
+            GameManager.CombatManager.WeaponFire?.Invoke(currentRounds);
         }
     }
 
@@ -50,6 +54,7 @@ public class Launcher : MonoBehaviour
     }
     protected virtual void Start()
     {
+        this.weaponName = weaponInfo.weaponName; 
         this.maxRounds = weaponInfo.roundLimit;
         this.currentRounds = maxRounds; 
         this.isReloading = false; 
@@ -120,5 +125,16 @@ public class Launcher : MonoBehaviour
         }
         nextFire = 0;
         fire = null; 
+    }
+
+    public bool Equals(Launcher other)
+    {
+        return this.weaponInfo.weaponName == other.weaponInfo.weaponName; 
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = weaponName != null ? weaponName.GetHashCode() : 0;
+        return hash;
     }
 }

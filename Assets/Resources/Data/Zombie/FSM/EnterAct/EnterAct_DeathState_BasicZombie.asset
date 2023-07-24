@@ -17,7 +17,7 @@ MonoBehaviour:
     Stops
     all coroutines. '
   animTrigger: 
-  animType: 0
+  animType: 2
   animFloatValue: 0
   animBoolValue: 0
   actionsToStop: []

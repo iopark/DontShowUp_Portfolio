@@ -1,16 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SettingPopUpUI : PopUpUI
 {
     protected override void Awake()
     {
         base.Awake();
+        buttons["Buttons_Sound"].onClick.AddListener(() => { ConfigureSound(); });
+        buttons["Buttons_BackToGame"].onClick.AddListener(() => { ReturnToGame(); });
+        buttons["Buttons_ExitToMain"].onClick.AddListener(() => { ExitToMenu(); });
+    }
 
-        buttons["ContinueButton"].onClick.AddListener(() => { GameManager.UIManager.ClosePopUpUI(); }); //사실상 뒤로가기 버튼
-        buttons["SettingsButton"].onClick.AddListener(() => { GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/ConfigPopUpUI"); }); // 설정을 주관하는 UI 를 팝업하게 합니다. 
-        //ExitButton must close the game scene 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Confined; 
+    }
 
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.Locked; 
+    }
+    
+    void ReturnToGame()
+    {
+        GameManager.DataManager.PauseGame?.Invoke(); 
+        GameManager.UIManager.ClosePopUpUI();
+    }
+    void ConfigureSound()
+    {
+        GameManager.UIManager.ShowPopUpUI<PopUpUI>("UI/SoundPopUpUI");
+    }
+
+    void ExitToMenu()
+    {
+        Time.timeScale = 1f; 
+        GameManager.SceneManager.LoadScene("TitleScene");
+        GameManager.UIManager.ClosePopUpUI(); 
     }
 }

@@ -73,3 +73,7 @@ crashlytics-build.properties
 /Assets/Import
 /Assets/Scripts/References
 /Assets/Animations
+/Assets/Resources/Sound
+/Assets/Scenes/Level_1
+/Assets/Scenes/Level_2
+/Assets/Scenes/TitleScene

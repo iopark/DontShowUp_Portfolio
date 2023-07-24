@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 public static class EnemyMovementHelper
 {
     public static void ReversePatrolPoints(this StateController controller)
@@ -30,7 +29,6 @@ public static class EnemyMovementHelper
         controller.EnemyMover.PatrolPoints.Clear();
     }
 }
-
 public struct PatrolPoint
 {
     public Vector3 Direction;
@@ -54,11 +52,6 @@ public struct PatrolPoint
         temp.Normalize();
         this.Direction = temp; 
     }
-
-    private void RenewPreviousPointDir(PatrolPoint[] savedList)
-    {
-
-    }
 }
 public struct ActionRequestSlip
 {
@@ -80,7 +73,6 @@ public enum AnimType
     Bool,
     Size
 }
-
 public struct AnimRequestSlip
 {
     public AnimType AnimType;
@@ -133,13 +125,6 @@ public struct AnimRequestSlip
         }
     }
 }
-
-/// <summary>
-/// Probably it is best for state controller to controll these. 
-/// 
-/// </summary>
-/// 
-
 public enum MoveType
 {
     RotateOnly, 

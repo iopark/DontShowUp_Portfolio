@@ -26,11 +26,20 @@ public class GridMapGenerator : MonoBehaviour
 
     private void Awake()
     {
-        nodeDiameter = nodeRadius * 2; 
+        //nodeDiameter = nodeRadius * 2; 
+        //gridSizeX = Mathf.RoundToInt(gridMapSize.x / nodeDiameter);
+        //gridSizeY = Mathf.RoundToInt(gridMapSize.y / nodeDiameter);
+        //CopyToManager(); 
+        //CreateGrid(); 
+    }
+
+    public void GenerateGrid()
+    {
+        nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridMapSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridMapSize.y / nodeDiameter);
-        CopyToManager(); 
-        CreateGrid(); 
+        CopyToManager();
+        CreateGrid();
     }
 
     private void CopyToManager()

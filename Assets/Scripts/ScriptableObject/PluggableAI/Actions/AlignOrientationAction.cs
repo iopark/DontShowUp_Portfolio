@@ -39,15 +39,12 @@ public class AlignOrientationAction : Action
             if (Vector3.Dot(targetDir, controller.transform.forward) > 0)
             {
                 controller.EnemyMover.LookDir = targetDir;
-                //controller.Sight.SetDirToLook(targetDir);
             }
             else
             {
                 controller.EnemyMover.LookDir = targetDir;
-                //controller.Sight.SetDirToLook(-targetDir);
             }
             controller.RunAndSaveForReset(actionName, RotatorMechanism(controller));
-            //controller.RequestMove(MoveType.RotateOnly, targetDir, RotatorMechanism(controller));
         }
     }
 

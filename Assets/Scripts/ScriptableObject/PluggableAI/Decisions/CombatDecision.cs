@@ -13,8 +13,10 @@ public class CombatDecision : Decision
     private bool ContestForRange(StateController controller)
     {
         bool result  = controller.Sight.AccessForAttackRange();
+
         // if enemy is either in attack range or isAttacking, retain the attacking state. 
         // thus, exit to pursuit state only if enemy is not in attack range and have finished attacking. 
+
         if (result||controller.EnemyAttacker.IsAttacking)
             return true; 
         else

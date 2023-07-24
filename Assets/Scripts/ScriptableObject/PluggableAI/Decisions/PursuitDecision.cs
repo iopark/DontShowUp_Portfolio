@@ -22,12 +22,13 @@ public class PursuitDecision : Decision
             return false;
         }
 
-        if (controller.Sight.PlayerInSight == null)
+        if (controller.Sight.PlayerInSight == Vector3.zero)
         {
             controller.RunAndSaveForReset(nameof(CountdownPlayerMissingTime), CountdownPlayerMissingTime(controller)); 
         }
         else 
             controller.SignalCoroutineFinish(nameof(CountdownPlayerMissingTime));
+        
         return true; 
     }
 

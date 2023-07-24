@@ -29,6 +29,7 @@ public class Projectile : MonoBehaviour, IPausable
     
     private void Awake()
     {
+        currentMoveSpeed = 0f; 
         damage = launcher.damage;
         soundIntensity = launcher.noiseIntensity;
         maxDistance = launcher.weaponRange; 
@@ -36,11 +37,12 @@ public class Projectile : MonoBehaviour, IPausable
     }
     private void Start()
     {
-        soundIntensity = 30f;
-        //currentMoveSpeed = 0f; 
-        damage = 51; 
     }
 
+    private void InitSpeed()
+    {
+        currentMoveSpeed = projectileMoveSpeed; 
+    }
 
     private void OnEnable()
     {
@@ -50,14 +52,16 @@ public class Projectile : MonoBehaviour, IPausable
     Coroutine trajectoryMovement; 
     public void TrajectoryMiss(Vector3 endPoint)
     {
-        currentMoveSpeed = projectileMoveSpeed;
+        InitSpeed(); 
+        //currentMoveSpeed = projectileMoveSpeed;
         //Gun should enter with the bullet end point. 
         transform.LookAt(endPoint);
         trajectoryMovement = StartCoroutine(TrajectoryMissRoutine(endPoint));
     }
     public void TrajectoryHit(in RaycastHit hit)
     {
-        currentMoveSpeed = projectileMoveSpeed;
+        InitSpeed(); 
+        //currentMoveSpeed = projectileMoveSpeed;
         hitLoc = hit;
         targetLoc = hit.collider.transform;
         transform.LookAt(targetLoc);

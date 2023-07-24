@@ -14,14 +14,6 @@ public class IdleWanderAction : Action
 
     public override void Act(StateController controller)
     {
-        //if (controller.EnemyMover.LookDir == Vector3.zero)
-        //    defaultWander.Perform(controller); // set the LookDir to random Unit Vector
-        //if (Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir) < 0.95f)
-        //{
-        //    defaultRotate.Perform(controller);
-        //    return;
-        //}
-
         controller.RunAndSaveForReset(actionName, Wander(controller)); 
     }
 
@@ -29,13 +21,11 @@ public class IdleWanderAction : Action
     {
         float distanceToTarget; 
         //Vector3 lookDir;
-        Vector3 destination; 
+        Vector3 destination;
+        destination = controller.EnemyMover.LookDir * wanderDistance;
         while (true)
         {
-            //lookDir = destination - controller.transform.position;
-            //lookDir.y = controller.transform.position.y;
-            //lookDir.Normalize();
-            destination = controller.transform.forward * Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir); 
+             //controller.transform.forward * Vector3.Dot(controller.transform.forward, controller.EnemyMover.LookDir); 
             distanceToTarget = Vector3.SqrMagnitude(destination - controller.transform.position);
             defaultRotate.Perform(controller); 
             if (distanceToTarget > distanceThreshHold)
@@ -43,7 +33,11 @@ public class IdleWanderAction : Action
                 defaultMove.Perform(controller);
             }
             else
+            {
                 defaultWander.Perform(controller);
+                destination = controller.EnemyMover.LookDir * wanderDistance;
+            }
+
             yield return null;
         }
     }

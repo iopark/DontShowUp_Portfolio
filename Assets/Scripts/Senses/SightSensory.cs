@@ -11,6 +11,8 @@ public class SightSensory : MonoBehaviour
     [SerializeField] bool debug;
     [SerializeField] float range;
     [SerializeField, Range(0, 360f)] float angle;
+    protected float enemyDetectRange;
+    protected float enemyDetectAngle; 
     [SerializeField] LayerMask targetMask;
     [SerializeField] LayerMask obstacleMask;
 
@@ -31,18 +33,6 @@ public class SightSensory : MonoBehaviour
         get { return playerLocked; }
         set { playerLocked = value; }
     }
-    Vector3 DirToLockedTarget
-    {
-        get
-        {
-            if (playerLocked == null)
-                return Vector3.zero;
-            Vector3 toLockedTarget = playerLocked.position - transform.position;
-            toLockedTarget.y = transform.position.y;
-            toLockedTarget.Normalize();
-            return toLockedTarget;
-        }
-    }
 
     Vector3 distanceToTarget; 
     private float pinIntervalTimer;
@@ -58,6 +48,9 @@ public class SightSensory : MonoBehaviour
         return false;
     }
     #endregion
+    public float EnemyDetectRange {  get { return enemyDetectRange; }  set { enemyDetectRange = value; } }
+    public float EnemyDetectAngle { get { return enemyDetectAngle; } set { enemyDetectAngle = value; } }
+
     public float Range { get { return range; }
         set { range = value; } }
 
@@ -65,7 +58,7 @@ public class SightSensory : MonoBehaviour
         set { angle = value; } }
 
     private Vector3 LookDir { set { EnemyMover.LookDir = value; } }
-    Vector3 tempDir; 
+    Vector3 tempDir = Vector3.zero; 
     #endregion
     private void Awake()
     {
@@ -106,7 +99,7 @@ public class SightSensory : MonoBehaviour
     }
     public bool FindTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range, targetMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, enemyDetectRange, targetMask);
         if (colliders.Length == 0)
         {
             PlayerInSight = Vector3.zero;
@@ -117,44 +110,35 @@ public class SightSensory : MonoBehaviour
             Vector3 dirTarget = collider.transform.position - transform.position;
             dirTarget.y = 0f; 
             dirTarget.Normalize();
-
             if (Vector3.Dot(transform.forward, dirTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
             {
                 PlayerInSight = Vector3.zero;
                 continue;
             }
-
             Vector2 distToTarget = (Vector2)collider.transform.position - (Vector2)transform.position; 
             float distance = Vector2.SqrMagnitude(distToTarget);
-            Debug.DrawRay(transform.position, dirTarget, Color.red); 
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
             {
                 PlayerInSight = Vector3.zero;
                 continue;
             }
-
             SetTarget(collider.transform); 
             return true;
         }
         return false;
     }
-
-
-
     private void SetTarget(Transform transform)
     {
         PinIntervalTimer = 0; // if target is found, set the PinIntervalTimer to 0 again. 
         playerInSight = transform.position;
         playerLocked = transform;
     }
-    //Based on the Locked Target State 
     public bool AccessForAttackRange()
     {
         if (playerLocked == null)
             return false;
 
         distanceToTarget = playerLocked.transform.position - transform.position;
-        Debug.DrawRay(transform.position, distanceToTarget.normalized, Color.yellow); 
         if (Vector3.SqrMagnitude(distanceToTarget) > EnemyAttacker.DefaultAttack.AttackRange)
             return false;
         return true;
@@ -176,14 +160,12 @@ public class SightSensory : MonoBehaviour
             if (Physics.Raycast(transform.position, dirTarget, distance, obstacleMask))
                 continue;
             Vector3 dir = (collider.transform.position - transform.position).normalized; 
-            Debug.DrawRay(transform.position, dir, Color.red); 
             playerInSight = collider.transform.position;
             SetLookDirToPos(playerInSight);
             return true;
         }
         return false;
     }
-
     /// <summary>
     /// Returns true if player is at the blindspot. 
     /// </summary>
@@ -195,8 +177,11 @@ public class SightSensory : MonoBehaviour
     }
     public bool AccessForPursuit()
     {
-        tempDir = PlayerLocked.transform.position - transform.position; 
-        tempDir.y = transform.position.y;
+        if (playerLocked == null)
+            return false;
+
+        tempDir = PlayerLocked.transform.position - transform.position;
+        tempDir.y = 0f;
         tempDir.Normalize();
         if (IsPlayerAtBlindSpot(tempDir))
             return false; 
@@ -207,17 +192,6 @@ public class SightSensory : MonoBehaviour
         }
         return false; 
     }
-
-    //private void Trace(Vector3 target)
-    //{
-    //    //This can transfer into TraceState 
-    //    lookDir = (target - body.transform.position).normalized;
-    //    lookDir.y = body.transform.position.y;
-    //    body.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up); 
-    //    body.Move(lookDir * speed *Time.deltaTime);
-    //    anim.SetBool("Walk Forward", true); 
-    //}
-
     private void OnDrawGizmos()
     {
         if (!debug) return;
@@ -233,20 +207,17 @@ public class SightSensory : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, leftDir * range);
     }
-
     private Vector3 AngleToDir(float angle)
     {
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
     }
-
     public Vector3[] SightEdgesInDir(int interval)
     {
         Vector3[] dirs = new Vector3[interval];
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + angle * 0.5f);
         dirs[0] = rightDir;
         dirs[1] = (AngleToDir(transform.eulerAngles.y - angle * 0.5f));
-
         return dirs;
     }
 }
