@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro.EditorUtilities;
 using System;
+using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(SoundMaker))]
 public class Launcher : MonoBehaviour, IEquatable<Launcher>

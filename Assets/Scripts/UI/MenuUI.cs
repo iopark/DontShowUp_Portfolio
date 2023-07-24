@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class MenuUI : SceneUI
 {
@@ -28,8 +23,7 @@ public class MenuUI : SceneUI
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); 
 #endif
+        Application.Quit(); 
     }
 }
