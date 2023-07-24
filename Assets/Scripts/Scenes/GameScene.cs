@@ -28,16 +28,20 @@ public class GameScene : BaseScene
         InitilaizeGeneralSetting();
         SetPlayerPos();
         yield return new WaitForSecondsRealtime(1f);
-        progress = 1f; 
+        progress = 1f;
+        StartCoroutine(SetPlayerLoc()); 
     }
 
     public void InitilaizeGeneralSetting()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-
-    public void UpdateInGameData()
+    IEnumerator SetPlayerLoc()
     {
-        //TODO: Link up InGameUI with each stage
+        SetPlayerPos();
+        yield return new WaitForSecondsRealtime(1f); 
+        SetPlayerPos();
+        yield return null;
+        SetPlayerPos(); 
     }
 }

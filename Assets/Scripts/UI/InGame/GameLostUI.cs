@@ -21,6 +21,7 @@ public class GameLostUI : PopUpUI
     void ExitGame()
     {
         Time.timeScale = 1f;
-        GameManager.SceneManager.LoadScene("TitleScene"); 
+        GameManager.SceneManager.LoadScene("TitleScene");
+        GameManager.UIManager.ClosePopUpUI(); 
     }
 }

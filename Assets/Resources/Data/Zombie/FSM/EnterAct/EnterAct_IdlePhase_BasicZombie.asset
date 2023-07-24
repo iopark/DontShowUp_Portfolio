@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnterAct_IdlePhase_BasicZombie
   m_EditorClassIdentifier: 
   aboutThisAct: 
-  animTrigger: 
+  animTrigger: IdleState
   animType: 0
   animFloatValue: 0
   animBoolValue: 0

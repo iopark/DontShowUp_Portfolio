@@ -56,12 +56,13 @@ public class CombatManager : MonoBehaviour
         }
         SetPlayerLoc(); 
         attacker = player.GetComponent<PlayerAttacker>();
-        attacker.InitializePlayer(); 
+        attacker.InitializePlayer();
         if (currentWeapon == null)
         {
             SetWeapon();
             return;
         }
+
     }
 
     /// <summary>

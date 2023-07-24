@@ -18,16 +18,15 @@ public class HpBarUI : SceneUI
 
     private void OnEnable()
     {
-        GameManager.DataManager.OnHealthChange += UpdateHpBar;
-        GameManager.DataManager.OnHealthChange += UpdateHealthText; 
+        slider.maxValue = GameManager.DataManager.MaxHealth;
+        slider.value = GameManager.DataManager.Health;
+        text.text = GameManager.DataManager.Health.ToString();
+        slider.minValue = 0;
     }
     private void Start()
     {
-        
-        slider.maxValue = GameManager.DataManager.MaxHealth;
-        slider.value = GameManager.DataManager.Health;
-        text.text = GameManager.DataManager.Health.ToString(); 
-        slider.minValue = 0;
+        GameManager.DataManager.OnHealthChange += UpdateHpBar;
+        GameManager.DataManager.OnHealthChange += UpdateHealthText;
     }
 
     private void UpdateHpBar(int value)

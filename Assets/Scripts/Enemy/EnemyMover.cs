@@ -147,23 +147,7 @@ public class EnemyMover : MonoBehaviour
     {
         characterController.Move(currentSpeed * Time.deltaTime * LookDir);
     }
-    public void Chase()
-    {
-        Rotator(0.5f); 
-        characterController.Move(LookDir * currentSpeed * Time.deltaTime); 
-    }
 
-    public void LockedChase()
-    {
-        Vector3 toPlayer = (Sight.PlayerLocked.position - transform.position).normalized;
-        LookDir = toPlayer;
-        Chase(); 
-    }
-    //public virtual void ReactToSound(Vector3[] newPath)
-    //{
-    //    StopAllCoroutines();
-    //    StartCoroutine(FollowSound(newPath));
-    //}
     
     public bool CheckElapsedTime(float time)
     {

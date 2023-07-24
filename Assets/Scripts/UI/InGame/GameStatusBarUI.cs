@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,12 @@ public class GameStatusBarUI : SceneUI
                 messageCount = value;
         }
     }
+
+    private void OnEnable()
+    {
+        ResetUIMaterial();
+    }
+
     public void ResetUIMaterial()
     {
         TMP_Text reset; 
@@ -37,11 +44,16 @@ public class GameStatusBarUI : SceneUI
 
     protected override void Awake()
     {
-        GameManager.CombatManager.CombatAlert += BroadCastMessage;
+        
         base.Awake();
-        GameManager.Instance.GameSetUpUI += ResetUIMaterial; 
-        //Initialize(); 
     }
+
+    private void Start()
+    {
+        GameManager.CombatManager.CombatAlert += BroadCastMessage;
+        GameManager.Instance.GameSetUpUI += ResetUIMaterial;
+    }
+
     TMP_Text current; 
     TMP_Text previous;
     Button current_rect;

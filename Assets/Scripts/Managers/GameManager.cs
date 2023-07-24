@@ -138,21 +138,21 @@ public class GameManager : MonoBehaviour
         combatObj.transform.SetParent(transform);
         combatManager = combatObj.AddComponent<CombatManager>();
 
-        GameObject spawnObj = new GameObject() { name = "Spawn Manager" }; 
-        spawnObj.transform.SetParent(transform);
-        spawnManager = spawnObj.AddComponent<SpawnManager>();
+        //GameObject spawnObj = new GameObject() { name = "Spawn Manager" }; 
+        //spawnObj.transform.SetParent(transform);
+        //spawnManager = spawnObj.AddComponent<SpawnManager>();
     }
 
     public void SetActiveGame()
     {
         combatManager.gameObject.SetActive(true);
-        spawnManager.gameObject.SetActive(true);
+        //spawnManager.gameObject.SetActive(true);
         mapManager.gameObject.SetActive(true);
     }
     public void ReturnToMain()
     {
         combatManager.gameObject.SetActive(false);
-        spawnManager.gameObject.SetActive(false);
+        //spawnManager.gameObject.SetActive(false);
         mapManager.gameObject.SetActive(false);
     }
 

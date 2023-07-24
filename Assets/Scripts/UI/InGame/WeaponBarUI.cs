@@ -22,15 +22,19 @@ public class WeaponBarUI : SceneUI
         base.Awake();
         Initialize();
     }
-    private void OnEnable()
+    private void Start()
     {
         GameManager.CombatManager.WeaponSwitch += SwitchActiveWeapon;
-        GameManager.CombatManager.WeaponFire += WeaponFireReact; 
+        GameManager.CombatManager.WeaponFire += WeaponFireReact;
+    }
+    private void OnEnable()
+    {
+        Initialize();
     }
     private void OnDisable()
     {
-        GameManager.CombatManager.WeaponSwitch -= SwitchActiveWeapon;
-        GameManager.CombatManager.WeaponFire -= WeaponFireReact;
+        //GameManager.CombatManager.WeaponSwitch -= SwitchActiveWeapon;
+        //GameManager.CombatManager.WeaponFire -= WeaponFireReact;
     }
 
     public void Initialize()
